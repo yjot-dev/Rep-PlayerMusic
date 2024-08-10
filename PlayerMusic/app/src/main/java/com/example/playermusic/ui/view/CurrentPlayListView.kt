@@ -1,0 +1,78 @@
+package com.example.playermusic.ui.view
+
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
+import com.example.playermusic.R
+import com.example.playermusic.ui.model.MusicModel
+
+@Composable
+fun CurrentPlayList(
+    modifier: Modifier = Modifier,
+    playListMusic: List<MusicModel> = listOf(),
+    itemClicked: (MusicModel)-> Unit
+){
+    LazyColumn(
+        modifier = modifier,
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ){
+        items(playListMusic){ itemPlayListMusic ->
+            ItemPlayListMusic(
+                modifier = Modifier
+                    .padding(dimensionResource(id = R.dimen.short_dp_1))
+                    .fillMaxWidth()
+                    .clickable { itemClicked(itemPlayListMusic) },
+                title = itemPlayListMusic.musicName,
+                artist = itemPlayListMusic.artistName
+            )
+        }
+    }
+}
+
+@Composable
+private fun ItemPlayListMusic(
+    modifier: Modifier = Modifier,
+    title: String,
+    artist: String
+){
+    Card(
+        modifier = modifier,
+        shape = RoundedCornerShape(dimensionResource(id = R.dimen.short_dp_3))
+    ){
+        Column(
+            modifier = Modifier.padding(dimensionResource(id = R.dimen.short_dp_2)),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ){
+            Text(
+                text = title.uppercase(),
+                style = MaterialTheme.typography.bodyLarge,
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.sizeIn(
+                minHeight = dimensionResource(id = R.dimen.short_dp_1),
+                maxHeight = dimensionResource(id = R.dimen.short_dp_2)
+            ))
+            Text(
+                text = artist.uppercase(),
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+    }
+}

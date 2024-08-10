@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Player Music</string>
+    <string name="app_artistList">Artistas</string>
+    <string name="app_musicList">%s</string>
+    <string name="app_currentMusic">Música actual</string>
+    <string name="app_playList">Listas de reproducción</string>
+    <string name="app_addPlayList">Agregar playlist</string>
+    <string name="app_search">Buscar playlist</string>
+    <string name="toast_playListName">Ingrese nombre de playlist</string>
+    <string name="toast_insertPlayList">Playlist %s agregada</string>
+    <string name="toast_updatePlayList">Playlist %s actualizada</string>
+    <string name="toast_removePlayList">Playlist %s quitada</string>
+    <string name="alert_dialog_remove">¿Estás seguro de borrar esta playlist?</string>
+    <string name="alert_dialog_yes">Si</string>
+    <string name="alert_dialog_no">No</string>
+</resources>
