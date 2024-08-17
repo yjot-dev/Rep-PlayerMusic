@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -21,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.navigation.NavHostController
@@ -63,20 +65,28 @@ private fun ToolBarMenu(
         ) },
         navigationIcon = {
             if(canNavigateBack){
-                IconButton(onClick = navigateUp) {
+                IconButton(
+                    onClick = navigateUp,
+                    modifier = Modifier.size(dimensionResource(id = R.dimen.short_dp_5))
+                ) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
-                        contentDescription = null
+                        contentDescription = null,
+                        modifier = Modifier.size(dimensionResource(id = R.dimen.short_dp_4))
                     )
                 }
             }
         },
         actions = {
             if(routeTitles.name == RouteViews.ArtistList.name){
-                IconButton(onClick = goPlayList) {
+                IconButton(
+                    onClick = goPlayList,
+                    modifier = Modifier.size(dimensionResource(id = R.dimen.short_dp_5))
+                ) {
                     Icon(
                         imageVector = ImageVector.vectorResource(R.drawable.playlist_48),
-                        contentDescription = null
+                        contentDescription = null,
+                        modifier = Modifier.size(dimensionResource(id = R.dimen.short_dp_5))
                     )
                 }
             }
@@ -86,7 +96,7 @@ private fun ToolBarMenu(
 
 @Composable
 fun AppScreen(
-    vmPlayerMusic: PlayerMusicViewModel = PlayerMusicViewModel(),
+    vmPlayerMusic: PlayerMusicViewModel,
     navController: NavHostController = rememberNavController()
 ){
     val context = LocalContext.current
@@ -128,7 +138,6 @@ fun AppScreen(
                 },
                 goPlayList = {
                     //Navega a la lista de playlist
-                    vmPlayerMusic.refreshPlayList()
                     navController.navigate(RouteViews.PlayList.name)
                 }
             )
@@ -153,10 +162,11 @@ fun AppScreen(
             composable(route = RouteViews.MusicList.name){
                 MusicList(
                     modifier = Modifier.fillMaxSize(),
+                    vmPlayerMusic = vmPlayerMusic,
                     musicList = musicList,
                     itemClicked = { itemMusic ->
                         val index = musicList.indexOf(itemMusic)
-                        vmPlayerMusic.musicClicked(index, false)
+                        vmPlayerMusic.setUiCurrentMusicIndex(index, false)
                         //Navega a la música seleccionada
                         navController.navigate(RouteViews.CurrentMusic1.name)
                     },
@@ -172,33 +182,41 @@ fun AppScreen(
                     artistName = musicList[index2].artistName,
                     musicName = musicList[index2].musicName,
                     albumName = musicList[index2].albumName,
-                    albumUri = vmPlayerMusic.checkAlbumUri(
+                    albumUri = vmPlayerMusic.getAlbumUri(
                         context.applicationContext,
                         musicList[index2].albumUri
                     ),
                     clickedPlayList = {
                         //Navega a la lista de playlist
-                        vmPlayerMusic.refreshPlayList()
                         navController.navigate(RouteViews.PlayList.name)
                     },
                     clickedShuffle = {
-                        vmPlayerMusic.setUiIsShuffle(!uiStatePlayerMusic.uiIsShuffle)
-                        vmPlayerMusic.shuffleOrRepeatClicked(false)
+                        if(!uiStatePlayerMusic.uiIsShuffle){
+                            vmPlayerMusic.setUiIsShuffle(context.applicationContext,true)
+                            Toast.makeText(context, context.getString(R.string.toast_shuffle1), Toast.LENGTH_SHORT).show()
+                        }else{
+                            vmPlayerMusic.setUiIsShuffle(context.applicationContext,false)
+                            Toast.makeText(context, context.getString(R.string.toast_shuffle2), Toast.LENGTH_SHORT).show()
+                        }
                     },
                     clickedRepeat = {
-                        vmPlayerMusic.setUiIsRepeat(!uiStatePlayerMusic.uiIsRepeat)
-                        vmPlayerMusic.shuffleOrRepeatClicked(false)
+                        if(!uiStatePlayerMusic.uiIsRepeat){
+                            vmPlayerMusic.setUiIsRepeat(context.applicationContext,true)
+                            Toast.makeText(context, context.getString(R.string.toast_repeat1), Toast.LENGTH_SHORT).show()
+                        }else{
+                            vmPlayerMusic.setUiIsRepeat(context.applicationContext,false)
+                            Toast.makeText(context, context.getString(R.string.toast_repeat2), Toast.LENGTH_SHORT).show()
+                        }
                     },
                     clickedPrevious = {
-                        vmPlayerMusic.musicClicked(index2 - 1, false)
+                        vmPlayerMusic.setUiCurrentMusicIndex(index2 - 1, false)
                     },
                     clickedPlay = {
-                        vmPlayerMusic.setUiAutoDurationValue(false)
-                        vmPlayerMusic.playClicked()
+                        vmPlayerMusic.playClicked(false)
                         vmPlayerMusic.startServiceMusicPlayer(context.applicationContext)
                     },
                     clickedNext = {
-                        vmPlayerMusic.musicClicked(index2 + 1, false)
+                        vmPlayerMusic.setUiCurrentMusicIndex(index2 + 1, false)
                     },
                     isPause = uiStatePlayerMusic.uiIsPause,
                     isShuffle = uiStatePlayerMusic.uiIsShuffle,
@@ -206,9 +224,9 @@ fun AppScreen(
                     duration = vmPlayerMusic.durationFormat(musicList[index2].musicDuration),
                     currentDuration = vmPlayerMusic.durationFormat(uiStatePlayerMusic.uiCurrentDuration),
                     durationValue = (uiStatePlayerMusic.uiCurrentDuration/1000).toFloat(),
-                    onDurationChange = { vmPlayerMusic.setUiManualDurationValue(it.toInt()) },
+                    onDurationChange = { vmPlayerMusic.setUiManualDurationValue(it.toLong()) },
                     valueRange = 0f..(musicList[index2].musicDuration/1000).toFloat(),
-                    steps = musicList[index2].musicDuration/1000
+                    steps = musicList[index2].musicDuration.toInt()/1000
                 )
             }
             composable(route = RouteViews.PlayList.name){
@@ -243,10 +261,11 @@ fun AppScreen(
             composable(route = RouteViews.CurrentPlayList.name){
                 CurrentPlayList(
                     modifier = Modifier.fillMaxSize(),
+                    vmPlayerMusic = vmPlayerMusic,
                     playListMusic = playListMusic,
                     itemClicked = { itemPlayListMusic ->
                         val index = playListMusic.indexOf(itemPlayListMusic)
-                        vmPlayerMusic.musicClicked(index, true)
+                        vmPlayerMusic.setUiCurrentMusicIndex(index, true)
                         //Navega a la música seleccionada
                         navController.navigate(RouteViews.CurrentMusic2.name)
                     }
@@ -258,7 +277,7 @@ fun AppScreen(
                     artistName = playListMusic[index2].artistName,
                     musicName = playListMusic[index2].musicName,
                     albumName = playListMusic[index2].albumName,
-                    albumUri = vmPlayerMusic.checkAlbumUri(
+                    albumUri = vmPlayerMusic.getAlbumUri(
                         context.applicationContext,
                         playListMusic[index2].albumUri
                     ),
@@ -267,23 +286,32 @@ fun AppScreen(
                         navController.popBackStack(RouteViews.ArtistList.name, false)
                     },
                     clickedShuffle = {
-                        vmPlayerMusic.setUiIsShuffle(!uiStatePlayerMusic.uiIsShuffle)
-                        vmPlayerMusic.shuffleOrRepeatClicked(true)
+                        if(!uiStatePlayerMusic.uiIsShuffle){
+                            vmPlayerMusic.setUiIsShuffle(context.applicationContext,true)
+                            Toast.makeText(context, context.getString(R.string.toast_shuffle1), Toast.LENGTH_SHORT).show()
+                        }else{
+                            vmPlayerMusic.setUiIsShuffle(context.applicationContext,false)
+                            Toast.makeText(context, context.getString(R.string.toast_shuffle2), Toast.LENGTH_SHORT).show()
+                        }
                     },
                     clickedRepeat = {
-                        vmPlayerMusic.setUiIsRepeat(!uiStatePlayerMusic.uiIsRepeat)
-                        vmPlayerMusic.shuffleOrRepeatClicked(true)
+                        if(!uiStatePlayerMusic.uiIsRepeat){
+                            vmPlayerMusic.setUiIsRepeat(context.applicationContext,true)
+                            Toast.makeText(context, context.getString(R.string.toast_repeat1), Toast.LENGTH_SHORT).show()
+                        }else{
+                            vmPlayerMusic.setUiIsRepeat(context.applicationContext,false)
+                            Toast.makeText(context, context.getString(R.string.toast_repeat2), Toast.LENGTH_SHORT).show()
+                        }
                     },
                     clickedPrevious = {
-                        vmPlayerMusic.musicClicked(index2 - 1, true)
+                        vmPlayerMusic.setUiCurrentMusicIndex(index2 - 1, true)
                     },
                     clickedPlay = {
-                        vmPlayerMusic.setUiAutoDurationValue(true)
-                        vmPlayerMusic.playClicked()
+                        vmPlayerMusic.playClicked(true)
                         vmPlayerMusic.startServiceMusicPlayer(context.applicationContext)
                     },
                     clickedNext = {
-                        vmPlayerMusic.musicClicked(index2 + 1, true)
+                        vmPlayerMusic.setUiCurrentMusicIndex(index2 + 1, true)
                     },
                     isPause = uiStatePlayerMusic.uiIsPause,
                     isShuffle = uiStatePlayerMusic.uiIsShuffle,
@@ -291,9 +319,9 @@ fun AppScreen(
                     duration = vmPlayerMusic.durationFormat(playListMusic[index2].musicDuration),
                     currentDuration = vmPlayerMusic.durationFormat(uiStatePlayerMusic.uiCurrentDuration),
                     durationValue = (uiStatePlayerMusic.uiCurrentDuration/1000).toFloat(),
-                    onDurationChange = { vmPlayerMusic.setUiManualDurationValue(it.toInt()) },
+                    onDurationChange = { vmPlayerMusic.setUiManualDurationValue(it.toLong()) },
                     valueRange = 0f..(playListMusic[index2].musicDuration/1000).toFloat(),
-                    steps = playListMusic[index2].musicDuration/1000
+                    steps = playListMusic[index2].musicDuration.toInt()/1000
                 )
             }
             composable(route = RouteViews.AddPlayList.name){

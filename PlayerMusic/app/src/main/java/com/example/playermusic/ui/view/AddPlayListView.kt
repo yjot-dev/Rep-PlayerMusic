@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -39,7 +40,7 @@ fun AddPlayList(
 ){
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ){
         TextField(
@@ -64,10 +65,14 @@ fun AddPlayList(
             minHeight = dimensionResource(id = R.dimen.short_dp_1),
             maxHeight = dimensionResource(id = R.dimen.short_dp_2)
         ))
-        IconButton(onClick = { addPlayListClicked(playListName) }) {
+        IconButton(
+            onClick = { addPlayListClicked(playListName) },
+            modifier = Modifier.size(dimensionResource(id = R.dimen.short_dp_5))
+        ) {
             Icon(
                 imageVector = ImageVector.vectorResource(R.drawable.playlist_add_48),
-                contentDescription = null
+                contentDescription = null,
+                modifier = Modifier.size(dimensionResource(id = R.dimen.short_dp_5))
             )
         }
         Spacer(modifier = Modifier.sizeIn(

@@ -9,16 +9,20 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
@@ -59,10 +63,14 @@ fun CurrentMusic(
         Image(
             modifier = Modifier
                 .padding(vertical = dimensionResource(id = R.dimen.short_dp_1))
-                .fillMaxHeight(0.5f),
+                .fillMaxHeight(0.4f),
             painter = rememberAsyncImagePainter(model = albumUri),
             contentScale = ContentScale.Fit,
-            contentDescription = null
+            contentDescription = null,
+            colorFilter = ColorFilter.tint(
+                color = MaterialTheme.colorScheme.primaryContainer,
+                blendMode = BlendMode.DstOver
+            )
         )
         ButtonsControl(
             modifier = Modifier
@@ -99,7 +107,9 @@ fun CurrentMusic(
             textDescription = albumName
         )
         PlayerMusic(
-            modifier = Modifier.fillMaxWidth(0.9f),
+            modifier = Modifier
+                .padding(vertical = dimensionResource(id = R.dimen.short_dp_1))
+                .fillMaxWidth(0.9f),
             clickedPrevious = clickedPrevious,
             clickedPlay = clickedPlay,
             clickedNext = clickedNext,
@@ -144,31 +154,42 @@ private fun ButtonsControl(
         }
         IconButton(
             onClick = clicked1,
-            modifier = Modifier.weight(1f)
+            modifier = Modifier
+                .weight(1f)
+                .size(dimensionResource(id = R.dimen.short_dp_5))
         ) {
             Icon(
                 imageVector = ImageVector.vectorResource(idIcon1),
-                contentDescription = null
+                contentDescription = null,
+                modifier = Modifier.size(dimensionResource(id = R.dimen.short_dp_5))
             )
         }
         IconButton(
             onClick = clicked2,
-            modifier = Modifier.weight(1f)
+            modifier = Modifier
+                .weight(1f)
+                .size(dimensionResource(id = R.dimen.short_dp_5))
         ) {
             Icon(
                 imageVector = ImageVector.vectorResource(idIcon2),
                 contentDescription = null,
-                tint = if(isShuffle) Color.Blue else Color.Black
+                modifier = Modifier.size(dimensionResource(id = R.dimen.short_dp_5)),
+                tint = if(isShuffle) Color.Blue
+                       else MaterialTheme.colorScheme.onSurface
             )
         }
         IconButton(
             onClick = clicked3,
-            modifier = Modifier.weight(1f)
+            modifier = Modifier
+                .weight(1f)
+                .size(dimensionResource(id = R.dimen.short_dp_5))
         ) {
             Icon(
                 imageVector = ImageVector.vectorResource(idIcon3),
                 contentDescription = null,
-                tint = if(isRepeat) Color.Blue else Color.Black
+                modifier = Modifier.size(dimensionResource(id = R.dimen.short_dp_5)),
+                tint = if(isRepeat) Color.Blue
+                       else MaterialTheme.colorScheme.onSurface
             )
         }
         if(totalDuration != null){
@@ -243,7 +264,11 @@ private fun PlayerMusic(
             value = durationValue,
             onValueChange = { onDurationChange(it) },
             valueRange = valueRange,
-            steps = steps
+            steps = steps,
+            colors = SliderDefaults.colors(
+                thumbColor = Color.Blue,
+                activeTrackColor = Color.Blue
+            )
         )
     }
 }
