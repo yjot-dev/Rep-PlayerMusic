@@ -194,7 +194,13 @@ fun AppScreen(
         LaunchedEffect(
             key1 = uiStatePlayerMusic.uiIsCompletion,
             key2 = uiStatePlayerMusic.uiIsRestartApp,
+<<<<<<< HEAD
             block = {
+=======
+            key3 = uiStatePlayerMusic.uiCurrentDuration,
+            block = {
+                vmPlayerMusic.setUiAutoDurationValue()
+>>>>>>> master
                 when{
                     uiStatePlayerMusic.uiIsCompletion -> {
                         selectedMusic = if(isPlayList){
@@ -298,6 +304,7 @@ fun AppScreen(
                             vmPlayerMusic.setUiIsShuffle(false)
                             Toast.makeText(context, context.getString(R.string.toast_shuffle2), Toast.LENGTH_SHORT).show()
                         }
+<<<<<<< HEAD
                         dbProcess.saveConfig(context.applicationContext, isShuffle = !isShuffle)
                     },
                     clickedRepeat = {
@@ -318,6 +325,26 @@ fun AppScreen(
                                 0
                             }
                         })
+=======
+                    },
+                    clickedRepeat = {
+                        vmPlayerMusic.setUiRepeat(
+                            when(isRepeat){
+                                RepeatOptions.Current -> {
+                                    Toast.makeText(context, context.getString(R.string.toast_repeat1), Toast.LENGTH_SHORT).show()
+                                    1
+                                }
+                                RepeatOptions.All -> {
+                                    Toast.makeText(context, context.getString(R.string.toast_repeat2), Toast.LENGTH_SHORT).show()
+                                    2
+                                }
+                                RepeatOptions.Off -> {
+                                    Toast.makeText(context, context.getString(R.string.toast_repeat3), Toast.LENGTH_SHORT).show()
+                                    0
+                                }
+                            }
+                        )
+>>>>>>> master
                     },
                     clickedPrevious = {
                         vmPlayerMusic.setUiCurrentMusicListIndex(index2 - 1)
@@ -496,6 +523,7 @@ fun AppScreen(
                             vmPlayerMusic.setUiIsShuffle(false)
                             Toast.makeText(context, context.getString(R.string.toast_shuffle2), Toast.LENGTH_SHORT).show()
                         }
+<<<<<<< HEAD
                         dbProcess.saveConfig(context.applicationContext, isShuffle = !isShuffle)
                     },
                     clickedRepeat = {
@@ -516,6 +544,26 @@ fun AppScreen(
                                 0
                             }
                         })
+=======
+                    },
+                    clickedRepeat = {
+                        vmPlayerMusic.setUiRepeat(
+                            when(isRepeat){
+                                RepeatOptions.Current -> {
+                                    Toast.makeText(context, context.getString(R.string.toast_repeat1), Toast.LENGTH_SHORT).show()
+                                    1
+                                }
+                                RepeatOptions.All -> {
+                                    Toast.makeText(context, context.getString(R.string.toast_repeat2), Toast.LENGTH_SHORT).show()
+                                    2
+                                }
+                                RepeatOptions.Off -> {
+                                    Toast.makeText(context, context.getString(R.string.toast_repeat3), Toast.LENGTH_SHORT).show()
+                                    0
+                                }
+                            }
+                        )
+>>>>>>> master
                     },
                     clickedPrevious = {
                         vmPlayerMusic.setUiCurrentMusicListIndex(index2 - 1)

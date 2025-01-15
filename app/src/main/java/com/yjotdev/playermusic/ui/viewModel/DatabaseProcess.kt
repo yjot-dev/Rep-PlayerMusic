@@ -55,21 +55,33 @@ class DatabaseProcess {
     ){
         val sp = applicationContext.getSharedPreferences("MyConfig", Context.MODE_PRIVATE)
         sp.edit().apply {
+<<<<<<< HEAD
             if(valueRepeat != null) putInt("repeat", valueRepeat)
             if(isShuffle != null) putBoolean("isShuffle", isShuffle)
             if(isPlayList != null) putBoolean("isPlayList", isPlayList)
             if(index0 != null) putInt("index0", index0)
             if(index1 != null) putInt("index1", index1)
             if(index2 != null) putInt("index2", index2)
+=======
+            valueRepeat?.let { putInt("repeat", it) }
+            isShuffle?.let { putBoolean("isShuffle", it) }
+            isPlayList?.let { putBoolean("isPlayList", it) }
+            index0?.let { putInt("index0", it) }
+            index1?.let { putInt("index1", it) }
+            index2?.let { putInt("index2", it) }
+>>>>>>> master
             apply()
         }
     }
     /** Obtiene datos persistentes de botones aleatorio y repetir **/
     private fun getConfig(applicationContext: Context){
+<<<<<<< HEAD
         val artistList = uiState.uiArtistList
         val playList = uiState.uiPlayList
         val index0 = uiState.uiCurrentArtistListIndex
         val index1 = uiState.uiCurrentPlayListIndex
+=======
+>>>>>>> master
         val sp = applicationContext.getSharedPreferences("MyConfig", Context.MODE_PRIVATE)
         sp.apply {
             mvPlayerMusic.setUiRepeat(getInt("repeat", 2))
@@ -78,6 +90,13 @@ class DatabaseProcess {
             mvPlayerMusic.setUiCurrentArtistListIndex(getInt("index0", 0))
             mvPlayerMusic.setUiCurrentPlayListIndex(getInt("index1", 0))
             //Crea una MusicList con los indices anteriores segun corresponda
+<<<<<<< HEAD
+=======
+            val artistList = uiState.uiArtistList
+            val playList = uiState.uiPlayList
+            val index0 = uiState.uiCurrentArtistListIndex
+            val index1 = uiState.uiCurrentPlayListIndex
+>>>>>>> master
             if(uiState.uiIsPlayList){
                 if(playList.isNotEmpty()){
                     mvPlayerMusic.setUiMusicList(playList[index1].musicList)
