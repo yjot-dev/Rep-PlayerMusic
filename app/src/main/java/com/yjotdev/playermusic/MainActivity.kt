@@ -1,5 +1,6 @@
 package com.yjotdev.playermusic
 
+<<<<<<< HEAD
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -8,6 +9,16 @@ import com.yjotdev.playermusic.data.ObjectsManager
 =======
 import com.yjotdev.playermusic.ui.model.RepeatOptions
 >>>>>>> master
+=======
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.core.app.ActivityCompat
+import com.yjotdev.playermusic.data.ObjectsManager
+>>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
 import com.yjotdev.playermusic.ui.theme.PlayerMusicTheme
 import com.yjotdev.playermusic.ui.viewModel.DatabaseProcess
 
@@ -20,6 +31,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+<<<<<<< HEAD
         val isRestartApp = intent.getBooleanExtra("IS_RESTART_APP", false)
         setContent {
             PlayerMusicTheme {
@@ -34,12 +46,23 @@ class MainActivity : ComponentActivity() {
                         dbProcess.getData(applicationContext)
                     }
                 )
+=======
+        if(getPermission()) {
+            val isRestartApp = intent.getBooleanExtra("IS_RESTART_APP", false)
+            vmPlayerMusic.setUiIsRestartApp(isRestartApp)
+            dbProcess.getData(applicationContext)
+        }
+        setContent {
+            PlayerMusicTheme {
+                AppScreen(vmPlayerMusic = vmPlayerMusic)
+>>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
             }
         }
     }
 
     override fun onPause() {
         super.onPause()
+<<<<<<< HEAD
 <<<<<<< HEAD
         val uiState = vmPlayerMusic.uiState.value
 =======
@@ -48,11 +71,15 @@ class MainActivity : ComponentActivity() {
         dbProcess.saveConfig(applicationContext, valueRepeat = getValueRepeat(uiState.uiRepeat))
         dbProcess.saveConfig(applicationContext, isShuffle = uiState.uiIsShuffle)
 >>>>>>> master
+=======
+        val uiState = vmPlayerMusic.uiState.value
+>>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
         dbProcess.saveConfig(applicationContext, isPlayList = uiState.uiIsPlayList)
         dbProcess.saveConfig(applicationContext, index0 = uiState.uiCurrentArtistListIndex)
         dbProcess.saveConfig(applicationContext, index1 = uiState.uiCurrentPlayListIndex)
         dbProcess.saveConfig(applicationContext, index2 = uiState.uiCurrentMusicListIndex)
     }
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 
@@ -64,4 +91,38 @@ class MainActivity : ComponentActivity() {
         }
     }
 >>>>>>> master
+=======
+
+    /** Solicita y verifica permisos **/
+    private fun getPermission() : Boolean {
+        val resultList = mutableListOf<Boolean>()
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+            //Arreglo de permisos necesarios
+            val permissionSdk33ToMore = arrayOf(
+                Manifest.permission.READ_MEDIA_AUDIO,
+                Manifest.permission.BLUETOOTH_CONNECT
+            )
+            //Solicta los permisos necesarios para la app
+            ActivityCompat.requestPermissions(this, permissionSdk33ToMore,0)
+            //Verifica que esten aprobados los permisos
+            permissionSdk33ToMore.forEach { permission ->
+                val check = ActivityCompat.checkSelfPermission(this, permission)
+                resultList.add(check == PackageManager.PERMISSION_GRANTED)
+            }
+        }else{
+            //Arreglo de permisos necesarios
+            val permissionSdk24ToSdk32 = arrayOf(
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            )
+            //Solicta los permisos necesarios para la app
+            ActivityCompat.requestPermissions(this, permissionSdk24ToSdk32,0)
+            //Verifica que esten aprobados los permisos
+            permissionSdk24ToSdk32.forEach { permission ->
+                val check = ActivityCompat.checkSelfPermission(this, permission)
+                resultList.add(check == PackageManager.PERMISSION_GRANTED)
+            }
+        }
+        return !resultList.contains(false)
+    }
+>>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
 }

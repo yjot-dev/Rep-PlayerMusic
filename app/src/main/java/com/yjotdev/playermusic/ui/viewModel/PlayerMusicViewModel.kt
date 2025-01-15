@@ -140,25 +140,35 @@ class PlayerMusicViewModel: ViewModel(){
     /** Actualiza estado automático de la duración de la música **/
     fun setUiAutoDurationValue(){
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
         viewModelScope.launch(Dispatchers.IO){
             val index = uiState.value.uiCurrentMusicListIndex
             val list = uiState.value.uiMusicList[index]
             val totalDurationSec = list.musicDuration/1000
             while(uiState.value.uiCurrentDuration/1000 < totalDurationSec){
+<<<<<<< HEAD
 =======
         viewModelScope.launch(Dispatchers.IO) {
             if (mp.isPlaying) {
                 delay(1000)
 >>>>>>> master
+=======
+>>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
                 withContext(Dispatchers.Main) {
                     _uiState.update { currentState ->
                         currentState.copy(uiCurrentDuration = mp.currentPosition)
                     }
                 }
 <<<<<<< HEAD
+<<<<<<< HEAD
                 delay(1000)
 =======
 >>>>>>> master
+=======
+                delay(1000)
+>>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
             }
         }
     }

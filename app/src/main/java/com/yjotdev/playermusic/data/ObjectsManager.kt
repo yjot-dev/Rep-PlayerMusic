@@ -32,12 +32,16 @@ object ObjectsManager {
     /** Libera los recursos del app luego de finalizar el servicio **/
     fun releaseMediaPlayer() {
 <<<<<<< HEAD
+<<<<<<< HEAD
         mediaPlayer?.stop()
+=======
+>>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
         mediaPlayer?.release()
         mediaPlayer = null
         vmPlayerMusic = null
         database?.close()
         database = null
+<<<<<<< HEAD
 =======
         mediaPlayer?.apply {
             stop()
@@ -48,5 +52,7 @@ object ObjectsManager {
         database = null
         vmPlayerMusic = null
 >>>>>>> master
+=======
+>>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
     }
 }
