@@ -15,10 +15,14 @@ android {
         targetSdk = 35
         versionCode = 6
 <<<<<<< HEAD
+<<<<<<< HEAD
         versionName = "6.2"
 =======
         versionName = "6.0"
 >>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
+=======
+        versionName = "6.2"
+>>>>>>> master
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

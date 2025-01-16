@@ -1,10 +1,15 @@
 package com.yjotdev.playermusic
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+import android.content.Intent
+>>>>>>> master
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.yjotdev.playermusic.data.ObjectsManager
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 import com.yjotdev.playermusic.ui.model.RepeatOptions
@@ -19,6 +24,9 @@ import androidx.activity.compose.setContent
 import androidx.core.app.ActivityCompat
 import com.yjotdev.playermusic.data.ObjectsManager
 >>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
+=======
+import com.yjotdev.playermusic.service.MusicService
+>>>>>>> master
 import com.yjotdev.playermusic.ui.theme.PlayerMusicTheme
 import com.yjotdev.playermusic.ui.viewModel.DatabaseProcess
 
@@ -32,6 +40,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> master
         val isRestartApp = intent.getBooleanExtra("IS_RESTART_APP", false)
         setContent {
             PlayerMusicTheme {
@@ -39,6 +50,7 @@ class MainActivity : ComponentActivity() {
                     vmPlayerMusic = vmPlayerMusic,
                     onProcess = {
                         vmPlayerMusic.setUiIsRestartApp(isRestartApp)
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
                         //Recupero las configuraciones del usuario
@@ -56,10 +68,17 @@ class MainActivity : ComponentActivity() {
             PlayerMusicTheme {
                 AppScreen(vmPlayerMusic = vmPlayerMusic)
 >>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
+=======
+                        //Recupero las musicas del usuario
+                        dbProcess.getData(applicationContext)
+                    }
+                )
+>>>>>>> master
             }
         }
     }
 
+<<<<<<< HEAD
     override fun onPause() {
         super.onPause()
 <<<<<<< HEAD
@@ -125,4 +144,20 @@ class MainActivity : ComponentActivity() {
         return !resultList.contains(false)
     }
 >>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
+=======
+    override fun onResume() {
+        super.onResume()
+        //Recupero las configuraciones del usuario
+        dbProcess.getConfig(applicationContext)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        //Avisa al servicio para guardar las configuraciones
+        val intent = Intent(applicationContext, MusicService::class.java).apply {
+            putExtra("isSaved", true)
+        }
+        startService(intent)
+    }
+>>>>>>> master
 }

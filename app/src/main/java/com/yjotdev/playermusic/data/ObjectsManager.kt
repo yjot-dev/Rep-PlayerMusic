@@ -33,6 +33,7 @@ object ObjectsManager {
     fun releaseMediaPlayer() {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         mediaPlayer?.stop()
 =======
 >>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
@@ -43,6 +44,8 @@ object ObjectsManager {
         database = null
 <<<<<<< HEAD
 =======
+=======
+>>>>>>> master
         mediaPlayer?.apply {
             stop()
             release()
@@ -51,8 +54,11 @@ object ObjectsManager {
         database?.close()
         database = null
         vmPlayerMusic = null
+<<<<<<< HEAD
 >>>>>>> master
 =======
 >>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
+=======
+>>>>>>> master
     }
 }

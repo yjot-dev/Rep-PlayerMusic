@@ -141,6 +141,7 @@ class PlayerMusicViewModel: ViewModel(){
     fun setUiAutoDurationValue(){
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
         viewModelScope.launch(Dispatchers.IO){
@@ -156,11 +157,17 @@ class PlayerMusicViewModel: ViewModel(){
 >>>>>>> master
 =======
 >>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
+=======
+        viewModelScope.launch(Dispatchers.IO) {
+            if (mp.isPlaying) {
+                delay(1000)
+>>>>>>> master
                 withContext(Dispatchers.Main) {
                     _uiState.update { currentState ->
                         currentState.copy(uiCurrentDuration = mp.currentPosition)
                     }
                 }
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
                 delay(1000)
@@ -169,15 +176,25 @@ class PlayerMusicViewModel: ViewModel(){
 =======
                 delay(1000)
 >>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
+=======
+>>>>>>> master
             }
         }
     }
 
     /** Inicia servicio de notificación de la reproducción de música **/
     fun startServiceMusicPlayer(applicationContext: Context){
+<<<<<<< HEAD
         val index = uiState.value.uiCurrentMusicListIndex
         val list = uiState.value.uiMusicList[index]
         val intent = Intent(applicationContext, MusicService::class.java).apply {
+=======
+        val uiState = uiState.value
+        val index = uiState.uiCurrentMusicListIndex
+        val list = uiState.uiMusicList[index]
+        val intent = Intent(applicationContext, MusicService::class.java).apply {
+            putExtra("isSaved", false)
+>>>>>>> master
             putExtra("musicName", list.musicName)
             putExtra("artistName", list.artistName)
         }

@@ -196,6 +196,7 @@ fun AppScreen(
             key2 = uiStatePlayerMusic.uiIsRestartApp,
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             block = {
 =======
             key3 = uiStatePlayerMusic.uiCurrentDuration,
@@ -205,6 +206,11 @@ fun AppScreen(
 =======
             block = {
 >>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
+=======
+            key3 = uiStatePlayerMusic.uiCurrentDuration,
+            block = {
+                vmPlayerMusic.setUiAutoDurationValue()
+>>>>>>> master
                 when{
                     uiStatePlayerMusic.uiIsCompletion -> {
                         selectedMusic = if(isPlayList){
@@ -310,6 +316,7 @@ fun AppScreen(
                         }
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
                         dbProcess.saveConfig(context.applicationContext, isShuffle = !isShuffle)
@@ -334,6 +341,8 @@ fun AppScreen(
                         })
 <<<<<<< HEAD
 =======
+=======
+>>>>>>> master
                     },
                     clickedRepeat = {
                         vmPlayerMusic.setUiRepeat(
@@ -352,9 +361,12 @@ fun AppScreen(
                                 }
                             }
                         )
+<<<<<<< HEAD
 >>>>>>> master
 =======
 >>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
+=======
+>>>>>>> master
                     },
                     clickedPrevious = {
                         vmPlayerMusic.setUiCurrentMusicListIndex(index2 - 1)
@@ -535,6 +547,7 @@ fun AppScreen(
                         }
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
                         dbProcess.saveConfig(context.applicationContext, isShuffle = !isShuffle)
@@ -559,6 +572,8 @@ fun AppScreen(
                         })
 <<<<<<< HEAD
 =======
+=======
+>>>>>>> master
                     },
                     clickedRepeat = {
                         vmPlayerMusic.setUiRepeat(
@@ -577,9 +592,12 @@ fun AppScreen(
                                 }
                             }
                         )
+<<<<<<< HEAD
 >>>>>>> master
 =======
 >>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
+=======
+>>>>>>> master
                     },
                     clickedPrevious = {
                         vmPlayerMusic.setUiCurrentMusicListIndex(index2 - 1)
