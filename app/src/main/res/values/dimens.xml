@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="short_dp_1">4dp</dimen>
+    <dimen name="short_dp_2">8dp</dimen>
+    <dimen name="short_dp_3">20dp</dimen>
+    <dimen name="short_dp_4">40dp</dimen>
+    <dimen name="short_dp_5">60dp</dimen>
+    <dimen name="medium_dp_1">100dp</dimen>
+    <dimen name="medium_dp_2">150dp</dimen>
+</resources>
