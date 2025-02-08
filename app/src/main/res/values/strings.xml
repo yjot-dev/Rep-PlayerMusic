@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">Player Music</string>
+    <string name="app_artistList">Artistas</string>
+    <string name="app_musicList">%s</string>
+    <string name="app_currentMusic">Música actual</string>
+    <string name="app_playList">Listas de reproducción</string>
+    <string name="app_addPlayList">Agregar playlist</string>
+    <string name="app_search">Buscar o crear playlist</string>
+    <string name="toast_playListName">Ingrese nombre de playlist</string>
+    <string name="toast_insertPlayList">Playlist %s agregada</string>
+    <string name="toast_addMusicPlayList">Música agregada a playlist</string>
+    <string name="toast_deleteMusicPlayList">Música eliminada de playlist</string>
+    <string name="toast_editNamePlayList">Nombre de playlist editado</string>
+    <string name="toast_removePlayList">Playlist %s quitada</string>
+    <string name="toast_shuffle1">Aleatorio activado</string>
+    <string name="toast_shuffle2">Aleatorio desactivado</string>
+    <string name="toast_repeat1">Repetir todo activado</string>
+    <string name="toast_repeat2">Repetir desactivado</string>
+    <string name="toast_repeat3">Repetir actual activado</string>
+    <string name="ad_deleteMusicPlayList">¿Quiere eliminar esta música de su playlist?</string>
+    <string name="ad_removePlayList">¿Quiere quitar esta playlist?</string>
+    <string name="ad_editNamePlayList">¿Quiere editar el nombre de su playlist?</string>
+    <string name="ad_editName">Nuevo nombre</string>
+    <string name="ad_title">AVISO</string>
+    <string name="ad_yes">SI</string>
+    <string name="ad_no">NO</string>
+    <string name="cd_navigation_back">Regresar</string>
+    <string name="cd_navigation_playlist">Ir a playlist</string>
+    <string name="cd_shuffle">Aleatorio</string>
+    <string name="cd_repeat">Repetir</string>
+    <string name="cd_next">Siguiente</string>
+    <string name="cd_previous">Anterior</string>
+    <string name="cd_play">Reproducir música</string>
+</resources>
