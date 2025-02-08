@@ -2,6 +2,7 @@ package com.yjotdev.playermusic
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import android.content.Intent
 >>>>>>> master
@@ -27,12 +28,22 @@ import com.yjotdev.playermusic.data.ObjectsManager
 =======
 import com.yjotdev.playermusic.service.MusicService
 >>>>>>> master
+=======
+import android.content.Intent
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import com.yjotdev.playermusic.service.MusicService
+>>>>>>> master
 import com.yjotdev.playermusic.ui.theme.PlayerMusicTheme
 import com.yjotdev.playermusic.ui.viewModel.DatabaseProcess
 
 class MainActivity : ComponentActivity() {
+<<<<<<< HEAD
     //Inicializa viewmodel
     private val vmPlayerMusic by lazy { ObjectsManager.getVmPlayerMusic() }
+=======
+>>>>>>> master
     //Inicializa DatabaseProcess
     private val dbProcess by lazy{ DatabaseProcess() }
 
@@ -41,12 +52,16 @@ class MainActivity : ComponentActivity() {
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> master
 =======
 >>>>>>> master
         val isRestartApp = intent.getBooleanExtra("IS_RESTART_APP", false)
         setContent {
             PlayerMusicTheme {
                 PermissionView(
+<<<<<<< HEAD
                     vmPlayerMusic = vmPlayerMusic,
                     onProcess = {
                         vmPlayerMusic.setUiIsRestartApp(isRestartApp)
@@ -74,10 +89,16 @@ class MainActivity : ComponentActivity() {
                     }
                 )
 >>>>>>> master
+=======
+                    isRestartApp = isRestartApp,
+                    dbProcess = dbProcess
+                )
+>>>>>>> master
             }
         }
     }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     override fun onPause() {
         super.onPause()
@@ -145,6 +166,8 @@ class MainActivity : ComponentActivity() {
     }
 >>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
 =======
+=======
+>>>>>>> master
     override fun onResume() {
         super.onResume()
         //Recupero las configuraciones del usuario
@@ -159,5 +182,8 @@ class MainActivity : ComponentActivity() {
         }
         startService(intent)
     }
+<<<<<<< HEAD
+>>>>>>> master
+=======
 >>>>>>> master
 }

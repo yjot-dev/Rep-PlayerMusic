@@ -6,6 +6,9 @@
         <option name="selectionMode" value="DROPDOWN" />
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> master
 =======
 >>>>>>> master
         <DropdownSelection timestamp="2025-01-13T14:41:56.384244500Z">
@@ -17,9 +20,27 @@
         </DropdownSelection>
         <DialogSelection />
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
 =======
+>>>>>>> master
+=======
+      </SelectionState>
+      <SelectionState runConfigName="repeatMusic_ArtistListView()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="playMusic_playListView()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="nextMusic_playListView()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="previousMusic_playListView()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="shuffleMusic_ArtistListView()">
+        <option name="selectionMode" value="DROPDOWN" />
 >>>>>>> master
       </SelectionState>
     </selectionStates>

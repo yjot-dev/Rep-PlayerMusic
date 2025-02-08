@@ -20,6 +20,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+<<<<<<< HEAD
+=======
+import androidx.compose.ui.platform.testTag
+>>>>>>> master
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -40,11 +44,20 @@ fun CurrentPlayList(
         horizontalAlignment = Alignment.CenterHorizontally
     ){
         playListMusic.forEach { itemPlayListMusic ->
+<<<<<<< HEAD
+=======
+            val idTag = playListMusic.indexOf(itemPlayListMusic)
+>>>>>>> master
             ItemPlayListMusic(
                 modifier = Modifier
                     .padding(dimensionResource(id = R.dimen.short_dp_1))
                     .fillMaxWidth()
+<<<<<<< HEAD
                     .clickable { itemClicked(itemPlayListMusic) },
+=======
+                    .clickable { itemClicked(itemPlayListMusic) }
+                    .testTag("music:$idTag"),
+>>>>>>> master
                 title = itemPlayListMusic.musicName,
                 artist = itemPlayListMusic.artistName,
                 duration = itemPlayListMusic.musicDurationFormat,

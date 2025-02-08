@@ -13,6 +13,7 @@ android {
         applicationId = "com.yjotdev.playermusic"
         minSdk = 24
         targetSdk = 35
+<<<<<<< HEAD
         versionCode = 6
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -22,6 +23,10 @@ android {
 >>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
 =======
         versionName = "6.2"
+>>>>>>> master
+=======
+        versionCode = 7
+        versionName = "7.0"
 >>>>>>> master
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -62,8 +67,13 @@ dependencies {
     //Compose
     implementation("androidx.core:core-ktx:1.15.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
+<<<<<<< HEAD
     implementation("androidx.activity:activity-compose:1.9.3")
     implementation(platform("androidx.compose:compose-bom:2024.12.01"))
+=======
+    implementation("androidx.activity:activity-compose:1.10.0")
+    implementation(platform("androidx.compose:compose-bom:2025.01.01"))
+>>>>>>> master
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
@@ -74,6 +84,10 @@ dependencies {
     //Room
     implementation("androidx.room:room-runtime:${rootProject.extra["roomVersion"]}")
     implementation("androidx.room:room-ktx:${rootProject.extra["roomVersion"]}")
+<<<<<<< HEAD
+=======
+    implementation("androidx.navigation:navigation-testing:2.8.6")
+>>>>>>> master
     annotationProcessor("androidx.room:room-compiler:${rootProject.extra["roomVersion"]}")
     ksp("androidx.room:room-compiler:${rootProject.extra["roomVersion"]}")
     //Coil
@@ -84,7 +98,11 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
+<<<<<<< HEAD
     androidTestImplementation(platform("androidx.compose:compose-bom:2024.12.01"))
+=======
+    androidTestImplementation(platform("androidx.compose:compose-bom:2025.01.01"))
+>>>>>>> master
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")

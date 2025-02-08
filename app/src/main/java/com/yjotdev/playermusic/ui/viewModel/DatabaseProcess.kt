@@ -4,6 +4,10 @@ import android.content.Context
 import com.yjotdev.playermusic.data.ObjectsManager
 import com.yjotdev.playermusic.ui.model.MusicListModel
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+import com.yjotdev.playermusic.ui.model.RepeatOptions
+>>>>>>> master
 =======
 import com.yjotdev.playermusic.ui.model.RepeatOptions
 >>>>>>> master
@@ -51,7 +55,11 @@ class DatabaseProcess {
     fun saveConfig(
         applicationContext: Context,
 <<<<<<< HEAD
+<<<<<<< HEAD
         valueRepeat: Int? = null,
+=======
+        valueRepeat: RepeatOptions? = null,
+>>>>>>> master
 =======
         valueRepeat: RepeatOptions? = null,
 >>>>>>> master
@@ -63,6 +71,7 @@ class DatabaseProcess {
     ){
         val sp = applicationContext.getSharedPreferences("MyConfig", Context.MODE_PRIVATE)
         sp.edit().apply {
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -78,6 +87,8 @@ class DatabaseProcess {
 =======
             valueRepeat?.let { putInt("repeat", it) }
 =======
+=======
+>>>>>>> master
             valueRepeat?.let {
                 putInt("repeat", when(it){
                     RepeatOptions.Current -> 0
@@ -85,6 +96,9 @@ class DatabaseProcess {
                     RepeatOptions.Off -> 2
                 })
             }
+<<<<<<< HEAD
+>>>>>>> master
+=======
 >>>>>>> master
             isShuffle?.let { putBoolean("isShuffle", it) }
             isPlayList?.let { putBoolean("isPlayList", it) }
@@ -92,15 +106,19 @@ class DatabaseProcess {
             index1?.let { putInt("index1", it) }
             index2?.let { putInt("index2", it) }
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> master
 =======
 >>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
+=======
+>>>>>>> master
 =======
 >>>>>>> master
             apply()
         }
     }
     /** Obtiene datos persistentes de botones aleatorio y repetir **/
+<<<<<<< HEAD
 <<<<<<< HEAD
     private fun getConfig(applicationContext: Context){
 <<<<<<< HEAD
@@ -119,6 +137,9 @@ class DatabaseProcess {
 =======
     fun getConfig(applicationContext: Context){
 >>>>>>> master
+=======
+    fun getConfig(applicationContext: Context){
+>>>>>>> master
         val sp = applicationContext.getSharedPreferences("MyConfig", Context.MODE_PRIVATE)
         sp.apply {
             mvPlayerMusic.setUiRepeat(getInt("repeat", 2))
@@ -130,7 +151,10 @@ class DatabaseProcess {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> master
 =======
 >>>>>>> master
             val artistList = uiState.uiArtistList
@@ -138,9 +162,12 @@ class DatabaseProcess {
             val index0 = uiState.uiCurrentArtistListIndex
             val index1 = uiState.uiCurrentPlayListIndex
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> master
 =======
 >>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
+=======
+>>>>>>> master
 =======
 >>>>>>> master
             if(uiState.uiIsPlayList){

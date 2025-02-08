@@ -2,7 +2,10 @@ package com.yjotdev.playermusic.ui.viewModel
 
 import android.content.Context
 import android.content.Intent
+<<<<<<< HEAD
 import androidx.core.content.ContextCompat
+=======
+>>>>>>> master
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yjotdev.playermusic.service.MusicService
@@ -142,6 +145,7 @@ class PlayerMusicViewModel: ViewModel(){
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
         viewModelScope.launch(Dispatchers.IO){
@@ -162,11 +166,17 @@ class PlayerMusicViewModel: ViewModel(){
             if (mp.isPlaying) {
                 delay(1000)
 >>>>>>> master
+=======
+        viewModelScope.launch(Dispatchers.IO) {
+            if (mp.isPlaying) {
+                delay(1000)
+>>>>>>> master
                 withContext(Dispatchers.Main) {
                     _uiState.update { currentState ->
                         currentState.copy(uiCurrentDuration = mp.currentPosition)
                     }
                 }
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -178,6 +188,8 @@ class PlayerMusicViewModel: ViewModel(){
 >>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
 =======
 >>>>>>> master
+=======
+>>>>>>> master
             }
         }
     }
@@ -185,19 +197,29 @@ class PlayerMusicViewModel: ViewModel(){
     /** Inicia servicio de notificación de la reproducción de música **/
     fun startServiceMusicPlayer(applicationContext: Context){
 <<<<<<< HEAD
+<<<<<<< HEAD
         val index = uiState.value.uiCurrentMusicListIndex
         val list = uiState.value.uiMusicList[index]
         val intent = Intent(applicationContext, MusicService::class.java).apply {
 =======
+=======
+>>>>>>> master
         val uiState = uiState.value
         val index = uiState.uiCurrentMusicListIndex
         val list = uiState.uiMusicList[index]
         val intent = Intent(applicationContext, MusicService::class.java).apply {
             putExtra("isSaved", false)
+<<<<<<< HEAD
 >>>>>>> master
             putExtra("musicName", list.musicName)
             putExtra("artistName", list.artistName)
         }
         ContextCompat.startForegroundService(applicationContext, intent)
+=======
+            putExtra("musicName", list.musicName)
+            putExtra("artistName", list.artistName)
+        }
+        applicationContext.startService(intent)
+>>>>>>> master
     }
 }

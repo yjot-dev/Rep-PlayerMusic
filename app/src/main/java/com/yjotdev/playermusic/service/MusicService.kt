@@ -2,9 +2,12 @@ package com.yjotdev.playermusic.service
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import android.annotation.SuppressLint
 >>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
+=======
+>>>>>>> master
 =======
 >>>>>>> master
 import android.app.Notification
@@ -23,9 +26,12 @@ import android.os.IBinder
 import android.os.PowerManager
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import androidx.annotation.RequiresApi
 >>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
+=======
+>>>>>>> master
 =======
 >>>>>>> master
 import androidx.core.app.NotificationCompat
@@ -33,6 +39,10 @@ import com.yjotdev.playermusic.MainActivity
 import com.yjotdev.playermusic.R
 import com.yjotdev.playermusic.data.ObjectsManager
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+import com.yjotdev.playermusic.ui.viewModel.DatabaseProcess
+>>>>>>> master
 =======
 import com.yjotdev.playermusic.ui.viewModel.DatabaseProcess
 >>>>>>> master
@@ -43,9 +53,15 @@ class MusicService : Service() {
     private lateinit var wakeLock: PowerManager.WakeLock
     private lateinit var vmPlayerMusic: PlayerMusicViewModel
 <<<<<<< HEAD
+<<<<<<< HEAD
     private val notificationId = 1
     private val channelId = "MUSIC_CHANNEL"
 <<<<<<< HEAD
+=======
+    private lateinit var dbProcess: DatabaseProcess
+    private val notificationId = 1
+    private val channelId = "MUSIC_CHANNEL"
+>>>>>>> master
 =======
     private lateinit var dbProcess: DatabaseProcess
     private val notificationId = 1
@@ -57,18 +73,28 @@ class MusicService : Service() {
     override fun onCreate() {
         super.onCreate()
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> master
         //Inicializar MediaPlayer, Viewmodel y DatabaseProcess
         mediaPlayer = ObjectsManager.getMediaPlayer()
         vmPlayerMusic = ObjectsManager.getVmPlayerMusic()
         dbProcess = DatabaseProcess()
         //Crea el wakelock para mantener la pantalla encendida
+<<<<<<< HEAD
+>>>>>>> master
+=======
 >>>>>>> master
         val powerManager = getSystemService(POWER_SERVICE) as PowerManager
         wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
             "MyApp::MusicPlayerWakelock")
         wakeLock.acquire(5*60*1000L) // 5 minutos
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+        //Filtros para el receiver
+>>>>>>> master
 =======
         //Filtros para el receiver
 >>>>>>> master
@@ -78,6 +104,10 @@ class MusicService : Service() {
             addAction(BluetoothDevice.ACTION_ACL_CONNECTED)
         }
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+        //Registra receiver
+>>>>>>> master
 =======
         //Registra receiver
 >>>>>>> master
@@ -92,6 +122,7 @@ class MusicService : Service() {
         }else{
             registerReceiver(stopServiceReceiver, filter1)
             registerReceiver(bluetoothReceiver, filter2)
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 
@@ -124,6 +155,8 @@ class MusicService : Service() {
 >>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
 =======
 >>>>>>> master
+=======
+>>>>>>> master
         }
     }
 
@@ -133,6 +166,7 @@ class MusicService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 <<<<<<< HEAD
+<<<<<<< HEAD
         mediaPlayer = ObjectsManager.getMediaPlayer()
         vmPlayerMusic = ObjectsManager.getVmPlayerMusic()
         val musicName = intent?.getStringExtra("musicName") ?: ""
@@ -140,6 +174,8 @@ class MusicService : Service() {
         val notification = createNotification(musicName, artistName)
         startForeground(notificationId, notification)
 =======
+=======
+>>>>>>> master
         val isSave = intent?.getBooleanExtra("isSaved", false) ?: false
         if(isSave){
             //Guardo las configuraciones del usuario
@@ -158,6 +194,9 @@ class MusicService : Service() {
             val notification = createNotification(musicName, artistName)
             startForeground(notificationId, notification)
         }
+<<<<<<< HEAD
+>>>>>>> master
+=======
 >>>>>>> master
         return START_STICKY
     }
@@ -166,6 +205,9 @@ class MusicService : Service() {
         super.onDestroy()
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> master
 =======
 >>>>>>> master
         //Detiene el estado de primer plano
@@ -174,8 +216,11 @@ class MusicService : Service() {
         unregisterReceiver(stopServiceReceiver)
         unregisterReceiver(bluetoothReceiver)
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
+=======
+>>>>>>> master
 =======
 >>>>>>> master
         //Libera memoria del wakelock
@@ -184,6 +229,9 @@ class MusicService : Service() {
         ObjectsManager.releaseMediaPlayer()
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> master
 =======
 >>>>>>> master
     }
@@ -199,6 +247,7 @@ class MusicService : Service() {
             manager.createNotificationChannel(serviceChannel)
         }
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
         //Libera memoria del receiver
         unregisterReceiver(stopServiceReceiver)
@@ -206,6 +255,8 @@ class MusicService : Service() {
         //Detiene el estado de primer plano
         stopForeground(STOP_FOREGROUND_REMOVE)
 >>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
+=======
+>>>>>>> master
 =======
 >>>>>>> master
     }
@@ -216,10 +267,14 @@ class MusicService : Service() {
     ): Notification {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         val iconId = R.mipmap.ic_launcher
 =======
         val iconId = R.drawable.ic_launcher_foreground
 >>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
+=======
+        val iconId = R.mipmap.ic_launcher
+>>>>>>> master
 =======
         val iconId = R.mipmap.ic_launcher
 >>>>>>> master
@@ -232,12 +287,18 @@ class MusicService : Service() {
                 .putExtra("IS_RESTART_APP", true),
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
                 PendingIntent.FLAG_IMMUTABLE
             else 0
 =======
             PendingIntent.FLAG_IMMUTABLE
 >>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
+=======
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+                PendingIntent.FLAG_IMMUTABLE
+            else 0
+>>>>>>> master
 =======
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
                 PendingIntent.FLAG_IMMUTABLE
@@ -250,6 +311,9 @@ class MusicService : Service() {
             0,
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> master
 =======
 >>>>>>> master
             Intent(actionStop),
@@ -257,10 +321,13 @@ class MusicService : Service() {
                 PendingIntent.FLAG_IMMUTABLE
             else 0
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
             Intent("ACTION_STOP_SERVICE"),
             PendingIntent.FLAG_IMMUTABLE
 >>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
+=======
+>>>>>>> master
 =======
 >>>>>>> master
         )

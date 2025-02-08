@@ -36,7 +36,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
+<<<<<<< HEAD
 import androidx.navigation.compose.rememberNavController
+=======
+>>>>>>> master
 import com.yjotdev.playermusic.ui.model.MusicListModel
 import com.yjotdev.playermusic.ui.model.MusicModel
 import com.yjotdev.playermusic.ui.model.RepeatOptions
@@ -51,7 +54,11 @@ import com.yjotdev.playermusic.ui.viewModel.DatabaseProcess
 import com.yjotdev.playermusic.ui.viewModel.MediaPlayerProcess
 import com.yjotdev.playermusic.ui.viewModel.PlayerMusicViewModel
 
+<<<<<<< HEAD
 private enum class RouteViews(@StringRes val idTitle: Int){
+=======
+enum class RouteViews(@StringRes val idTitle: Int){
+>>>>>>> master
     ArtistList(idTitle = R.string.app_artistList),
     MusicList(idTitle = R.string.app_musicList),
     CurrentMusic1(idTitle = R.string.app_currentMusic),
@@ -88,7 +95,11 @@ private fun ToolBarMenu(
                 ) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+<<<<<<< HEAD
                         contentDescription = null,
+=======
+                        contentDescription = stringResource(R.string.cd_navigation_back),
+>>>>>>> master
                         modifier = Modifier.size(dimensionResource(id = R.dimen.short_dp_4))
                     )
                 }
@@ -102,7 +113,11 @@ private fun ToolBarMenu(
                 ) {
                     Icon(
                         imageVector = ImageVector.vectorResource(R.drawable.playlist_48),
+<<<<<<< HEAD
                         contentDescription = null,
+=======
+                        contentDescription = stringResource(R.string.cd_navigation_playlist),
+>>>>>>> master
                         modifier = Modifier.size(dimensionResource(id = R.dimen.short_dp_5))
                     )
                 }
@@ -114,13 +129,21 @@ private fun ToolBarMenu(
 @Composable
 fun AppScreen(
     vmPlayerMusic: PlayerMusicViewModel,
+<<<<<<< HEAD
     navController: NavHostController = rememberNavController()
+=======
+    navController: NavHostController,
+    dbProcess: DatabaseProcess
+>>>>>>> master
 ){
     val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
     val uiStatePlayerMusic by vmPlayerMusic.uiState.collectAsState()
+<<<<<<< HEAD
     //Inicializa DatabaseProcess
     val dbProcess = DatabaseProcess()
+=======
+>>>>>>> master
     //Inicializa MediaPlayerProcess
     val mpProcess = MediaPlayerProcess()
     //Vista ToolBarMenu
@@ -197,6 +220,7 @@ fun AppScreen(
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             block = {
 =======
             key3 = uiStatePlayerMusic.uiCurrentDuration,
@@ -206,6 +230,11 @@ fun AppScreen(
 =======
             block = {
 >>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
+=======
+            key3 = uiStatePlayerMusic.uiCurrentDuration,
+            block = {
+                vmPlayerMusic.setUiAutoDurationValue()
+>>>>>>> master
 =======
             key3 = uiStatePlayerMusic.uiCurrentDuration,
             block = {
@@ -317,6 +346,7 @@ fun AppScreen(
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
                         dbProcess.saveConfig(context.applicationContext, isShuffle = !isShuffle)
@@ -343,6 +373,8 @@ fun AppScreen(
 =======
 =======
 >>>>>>> master
+=======
+>>>>>>> master
                     },
                     clickedRepeat = {
                         vmPlayerMusic.setUiRepeat(
@@ -362,9 +394,12 @@ fun AppScreen(
                             }
                         )
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> master
 =======
 >>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
+=======
+>>>>>>> master
 =======
 >>>>>>> master
                     },
@@ -548,6 +583,7 @@ fun AppScreen(
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
                         dbProcess.saveConfig(context.applicationContext, isShuffle = !isShuffle)
@@ -574,6 +610,8 @@ fun AppScreen(
 =======
 =======
 >>>>>>> master
+=======
+>>>>>>> master
                     },
                     clickedRepeat = {
                         vmPlayerMusic.setUiRepeat(
@@ -593,9 +631,12 @@ fun AppScreen(
                             }
                         )
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> master
 =======
 >>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
+=======
+>>>>>>> master
 =======
 >>>>>>> master
                     },

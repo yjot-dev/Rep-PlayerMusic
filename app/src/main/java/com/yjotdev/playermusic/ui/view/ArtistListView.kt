@@ -17,6 +17,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+<<<<<<< HEAD
+=======
+import androidx.compose.ui.platform.testTag
+>>>>>>> master
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -37,11 +41,20 @@ fun ArtistList(
         horizontalAlignment = Alignment.CenterHorizontally
     ){
         artistList.forEach { itemArtist ->
+<<<<<<< HEAD
+=======
+            val idTag = artistList.indexOf(itemArtist)
+>>>>>>> master
             ItemArtist(
                 modifier = Modifier
                     .padding(dimensionResource(id = R.dimen.short_dp_1))
                     .fillMaxWidth()
+<<<<<<< HEAD
                     .clickable { itemClicked(itemArtist) },
+=======
+                    .clickable { itemClicked(itemArtist) }
+                    .testTag("artist:$idTag"),
+>>>>>>> master
                 artistName = itemArtist.name,
                 totalArtistMusic = itemArtist.totalArtistMusic,
                 totalArtistAlbum = itemArtist.totalArtistAlbum

@@ -14,12 +14,26 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.ActivityCompat
+<<<<<<< HEAD
+=======
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.yjotdev.playermusic.data.ObjectsManager
+import com.yjotdev.playermusic.ui.viewModel.DatabaseProcess
+>>>>>>> master
 import com.yjotdev.playermusic.ui.viewModel.PlayerMusicViewModel
 
 @Composable
 fun PermissionView(
+<<<<<<< HEAD
     vmPlayerMusic: PlayerMusicViewModel,
     onProcess: () -> Unit
+=======
+    isRestartApp: Boolean = false,
+    vmPlayerMusic: PlayerMusicViewModel = ObjectsManager.getVmPlayerMusic(),
+    navController: NavHostController = rememberNavController(),
+    dbProcess: DatabaseProcess = DatabaseProcess()
+>>>>>>> master
 ){
     val context = LocalContext.current
     var hasPermissions by remember{ mutableStateOf(checkPermissions(context)) }
@@ -28,8 +42,20 @@ fun PermissionView(
         hasPermissions = permissions.all { permission -> permission.value }
     }
     if(hasPermissions){
+<<<<<<< HEAD
         onProcess()
         AppScreen(vmPlayerMusic = vmPlayerMusic)
+=======
+        //Verifica si se reinicio la app
+        vmPlayerMusic.setUiIsRestartApp(isRestartApp)
+        //Recupero las musicas del usuario
+        dbProcess.getData(context.applicationContext)
+        AppScreen(
+            vmPlayerMusic = vmPlayerMusic,
+            navController = navController,
+            dbProcess = dbProcess
+        )
+>>>>>>> master
     }else{
         // Solicitar permisos al usuario
         LaunchedEffect(Unit){

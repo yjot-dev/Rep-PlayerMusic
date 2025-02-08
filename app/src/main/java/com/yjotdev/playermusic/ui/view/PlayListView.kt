@@ -20,6 +20,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+<<<<<<< HEAD
+=======
+import androidx.compose.ui.platform.testTag
+>>>>>>> master
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
@@ -43,11 +47,20 @@ fun PlayList(
         horizontalAlignment = Alignment.CenterHorizontally
     ){
         playList.forEach { itemPlayList ->
+<<<<<<< HEAD
+=======
+            val idTag = playList.indexOf(itemPlayList)
+>>>>>>> master
             ItemPlayList(
                 modifier = Modifier
                     .padding(dimensionResource(id = R.dimen.short_dp_1))
                     .fillMaxWidth()
+<<<<<<< HEAD
                     .clickable { itemClicked(itemPlayList) },
+=======
+                    .clickable { itemClicked(itemPlayList) }
+                    .testTag("playList:$idTag"),
+>>>>>>> master
                 playListName = itemPlayList.name,
                 totalArtistMusic = itemPlayList.totalArtistMusic,
                 totalArtistAlbum = itemPlayList.totalArtistAlbum,
