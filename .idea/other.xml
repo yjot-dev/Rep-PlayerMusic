@@ -48,6 +48,17 @@
           <option name="screenY" value="2944" />
         </PersistentDeviceSelectionData>
         <PersistentDeviceSelectionData>
+          <option name="api" value="34" />
+          <option name="brand" value="samsung" />
+          <option name="codename" value="a15" />
+          <option name="id" value="a15" />
+          <option name="manufacturer" value="Samsung" />
+          <option name="name" value="A15" />
+          <option name="screenDensity" value="450" />
+          <option name="screenX" value="1080" />
+          <option name="screenY" value="2340" />
+        </PersistentDeviceSelectionData>
+        <PersistentDeviceSelectionData>
           <option name="api" value="31" />
           <option name="brand" value="samsung" />
           <option name="codename" value="a51" />
@@ -70,8 +81,6 @@
           <option name="screenY" value="2400" />
         </PersistentDeviceSelectionData>
         <PersistentDeviceSelectionData>
-<<<<<<< HEAD
-=======
           <option name="api" value="34" />
           <option name="brand" value="motorola" />
           <option name="codename" value="arcfox" />
@@ -83,7 +92,6 @@
           <option name="screenY" value="1272" />
         </PersistentDeviceSelectionData>
         <PersistentDeviceSelectionData>
->>>>>>> master
           <option name="api" value="33" />
           <option name="brand" value="samsung" />
           <option name="codename" value="b0q" />
@@ -141,8 +149,6 @@
         <PersistentDeviceSelectionData>
           <option name="api" value="34" />
           <option name="brand" value="samsung" />
-<<<<<<< HEAD
-=======
           <option name="codename" value="dm2q" />
           <option name="id" value="dm2q" />
           <option name="manufacturer" value="Samsung" />
@@ -154,7 +160,6 @@
         <PersistentDeviceSelectionData>
           <option name="api" value="34" />
           <option name="brand" value="samsung" />
->>>>>>> master
           <option name="codename" value="dm3q" />
           <option name="id" value="dm3q" />
           <option name="manufacturer" value="Samsung" />
@@ -175,8 +180,6 @@
           <option name="screenY" value="2340" />
         </PersistentDeviceSelectionData>
         <PersistentDeviceSelectionData>
-<<<<<<< HEAD
-=======
           <option name="api" value="34" />
           <option name="brand" value="samsung" />
           <option name="codename" value="e3q" />
@@ -199,7 +202,6 @@
           <option name="screenY" value="384" />
         </PersistentDeviceSelectionData>
         <PersistentDeviceSelectionData>
->>>>>>> master
           <option name="api" value="33" />
           <option name="brand" value="google" />
           <option name="codename" value="felix" />
@@ -233,8 +235,6 @@
           <option name="screenY" value="1840" />
         </PersistentDeviceSelectionData>
         <PersistentDeviceSelectionData>
-<<<<<<< HEAD
-=======
           <option name="api" value="34" />
           <option name="brand" value="motorola" />
           <option name="codename" value="fogona" />
@@ -257,7 +257,6 @@
           <option name="screenY" value="2340" />
         </PersistentDeviceSelectionData>
         <PersistentDeviceSelectionData>
->>>>>>> master
           <option name="api" value="33" />
           <option name="brand" value="samsung" />
           <option name="codename" value="gts8uwifi" />
@@ -313,8 +312,6 @@
           <option name="screenY" value="2400" />
         </PersistentDeviceSelectionData>
         <PersistentDeviceSelectionData>
-<<<<<<< HEAD
-=======
           <option name="api" value="33" />
           <option name="brand" value="motorola" />
           <option name="codename" value="maui" />
@@ -326,7 +323,6 @@
           <option name="screenY" value="1600" />
         </PersistentDeviceSelectionData>
         <PersistentDeviceSelectionData>
->>>>>>> master
           <option name="api" value="31" />
           <option name="brand" value="google" />
           <option name="codename" value="oriole" />

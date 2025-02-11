@@ -1,15 +1,5 @@
 package com.yjotdev.playermusic.service
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-import android.annotation.SuppressLint
->>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
-=======
->>>>>>> master
-=======
->>>>>>> master
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -24,93 +14,41 @@ import android.media.MediaPlayer
 import android.os.Build
 import android.os.IBinder
 import android.os.PowerManager
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-import androidx.annotation.RequiresApi
->>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
-=======
->>>>>>> master
-=======
->>>>>>> master
 import androidx.core.app.NotificationCompat
 import com.yjotdev.playermusic.MainActivity
 import com.yjotdev.playermusic.R
 import com.yjotdev.playermusic.data.ObjectsManager
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 import com.yjotdev.playermusic.ui.viewModel.DatabaseProcess
->>>>>>> master
-=======
-import com.yjotdev.playermusic.ui.viewModel.DatabaseProcess
->>>>>>> master
 import com.yjotdev.playermusic.ui.viewModel.PlayerMusicViewModel
 
 class MusicService : Service() {
     private lateinit var mediaPlayer: MediaPlayer
     private lateinit var wakeLock: PowerManager.WakeLock
     private lateinit var vmPlayerMusic: PlayerMusicViewModel
-<<<<<<< HEAD
-<<<<<<< HEAD
-    private val notificationId = 1
-    private val channelId = "MUSIC_CHANNEL"
-<<<<<<< HEAD
-=======
     private lateinit var dbProcess: DatabaseProcess
     private val notificationId = 1
     private val channelId = "MUSIC_CHANNEL"
->>>>>>> master
-=======
-    private lateinit var dbProcess: DatabaseProcess
-    private val notificationId = 1
-    private val channelId = "MUSIC_CHANNEL"
->>>>>>> master
     private val actionStop = "ACTION_STOP_SERVICE"
 
     @Suppress("UnspecifiedRegisterReceiverFlag")
     override fun onCreate() {
         super.onCreate()
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> master
         //Inicializar MediaPlayer, Viewmodel y DatabaseProcess
         mediaPlayer = ObjectsManager.getMediaPlayer()
         vmPlayerMusic = ObjectsManager.getVmPlayerMusic()
         dbProcess = DatabaseProcess()
         //Crea el wakelock para mantener la pantalla encendida
-<<<<<<< HEAD
->>>>>>> master
-=======
->>>>>>> master
         val powerManager = getSystemService(POWER_SERVICE) as PowerManager
         wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
             "MyApp::MusicPlayerWakelock")
         wakeLock.acquire(5*60*1000L) // 5 minutos
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
         //Filtros para el receiver
->>>>>>> master
-=======
-        //Filtros para el receiver
->>>>>>> master
         val filter1 = IntentFilter(actionStop)
         val filter2 = IntentFilter().apply {
             addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED)
             addAction(BluetoothDevice.ACTION_ACL_CONNECTED)
         }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
         //Registra receiver
->>>>>>> master
-=======
-        //Registra receiver
->>>>>>> master
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){//SDK >= 33
             channelNotification()
             registerReceiver(stopServiceReceiver, filter1, RECEIVER_NOT_EXPORTED)
@@ -119,44 +57,9 @@ class MusicService : Service() {
             channelNotification()
             registerReceiver(stopServiceReceiver, filter1)
             registerReceiver(bluetoothReceiver, filter2)
-        }else{
+        }else {
             registerReceiver(stopServiceReceiver, filter1)
             registerReceiver(bluetoothReceiver, filter2)
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-
-    @SuppressLint("UnspecifiedRegisterReceiverFlag")
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-    override fun onCreate() {
-        super.onCreate()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val serviceChannel = NotificationChannel(
-                channelId,
-                "Music Service Channel",
-                NotificationManager.IMPORTANCE_LOW
-            )
-            val manager = getSystemService(NotificationManager::class.java)
-            manager.createNotificationChannel(serviceChannel)
-            val powerManager = getSystemService(POWER_SERVICE) as PowerManager
-            wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
-                "MyApp::MusicPlayerWakelock")
-            wakeLock.acquire(5*60*1000L) // 5 minutos
-            registerReceiver(stopServiceReceiver,IntentFilter("ACTION_STOP_SERVICE"),
-                RECEIVER_NOT_EXPORTED)
-            registerReceiver(bluetoothReceiver,IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECTED),
-                RECEIVER_NOT_EXPORTED)
-            registerReceiver(bluetoothReceiver,IntentFilter(BluetoothDevice.ACTION_ACL_CONNECTED),
-                RECEIVER_NOT_EXPORTED)
-        }else{
-            registerReceiver(stopServiceReceiver,IntentFilter("ACTION_STOP_SERVICE"))
-            registerReceiver(bluetoothReceiver,IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECTED))
-            registerReceiver(bluetoothReceiver,IntentFilter(BluetoothDevice.ACTION_ACL_CONNECTED))
->>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
-=======
->>>>>>> master
-=======
->>>>>>> master
         }
     }
 
@@ -165,17 +68,8 @@ class MusicService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-<<<<<<< HEAD
-<<<<<<< HEAD
         mediaPlayer = ObjectsManager.getMediaPlayer()
         vmPlayerMusic = ObjectsManager.getVmPlayerMusic()
-        val musicName = intent?.getStringExtra("musicName") ?: ""
-        val artistName = intent?.getStringExtra("artistName") ?: ""
-        val notification = createNotification(musicName, artistName)
-        startForeground(notificationId, notification)
-=======
-=======
->>>>>>> master
         val isSave = intent?.getBooleanExtra("isSaved", false) ?: false
         if(isSave){
             //Guardo las configuraciones del usuario
@@ -194,46 +88,20 @@ class MusicService : Service() {
             val notification = createNotification(musicName, artistName)
             startForeground(notificationId, notification)
         }
-<<<<<<< HEAD
->>>>>>> master
-=======
->>>>>>> master
         return START_STICKY
     }
 
     override fun onDestroy() {
         super.onDestroy()
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> master
-=======
->>>>>>> master
         //Detiene el estado de primer plano
         stopForeground(STOP_FOREGROUND_REMOVE)
         //Libera memoria del receiver
         unregisterReceiver(stopServiceReceiver)
         unregisterReceiver(bluetoothReceiver)
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
-=======
->>>>>>> master
-=======
->>>>>>> master
         //Libera memoria del wakelock
         wakeLock.release()
         //Libera memoria del mediaplayer
         ObjectsManager.releaseMediaPlayer()
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> master
-=======
->>>>>>> master
     }
 
     private fun channelNotification(){
@@ -246,38 +114,13 @@ class MusicService : Service() {
             val manager = getSystemService(NotificationManager::class.java)
             manager.createNotificationChannel(serviceChannel)
         }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-        //Libera memoria del receiver
-        unregisterReceiver(stopServiceReceiver)
-        unregisterReceiver(bluetoothReceiver)
-        //Detiene el estado de primer plano
-        stopForeground(STOP_FOREGROUND_REMOVE)
->>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
-=======
->>>>>>> master
-=======
->>>>>>> master
     }
 
     private fun createNotification(
         musicName: String,
         artistName: String
     ): Notification {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
         val iconId = R.mipmap.ic_launcher
-=======
-        val iconId = R.drawable.ic_launcher_foreground
->>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
-=======
-        val iconId = R.mipmap.ic_launcher
->>>>>>> master
-=======
-        val iconId = R.mipmap.ic_launcher
->>>>>>> master
         /* Ejecuta la app luego de dar click en la notificación
            Si la app esta cerrada la vuelve abrir */
         val openActivity = PendingIntent.getActivity(
@@ -285,51 +128,18 @@ class MusicService : Service() {
             0,
             Intent(this, MainActivity::class.java)
                 .putExtra("IS_RESTART_APP", true),
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
                 PendingIntent.FLAG_IMMUTABLE
             else 0
-=======
-            PendingIntent.FLAG_IMMUTABLE
->>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
-=======
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
-                PendingIntent.FLAG_IMMUTABLE
-            else 0
->>>>>>> master
-=======
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
-                PendingIntent.FLAG_IMMUTABLE
-            else 0
->>>>>>> master
         )
         // Detiene el servicio al dar click en el boton Detener
         val stopService = PendingIntent.getBroadcast(
             this,
             0,
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> master
-=======
->>>>>>> master
             Intent(actionStop),
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
                 PendingIntent.FLAG_IMMUTABLE
             else 0
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-            Intent("ACTION_STOP_SERVICE"),
-            PendingIntent.FLAG_IMMUTABLE
->>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
-=======
->>>>>>> master
-=======
->>>>>>> master
         )
         return NotificationCompat.Builder(this, channelId)
             .setContentTitle(musicName.uppercase())
