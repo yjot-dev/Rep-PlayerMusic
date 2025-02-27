@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
@@ -20,10 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-<<<<<<< HEAD
-=======
 import androidx.compose.ui.platform.testTag
->>>>>>> master
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -38,31 +36,25 @@ fun CurrentPlayList(
     itemClicked: (MusicModel)-> Unit,
     removeMusicClicked: (MusicModel)-> Unit
 ){
-    Column(
+    LazyColumn(
         modifier = modifier,
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ){
-        playListMusic.forEach { itemPlayListMusic ->
-<<<<<<< HEAD
-=======
-            val idTag = playListMusic.indexOf(itemPlayListMusic)
->>>>>>> master
+        items(playListMusic.size) { indexPlayListMusic ->
+            val item = playListMusic[indexPlayListMusic]
             ItemPlayListMusic(
                 modifier = Modifier
                     .padding(dimensionResource(id = R.dimen.short_dp_1))
                     .fillMaxWidth()
-<<<<<<< HEAD
-                    .clickable { itemClicked(itemPlayListMusic) },
-=======
-                    .clickable { itemClicked(itemPlayListMusic) }
-                    .testTag("music:$idTag"),
->>>>>>> master
-                title = itemPlayListMusic.musicName,
-                artist = itemPlayListMusic.artistName,
-                duration = itemPlayListMusic.musicDurationFormat,
-                isPlaying = itemPlayListMusic == itemPlaying,
-                removeMusicClicked = { removeMusicClicked(itemPlayListMusic) }
+                    .clickable { itemClicked(item) }
+                    .testTag("music:$indexPlayListMusic"),
+                index = indexPlayListMusic,
+                title = item.musicName,
+                artist = item.artistName,
+                duration = item.musicDurationFormat,
+                isPlaying = item == itemPlaying,
+                removeMusicClicked = { removeMusicClicked(item) }
             )
         }
     }
@@ -71,6 +63,7 @@ fun CurrentPlayList(
 @Composable
 private fun ItemPlayListMusic(
     modifier: Modifier = Modifier,
+    index: Int,
     title: String,
     artist: String,
     duration: String,
@@ -107,6 +100,7 @@ private fun ItemPlayListMusic(
                 IconButton(
                     onClick = removeMusicClicked,
                     modifier = Modifier.size(dimensionResource(id = R.dimen.short_dp_4))
+                        .testTag("removeMusicPlaylist:$index")
                 ) {
                     Icon(
                         imageVector = ImageVector.vectorResource(id = R.drawable.remove_48),

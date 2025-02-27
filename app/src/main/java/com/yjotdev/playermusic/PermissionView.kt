@@ -14,16 +14,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.yjotdev.playermusic.data.ObjectsManager
 import com.yjotdev.playermusic.ui.viewModel.DatabaseProcess
 import com.yjotdev.playermusic.ui.viewModel.PlayerMusicViewModel
 
 @Composable
 fun PermissionView(
     isRestartApp: Boolean = false,
-    vmPlayerMusic: PlayerMusicViewModel = ObjectsManager.getVmPlayerMusic(),
+    vmPlayerMusic: PlayerMusicViewModel = viewModel(),
     navController: NavHostController = rememberNavController(),
     dbProcess: DatabaseProcess = DatabaseProcess()
 ){

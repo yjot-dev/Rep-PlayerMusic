@@ -10,18 +10,7 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN"/>
-=======
->>>>>>> 6ffcaaca5d174609d25bb5b9aec7f445d66cf0b8
-=======
-    <uses-permission android:name="android.permission.BLUETOOTH_SCAN"/>
->>>>>>> master
-=======
-    <uses-permission android:name="android.permission.BLUETOOTH_SCAN"/>
->>>>>>> master
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT"/>
     <application
         android:allowBackup="true"

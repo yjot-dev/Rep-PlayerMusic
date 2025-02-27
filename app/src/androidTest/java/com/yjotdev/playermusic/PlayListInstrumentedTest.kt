@@ -5,6 +5,7 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTextInput
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ApplicationProvider
@@ -33,13 +34,13 @@ class PlayListInstrumentedTest {
     private val context: Context = ApplicationProvider.getApplicationContext()
     //Inicializa viewmodel
     private val vmPlayerMusic by lazy { ObjectsManager.getVmPlayerMusic() }
+    // NavController del Test
+    private val navController = TestNavHostController(context).apply {
+        navigatorProvider.addNavigator(ComposeNavigator())
+    }
 
     @Test
     fun playListViewNavigation() {
-        // NavController del Test
-        val navController = TestNavHostController(context).apply {
-            navigatorProvider.addNavigator(ComposeNavigator())
-        }
         composeTestRule.setContent {
             PlayerMusicTheme {
                 PermissionView(
@@ -48,8 +49,9 @@ class PlayListInstrumentedTest {
                 )
             }
         }
+        addPlayList_playListView()
         //Click en el boton de playList
-        composeTestRule.onNodeWithContentDescription(
+        composeTestRule.onNodeWithTag(
             context.getString(R.string.cd_navigation_playlist)
         ).performClick()
         //Navega a la lista de playlist
@@ -64,6 +66,28 @@ class PlayListInstrumentedTest {
         assertEquals(RouteViews.CurrentMusic2.name, navController.currentDestination?.route)
     }
 
+    private fun addPlayList_playListView() {
+        //Click en el 1er artista de la lista de artistas
+        composeTestRule.onNodeWithTag("artist:0").performClick()
+        //Navega a la lista de canciones del artista seleccionado
+        assertEquals(RouteViews.MusicList.name, navController.currentDestination?.route)
+        //Ingresa una musica a la lista de reproduccion
+        composeTestRule.onNodeWithTag("addPlayList:0").performClick()
+        //Navega a la vista de ingreso de listas de reproduccion
+        assertEquals(RouteViews.AddPlayList.name, navController.currentDestination?.route)
+        //Escribe el nombre de la nueva playlist
+        composeTestRule.onNodeWithTag("searchPlayList")
+            .performTextInput("PlayList 1")
+        //Click en el boton de agregar playlist
+        composeTestRule.onNodeWithTag("addPlayList").performClick()
+        //Verifica que regrese a la lista de canciones del artista seleccionado
+        assertEquals(RouteViews.MusicList.name, navController.currentDestination?.route)
+        //Navega a la lista de artistas
+        composeTestRule.onNodeWithTag(context.getString(R.string.cd_navigation_back))
+            .performClick()
+        //Verifica que regrese a la lista de artistas
+        assertEquals(RouteViews.ArtistList.name, navController.currentDestination?.route)
+    }
 
     @Test
     fun playMusic_playListView() {

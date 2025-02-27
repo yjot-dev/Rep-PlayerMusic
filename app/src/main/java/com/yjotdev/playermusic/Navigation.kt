@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -28,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -84,10 +84,11 @@ private fun ToolBarMenu(
                 IconButton(
                     onClick = navigateUp,
                     modifier = Modifier.size(dimensionResource(id = R.dimen.short_dp_5))
+                        .testTag(stringResource(R.string.cd_navigation_back))
                 ) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = stringResource(R.string.cd_navigation_back),
+                        contentDescription = null,
                         modifier = Modifier.size(dimensionResource(id = R.dimen.short_dp_4))
                     )
                 }
@@ -98,10 +99,11 @@ private fun ToolBarMenu(
                 IconButton(
                     onClick = goPlayList,
                     modifier = Modifier.size(dimensionResource(id = R.dimen.short_dp_5))
+                        .testTag(stringResource(R.string.cd_navigation_playlist))
                 ) {
                     Icon(
                         imageVector = ImageVector.vectorResource(R.drawable.playlist_48),
-                        contentDescription = stringResource(R.string.cd_navigation_playlist),
+                        contentDescription = null,
                         modifier = Modifier.size(dimensionResource(id = R.dimen.short_dp_5))
                     )
                 }
@@ -152,11 +154,6 @@ fun AppScreen(
     var removeMusic by remember{ mutableStateOf(false) }
     var filter by remember{ mutableStateOf(emptyList<MusicListModel>()) }
     filter = playList
-    //Scrolls verticales de las listas
-    val scrollArtistList = rememberScrollState()
-    val scrollPlayList = rememberScrollState()
-    val scrollMusicList1 = rememberScrollState()
-    val scrollMusicList2 = rememberScrollState()
     //Texto de AlertDialogs
     val smsTitle = stringResource(R.string.ad_title)
     val smsMessage1 = stringResource(R.string.ad_editNamePlayList)
@@ -230,9 +227,7 @@ fun AppScreen(
         {
             composable(route = RouteViews.ArtistList.name){
                 ArtistList(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .verticalScroll(scrollArtistList),
+                    modifier = Modifier.fillMaxSize(),
                     artistList = artistList,
                     itemClicked = { itemArtist ->
                         val index = artistList.indexOf(itemArtist)
@@ -244,9 +239,7 @@ fun AppScreen(
             }
             composable(route = RouteViews.MusicList.name){
                 MusicList(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .verticalScroll(scrollMusicList1),
+                    modifier = Modifier.fillMaxSize(),
                     musicList = artistList[index0].musicList,
                     itemPlaying = selectedMusic,
                     itemClicked = { itemMusic ->
@@ -391,9 +384,7 @@ fun AppScreen(
                     )
                 }
                 PlayList(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .verticalScroll(scrollPlayList),
+                    modifier = Modifier.fillMaxSize(),
                     playList = playList,
                     itemClicked = { itemPlayList ->
                         val index = playList.indexOf(itemPlayList)
@@ -440,9 +431,7 @@ fun AppScreen(
                     )
                 }
                 CurrentPlayList(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .verticalScroll(scrollMusicList2),
+                    modifier = Modifier.fillMaxSize(),
                     playListMusic = playList[index1].musicList,
                     itemPlaying = selectedMusic,
                     itemClicked = { itemPlayListMusic ->

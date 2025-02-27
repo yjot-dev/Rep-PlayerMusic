@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
@@ -17,10 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-<<<<<<< HEAD
-=======
 import androidx.compose.ui.platform.testTag
->>>>>>> master
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -35,29 +33,22 @@ fun ArtistList(
     artistList: List<MusicListModel> = listOf(),
     itemClicked: (MusicListModel)-> Unit
 ){
-    Column(
+    LazyColumn(
         modifier = modifier,
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ){
-        artistList.forEach { itemArtist ->
-<<<<<<< HEAD
-=======
-            val idTag = artistList.indexOf(itemArtist)
->>>>>>> master
+        items(artistList.size) { indexArtist ->
+            val item = artistList[indexArtist]
             ItemArtist(
                 modifier = Modifier
                     .padding(dimensionResource(id = R.dimen.short_dp_1))
                     .fillMaxWidth()
-<<<<<<< HEAD
-                    .clickable { itemClicked(itemArtist) },
-=======
-                    .clickable { itemClicked(itemArtist) }
-                    .testTag("artist:$idTag"),
->>>>>>> master
-                artistName = itemArtist.name,
-                totalArtistMusic = itemArtist.totalArtistMusic,
-                totalArtistAlbum = itemArtist.totalArtistAlbum
+                    .clickable { itemClicked(item) }
+                    .testTag("artist:$indexArtist"),
+                artistName = item.name,
+                totalArtistMusic = item.totalArtistMusic,
+                totalArtistAlbum = item.totalArtistAlbum
             )
         }
     }

@@ -2,13 +2,13 @@
 buildscript{
     extra.apply {
         set("roomVersion","2.6.1")
-        set("navigationVersion","2.8.5")
+        set("navigationVersion","2.8.8")
         set("coilVersion","2.7.0")
     }
 }
 
 plugins {
-    id("com.android.application") version "8.5.2" apply false
-    id("org.jetbrains.kotlin.android") version "2.0.20" apply false
+    id("com.android.application") version "8.8.2" apply false
+    id("org.jetbrains.kotlin.android") version "2.1.10" apply false
     id("org.jetbrains.kotlin.plugin.compose") version "2.0.0" apply false
 }

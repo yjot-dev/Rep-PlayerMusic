@@ -2,10 +2,7 @@ package com.yjotdev.playermusic.ui.view
 
 import android.content.res.Configuration
 import androidx.annotation.DrawableRes
-<<<<<<< HEAD
-=======
 import androidx.annotation.StringRes
->>>>>>> master
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -30,13 +27,9 @@ import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
-<<<<<<< HEAD
-import androidx.compose.ui.res.dimensionResource
-=======
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
->>>>>>> master
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -89,23 +82,15 @@ fun CurrentMusic(
             isShuffle = isShuffle,
             isRepeat = isRepeat,
             idIcon1 = R.drawable.playlist_48,
-<<<<<<< HEAD
-            clicked1 = clickedPlayList,
             idIcon2 = R.drawable.shuffle_48,
-            clicked2 = clickedShuffle,
             idIcon3 = if(isRepeat == RepeatOptions.All || isRepeat == RepeatOptions.Off)
                           R.drawable.repeat_48 else R.drawable.repeat_one_48,
-=======
             idContentDescription1 = R.string.cd_navigation_playlist,
-            clicked1 = clickedPlayList,
-            idIcon2 = R.drawable.shuffle_48,
             idContentDescription2 = R.string.cd_shuffle,
-            clicked2 = clickedShuffle,
-            idIcon3 = if(isRepeat == RepeatOptions.All || isRepeat == RepeatOptions.Off)
-                          R.drawable.repeat_48 else R.drawable.repeat_one_48,
             idContentDescription3 = R.string.cd_repeat,
->>>>>>> master
-            clicked3 = clickedRepeat,
+            clicked1 = clickedPlayList,
+            clicked2 = clickedShuffle,
+            clicked3 = clickedRepeat
         )
         ItemDescription(
             modifier = Modifier
@@ -150,16 +135,11 @@ fun CurrentMusic(
 private fun ButtonsControl(
     modifier: Modifier = Modifier,
     @DrawableRes idIcon1: Int,
-<<<<<<< HEAD
     @DrawableRes idIcon2: Int,
     @DrawableRes idIcon3: Int,
-=======
     @StringRes idContentDescription1: Int,
-    @DrawableRes idIcon2: Int,
     @StringRes idContentDescription2: Int,
-    @DrawableRes idIcon3: Int,
     @StringRes idContentDescription3: Int,
->>>>>>> master
     isShuffle: Boolean = false,
     isRepeat: RepeatOptions = RepeatOptions.Off,
     totalDuration: String? = null,
@@ -188,11 +168,7 @@ private fun ButtonsControl(
         ) {
             Icon(
                 imageVector = ImageVector.vectorResource(idIcon1),
-<<<<<<< HEAD
-                contentDescription = null,
-=======
                 contentDescription = stringResource(idContentDescription1),
->>>>>>> master
                 modifier = Modifier.size(dimensionResource(id = R.dimen.short_dp_5))
             )
         }
@@ -203,11 +179,7 @@ private fun ButtonsControl(
         ) {
             Icon(
                 imageVector = ImageVector.vectorResource(idIcon2),
-<<<<<<< HEAD
-                contentDescription = null,
-=======
                 contentDescription = stringResource(idContentDescription2),
->>>>>>> master
                 modifier = Modifier.size(dimensionResource(id = R.dimen.short_dp_5)),
                 tint = if(isShuffle) MaterialTheme.colorScheme.primary
                        else MaterialTheme.colorScheme.onSurface
@@ -220,11 +192,7 @@ private fun ButtonsControl(
         ) {
             Icon(
                 imageVector = ImageVector.vectorResource(idIcon3),
-<<<<<<< HEAD
-                contentDescription = null,
-=======
                 contentDescription = stringResource(idContentDescription3),
->>>>>>> master
                 modifier = Modifier.size(dimensionResource(id = R.dimen.short_dp_5)),
                 tint = if(isRepeat == RepeatOptions.All || isRepeat == RepeatOptions.Current)
                             MaterialTheme.colorScheme.primary
@@ -291,29 +259,19 @@ private fun PlayerMusic(
         ButtonsControl(
             modifier = Modifier.padding(vertical = dimensionResource(id = R.dimen.short_dp_1)),
             idIcon1 = R.drawable.play_previous_48,
-<<<<<<< HEAD
-            clicked1 = clickedPrevious,
             idIcon2 = if(isPause) R.drawable.play_48 else R.drawable.pause_48,
-            clicked2 = clickedPlay,
             idIcon3 = R.drawable.play_next_48,
-=======
-            idContentDescription1 = R.string.cd_previous,
             clicked1 = clickedPrevious,
-            idIcon2 = if(isPause) R.drawable.play_48 else R.drawable.pause_48,
-            idContentDescription2 = R.string.cd_play,
             clicked2 = clickedPlay,
-            idIcon3 = R.drawable.play_next_48,
-            idContentDescription3 = R.string.cd_next,
->>>>>>> master
             clicked3 = clickedNext,
+            idContentDescription1 = R.string.cd_previous,
+            idContentDescription2 = R.string.cd_play,
+            idContentDescription3 = R.string.cd_next,
             totalDuration = duration,
             currentDuration = currentDuration
         )
         Slider(
-<<<<<<< HEAD
-=======
             modifier = Modifier.testTag("slider"),
->>>>>>> master
             value = durationValue,
             onValueChange = { onDurationChange(it) },
             valueRange = valueRange,
@@ -358,12 +316,6 @@ private fun PreviewPlayerMusic(){
 private fun PreviewButtonsControl(){
     ButtonsControl(
         idIcon1 = R.drawable.playlist_48,
-<<<<<<< HEAD
-        clicked1 = {},
-        idIcon2 = R.drawable.shuffle_48,
-        clicked2 = {},
-        idIcon3 = R.drawable.repeat_48,
-=======
         idContentDescription1 = R.string.cd_navigation_playlist,
         clicked1 = {},
         idIcon2 = R.drawable.shuffle_48,
@@ -371,7 +323,6 @@ private fun PreviewButtonsControl(){
         clicked2 = {},
         idIcon3 = R.drawable.repeat_48,
         idContentDescription3 = R.string.cd_repeat,
->>>>>>> master
         clicked3 = {},
         isShuffle = false,
         isRepeat = RepeatOptions.All

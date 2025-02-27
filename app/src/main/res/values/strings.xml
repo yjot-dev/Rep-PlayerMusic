@@ -24,8 +24,6 @@
     <string name="ad_title">AVISO</string>
     <string name="ad_yes">SI</string>
     <string name="ad_no">NO</string>
-<<<<<<< HEAD
-=======
     <string name="cd_navigation_back">Regresar</string>
     <string name="cd_navigation_playlist">Ir a playlist</string>
     <string name="cd_shuffle">Aleatorio</string>
@@ -33,5 +31,4 @@
     <string name="cd_next">Siguiente</string>
     <string name="cd_previous">Anterior</string>
     <string name="cd_play">Reproducir música</string>
->>>>>>> master
 </resources>
