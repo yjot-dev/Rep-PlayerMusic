@@ -1,26 +1,29 @@
 package com.yjotdev.playermusic
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.yjotdev.playermusic.service.MusicService
-import com.yjotdev.playermusic.ui.theme.PlayerMusicTheme
-import com.yjotdev.playermusic.ui.viewModel.DatabaseProcess
+import androidx.lifecycle.ViewModelProvider
+import dagger.hilt.android.AndroidEntryPoint
+import com.yjotdev.playermusic.application.navigation.PermissionView
+import com.yjotdev.playermusic.application.theme.PlayerMusicTheme
+import com.yjotdev.playermusic.application.mvvm.viewModel.PlayerMusicViewModel
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    //Inicializa DatabaseProcess
-    private val dbProcess by lazy{ DatabaseProcess() }
+    private lateinit var vmPlayerMusic: PlayerMusicViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        //Inicializo el ViewModel
+        vmPlayerMusic = ViewModelProvider(this)[PlayerMusicViewModel::class.java]
+        //Verifico si se reinició la app
         val isRestartApp = intent.getBooleanExtra("IS_RESTART_APP", false)
         setContent {
             PlayerMusicTheme {
                 PermissionView(
-                    isRestartApp = isRestartApp,
-                    dbProcess = dbProcess
+                    vmPlayerMusic = vmPlayerMusic,
+                    isRestartApp = isRestartApp
                 )
             }
         }
@@ -28,16 +31,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onResume() {
         super.onResume()
-        //Recupero las configuraciones del usuario
-        dbProcess.getConfig(applicationContext)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        //Avisa al servicio para guardar las configuraciones
-        val intent = Intent(applicationContext, MusicService::class.java).apply {
-            putExtra("isSaved", true)
-        }
-        startService(intent)
+        vmPlayerMusic.getMusicList()
+        vmPlayerMusic.getConfig()
     }
 }

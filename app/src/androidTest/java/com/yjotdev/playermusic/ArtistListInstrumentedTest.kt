@@ -11,16 +11,15 @@ import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.yjotdev.playermusic.data.ObjectsManager
-import com.yjotdev.playermusic.ui.theme.PlayerMusicTheme
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.Rule
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
-
-import org.junit.Test
-import org.junit.runner.RunWith
-
-import org.junit.Rule
+import com.yjotdev.playermusic.application.navigation.PermissionView
+import com.yjotdev.playermusic.application.navigation.ViewRoutes
+import com.yjotdev.playermusic.application.theme.PlayerMusicTheme
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -33,8 +32,6 @@ class ArtistListInstrumentedTest {
     val composeTestRule = createComposeRule()
     // Contexto del test de la app.
     private val context: Context = ApplicationProvider.getApplicationContext()
-    //Inicializa viewmodel
-    private val vmPlayerMusic by lazy { ObjectsManager.getVmPlayerMusic() }
 
     @Test
     fun artistListViewNavigation() {
@@ -45,7 +42,6 @@ class ArtistListInstrumentedTest {
         composeTestRule.setContent {
             PlayerMusicTheme {
                 PermissionView(
-                    vmPlayerMusic = vmPlayerMusic,
                     navController = navController
                 )
             }
@@ -53,11 +49,11 @@ class ArtistListInstrumentedTest {
         //Click en el 1er artista de la lista de artistas
         composeTestRule.onNodeWithTag("artist:0").performClick()
         //Navega a la lista de canciones del artista seleccionado
-        assertEquals(RouteViews.MusicList.name, navController.currentDestination?.route)
+        assertEquals(ViewRoutes.MusicList.name, navController.currentDestination?.route)
         //Click en la 1ra cancion de la lista de musica
         composeTestRule.onNodeWithTag("music:0").performClick()
         //Navega a la vista de la cancion seleccionada
-        assertEquals(RouteViews.CurrentMusic1.name, navController.currentDestination?.route)
+        assertEquals(ViewRoutes.CurrentMusic1.name, navController.currentDestination?.route)
     }
 
     @Test
@@ -119,7 +115,6 @@ class ArtistListInstrumentedTest {
     @Test
     fun repeatMusic_ArtistListView() {
         artistListViewNavigation()
-        val uiStatePlayerMusic = vmPlayerMusic.uiState.value
         //Click en el boton de repetir cancion
         composeTestRule.onNodeWithContentDescription(
             context.getString(R.string.cd_repeat)
@@ -129,15 +124,11 @@ class ArtistListInstrumentedTest {
             context.getString(R.string.cd_play)
         ).performClick()
         //Deslizar slider casi al final para comprobar el repetir
-        composeTestRule.runOnUiThread {
-            vmPlayerMusic.setUiManualDurationValue(233) //3:00 minutos
-            vmPlayerMusic.setUiAutoDurationValue()
-        }
         composeTestRule.onNodeWithTag("slider").performTouchInput {
             swipeRight(
-                endX = (uiStatePlayerMusic.uiCurrentDuration/1000).toFloat(),
-                durationMillis = 236000
-            ) //3:56 minutos
+                endX = right - 0.2f,
+                durationMillis = 196000
+            ) //3:16 minutos
         }
         //Espera 10 segundos para pausar la cancion
         runBlocking {
@@ -151,7 +142,6 @@ class ArtistListInstrumentedTest {
     @Test
     fun shuffleMusic_ArtistListView() {
         artistListViewNavigation()
-        val uiStatePlayerMusic = vmPlayerMusic.uiState.value
         //Click en el boton de aleatorio
         composeTestRule.onNodeWithContentDescription(
             context.getString(R.string.cd_shuffle)
@@ -161,15 +151,11 @@ class ArtistListInstrumentedTest {
             context.getString(R.string.cd_play)
         ).performClick()
         //Deslizar slider casi al final para comprobar el aleatorio
-        composeTestRule.runOnUiThread {
-            vmPlayerMusic.setUiManualDurationValue(233) //3:00 minutos
-            vmPlayerMusic.setUiAutoDurationValue()
-        }
         composeTestRule.onNodeWithTag("slider").performTouchInput {
             swipeRight(
-                endX = (uiStatePlayerMusic.uiCurrentDuration/1000).toFloat(),
-                durationMillis = 236000
-            ) //3:56 minutos
+                endX = right - 0.2f,
+                durationMillis = 196000
+            ) //3:16 minutos
         }
         //Espera 10 segundos para pausar la cancion
         runBlocking {
