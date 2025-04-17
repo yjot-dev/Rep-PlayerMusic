@@ -1,14 +1,18 @@
 package com.yjotdev.playermusic.domain.usecase
 
+import com.yjotdev.playermusic.application.mvvm.model.RepeatOptions
 import javax.inject.Inject
 import javax.inject.Singleton
-import com.yjotdev.playermusic.application.mvvm.model.RepeatOptions
 import com.yjotdev.playermusic.domain.port.ConfigRepository
 
 @Singleton
-class SaveConfigUseCase @Inject constructor(
+class ConfigUseCase @Inject constructor(
     private val configRepository: ConfigRepository
 ) {
+    /** Obtiene las configuraciones del usuario **/
+    operator fun invoke() = configRepository.getConfig()
+
+    /** Guarda las configuraciones del usuario **/
     operator fun invoke(
         valueRepeat: RepeatOptions,
         isShuffle: Boolean,

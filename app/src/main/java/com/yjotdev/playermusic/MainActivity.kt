@@ -19,12 +19,14 @@ class MainActivity : ComponentActivity() {
         vmPlayerMusic = ViewModelProvider(this)[PlayerMusicViewModel::class.java]
         //Verifico si se reinició la app
         val isRestartApp = intent.getBooleanExtra("IS_RESTART_APP", false)
-        setContent {
-            PlayerMusicTheme {
-                PermissionView(
-                    vmPlayerMusic = vmPlayerMusic,
-                    isRestartApp = isRestartApp
-                )
+        if (!isRunningTest()){
+            setContent {
+                PlayerMusicTheme {
+                    PermissionView(
+                        vmPlayerMusic = vmPlayerMusic,
+                        isRestartApp = isRestartApp
+                    )
+                }
             }
         }
     }
@@ -33,5 +35,11 @@ class MainActivity : ComponentActivity() {
         super.onResume()
         vmPlayerMusic.getMusicList()
         vmPlayerMusic.getConfig()
+    }
+
+    private fun isRunningTest(): Boolean {
+        return BuildConfig.DEBUG && Thread.currentThread().stackTrace.any {
+            it.className.contains("androidx.test")
+        }
     }
 }

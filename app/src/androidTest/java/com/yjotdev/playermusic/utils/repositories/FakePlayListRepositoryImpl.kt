@@ -1,4 +1,4 @@
-package com.yjotdev.playermusic.infrastructure.repositories
+package com.yjotdev.playermusic.utils.repositories
 
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -8,25 +8,21 @@ import com.yjotdev.playermusic.domain.port.PlayListRepository
 import com.yjotdev.playermusic.infrastructure.adapter.PlayListDatabase
 
 @Singleton
-class PlayListRepositoryImpl @Inject constructor(
+class FakePlayListRepositoryImpl @Inject constructor(
     private val db: PlayListDatabase
 ): PlayListRepository {
-    /** Inserta una lista de reproducción **/
     override suspend fun insertPlayList(item: MusicListEntity) {
         db.playListDao().insertPlayList(item)
     }
 
-    /** Actualiza una lista de reproducción **/
     override suspend fun updatePlayList(item: MusicListEntity) {
         db.playListDao().updatePlayList(item)
     }
 
-    /** Elimina una lista de reproducción **/
     override suspend fun deletePlayList(item: MusicListEntity) {
         db.playListDao().deletePlayList(item)
     }
 
-    /** Obtiene una lista de reproducción **/
     override fun getPlayList(): Flow<List<MusicListEntity>> {
         return db.playListDao().getPlayList()
     }

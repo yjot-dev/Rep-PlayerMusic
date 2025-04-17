@@ -1,12 +1,11 @@
 package com.yjotdev.playermusic
 
 import android.content.Context
-import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
-import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -16,6 +15,10 @@ import org.junit.Rule
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
+import dagger.hilt.android.testing.HiltAndroidRule
+import org.junit.Before
+import javax.inject.Inject
+import dagger.hilt.android.testing.HiltAndroidTest
 import com.yjotdev.playermusic.application.navigation.PermissionView
 import com.yjotdev.playermusic.application.navigation.ViewRoutes
 import com.yjotdev.playermusic.application.theme.PlayerMusicTheme
@@ -25,16 +28,26 @@ import com.yjotdev.playermusic.application.theme.PlayerMusicTheme
  *
  * See [testing documentation](http://d.android.com/tools/testing).
  */
+
+@HiltAndroidTest
 @RunWith(AndroidJUnit4::class)
 class PlayListInstrumentedTest {
-    @get:Rule
-    val composeTestRule = createComposeRule()
+
+    @get:Rule(order = 0)
+    var hiltRule: HiltAndroidRule = HiltAndroidRule(this)
+
+    @get:Rule(order = 1)
+    val composeTestRule = createAndroidComposeRule<MainActivity>()
+
+    @Inject
+    lateinit var navController: TestNavHostController // NavController del Test
+
+    @Before
+    fun setup() {
+        hiltRule.inject() // Inicializa Hilt
+    }
     // Contexto del test de la app.
     private val context: Context = ApplicationProvider.getApplicationContext()
-    // NavController del Test
-    private val navController = TestNavHostController(context).apply {
-        navigatorProvider.addNavigator(ComposeNavigator())
-    }
 
     @Test
     fun playListViewNavigation() {

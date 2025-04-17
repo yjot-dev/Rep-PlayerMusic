@@ -8,9 +8,6 @@
       <SelectionState runConfigName="ArtistListInstrumentedTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="nextMusic_ArtistListView()">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
       <SelectionState runConfigName="playListViewNavigation()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>

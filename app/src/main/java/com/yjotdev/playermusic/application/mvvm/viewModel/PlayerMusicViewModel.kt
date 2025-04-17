@@ -7,8 +7,6 @@ import android.net.Uri
 import android.provider.MediaStore
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.yjotdev.playermusic.application.mvvm.model.MusicListModel
-import com.yjotdev.playermusic.application.mvvm.model.MusicModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -18,6 +16,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import com.yjotdev.playermusic.application.mvvm.model.MusicListModel
+import com.yjotdev.playermusic.application.mvvm.model.MusicModel
 import com.yjotdev.playermusic.infrastructure.adapter.MusicService
 import com.yjotdev.playermusic.domain.utils.MediaPlayerManager
 import com.yjotdev.playermusic.domain.usecase.DeletePlayListUseCase
@@ -25,8 +25,7 @@ import com.yjotdev.playermusic.domain.usecase.GetPlayListUseCase
 import com.yjotdev.playermusic.domain.usecase.InsertPlayListUseCase
 import com.yjotdev.playermusic.domain.usecase.UpdatePlayListUseCase
 import com.yjotdev.playermusic.domain.entity.MusicListEntity
-import com.yjotdev.playermusic.domain.usecase.GetConfigUseCase
-import com.yjotdev.playermusic.domain.usecase.SaveConfigUseCase
+import com.yjotdev.playermusic.domain.usecase.ConfigUseCase
 import com.yjotdev.playermusic.domain.utils.Validation
 import com.yjotdev.playermusic.application.mvvm.model.RepeatOptions
 import com.yjotdev.playermusic.application.mvvm.model.PlayerMusicModel
@@ -38,8 +37,7 @@ class PlayerMusicViewModel @Inject constructor(
     private val updatePlayListUseCase: UpdatePlayListUseCase,
     private val deletePlayListUseCase: DeletePlayListUseCase,
     private val getPlayListUseCase: GetPlayListUseCase,
-    private val saveConfigUseCase: SaveConfigUseCase,
-    private val getConfigUseCase: GetConfigUseCase
+    private val configUseCase: ConfigUseCase
 ): ViewModel(){
     //Estados mutables del ViewModel
     private val _uiState by lazy{ MutableStateFlow(PlayerMusicModel()) }
@@ -256,10 +254,10 @@ class PlayerMusicViewModel @Inject constructor(
     fun deletePlayList(item: MusicListModel){
         viewModelScope.launch{ deletePlayListUseCase(toMLE(item)) }
     }
-    /** Guarda datos persistentes para botones aleatorio y repetir **/
+    /** Guarda las configuraciones del usuario **/
     fun saveConfig(){
         val state = uiState.value
-        saveConfigUseCase(
+        configUseCase.invoke(
             valueRepeat = state.uiRepeat,
             isShuffle = state.uiIsShuffle,
             isPlayList = state.uiIsPlayList,
@@ -270,14 +268,13 @@ class PlayerMusicViewModel @Inject constructor(
     }
     /** Obtiene las configuraciones del usuario **/
     fun getConfig(){
-        getConfigUseCase().apply {
-            setUiRepeat(getInt("repeat", 2))
-            setUiIsShuffle(getBoolean("isShuffle", false))
-            setUiIsPlayList(getBoolean("isPlayList", false))
-            setUiCurrentArtistListIndex(getInt("index0", 0))
-            setUiCurrentPlayListIndex(getInt("index1", 0))
-            setUiCurrentMusicListIndex(getInt("index2", 0))
-        }
+        val config = configUseCase.invoke()
+        setUiRepeat(config["repeat"] as Int)
+        setUiIsShuffle(config["isShuffle"] as Boolean)
+        setUiIsPlayList(config["isPlayList"] as Boolean)
+        setUiCurrentArtistListIndex(config["index0"] as Int)
+        setUiCurrentPlayListIndex(config["index1"] as Int)
+        setUiCurrentMusicListIndex(config["index2"] as Int)
     }
     /** Obtiene la lista de música del dispositivo móvil del usuario **/
     fun loadData(applicationContext: Context){
@@ -441,7 +438,7 @@ class PlayerMusicViewModel @Inject constructor(
                     )
                 }
             }
+            withContext(Dispatchers.Main){ setUiArtistList(artistList) }
         }
-        withContext(Dispatchers.Main){ setUiArtistList(artistList) }
     }
 }

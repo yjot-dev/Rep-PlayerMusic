@@ -14,21 +14,26 @@ android {
         applicationId = "com.yjotdev.playermusic"
         minSdk = 24
         targetSdk = 35
-        versionCode = 8
-        versionName = "8.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        versionCode = 5
+        versionName = "5.1"
+        testInstrumentationRunner = "com.yjotdev.playermusic.CustomTestRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
     }
     buildTypes {
+        debug {
+            applicationIdSuffix = ".debug"
+            isDebuggable = true
+            buildConfigField("Boolean", "DEBUG_MODE", "true")
+        }
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField("Boolean", "DEBUG_MODE", "false")
         }
     }
     compileOptions {
@@ -40,6 +45,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     packaging {
         resources {
@@ -56,6 +62,7 @@ dependencies {
     //UI
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
@@ -64,11 +71,9 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlin.metadata.jvm)
-    implementation(libs.androidx.test.ktx)
     //Navigation
     implementation(libs.androidx.navigation.runtime.ktx)
     implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.navigation.testing)
     //Room
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
@@ -80,15 +85,18 @@ dependencies {
     implementation(libs.io.coil.kt.compose)
     //Hilt
     implementation(libs.dagger.hilt.android)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.hilt.navigation.compose)
-    ksp(libs.dagger.hilt.compiler)
+    ksp(libs.dagger.hilt.android.compiler)
     //Test
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.test.ktx)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
+    androidTestImplementation(libs.dagger.hilt.android.testing)
+    androidTestImplementation(libs.androidx.navigation.testing)
+    kspAndroidTest(libs.dagger.hilt.android.compiler)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 }

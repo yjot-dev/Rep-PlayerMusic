@@ -2,7 +2,6 @@ package com.yjotdev.playermusic.infrastructure.repositories
 
 import javax.inject.Singleton
 import android.content.Context
-import android.content.SharedPreferences
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import com.yjotdev.playermusic.domain.port.ConfigRepository
@@ -14,7 +13,7 @@ class ConfigRepositoryImpl @Inject constructor(
 ): ConfigRepository {
     private val sp = context.getSharedPreferences("MyConfig", Context.MODE_PRIVATE)
 
-    /** Guarda datos persistentes para botones aleatorio y repetir **/
+    /** Guarda datos persistentes del usuario **/
     override fun saveConfig(
         valueRepeat: RepeatOptions, isShuffle: Boolean, isPlayList: Boolean,
         index0: Int, index1: Int, index2: Int
@@ -34,6 +33,13 @@ class ConfigRepositoryImpl @Inject constructor(
         }
     }
 
-    /** Obtiene datos persistentes de botones aleatorio y repetir **/
-    override fun getConfig(): SharedPreferences = sp
+    /** Obtiene datos persistentes del usuario **/
+    override fun getConfig() = mutableMapOf<String, Any>(
+        "repeat" to sp.getInt("repeat", 2),
+        "isShuffle" to sp.getBoolean("isShuffle", false),
+        "isPlayList" to sp.getBoolean("isPlayList", false),
+        "index0" to sp.getInt("index0", 0),
+        "index1" to sp.getInt("index1", 0),
+        "index2" to sp.getInt("index2", 0)
+    )
 }
