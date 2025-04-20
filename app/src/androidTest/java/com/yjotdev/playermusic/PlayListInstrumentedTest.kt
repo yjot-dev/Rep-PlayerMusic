@@ -6,9 +6,11 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.testing.TestNavHostController
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.yjotdev.playermusic.application.mvvm.viewModel.PlayerMusicViewModel
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.Rule
@@ -48,17 +50,26 @@ class PlayListInstrumentedTest {
     }
     // Contexto del test de la app.
     private val context: Context = ApplicationProvider.getApplicationContext()
+    //Usa ViewModelProvider para obtener una instancia del ViewModel
+    private lateinit var viewModel: PlayerMusicViewModel
 
     @Test
     fun playListViewNavigation() {
+        viewModel = ViewModelProvider(composeTestRule.activity)[PlayerMusicViewModel::class.java]
         composeTestRule.setContent {
             PlayerMusicTheme {
                 PermissionView(
-                    navController = navController
+                    navController = navController,
+                    vmPlayerMusic = viewModel
                 )
             }
         }
-        addPlayList_playListView()
+        //Espera a que cargen los datos
+        composeTestRule.waitUntil(5000) {
+            val state = viewModel.uiState.value
+            state.uiArtistList.isNotEmpty()
+        }
+        addPlayList_PlayListView()
         //Click en el boton de playList
         composeTestRule.onNodeWithTag(
             context.getString(R.string.cd_navigation_playlist)
@@ -75,9 +86,9 @@ class PlayListInstrumentedTest {
         assertEquals(ViewRoutes.CurrentMusic2.name, navController.currentDestination?.route)
     }
 
-    private fun addPlayList_playListView() {
+    private fun addPlayList_PlayListView() {
         //Click en el 1er artista de la lista de artistas
-        composeTestRule.onNodeWithTag("artist:0").performClick()
+        composeTestRule.onNodeWithTag("artist:2").performClick()
         //Navega a la lista de canciones del artista seleccionado
         assertEquals(ViewRoutes.MusicList.name, navController.currentDestination?.route)
         //Ingresa una musica a la lista de reproduccion
@@ -99,23 +110,21 @@ class PlayListInstrumentedTest {
     }
 
     @Test
-    fun playMusic_playListView() {
+    fun playMusic_PlayListView() {
         playListViewNavigation()
         //Click en el boton de reproducir la cancion
         composeTestRule.onNodeWithContentDescription(
             context.getString(R.string.cd_play)
         ).performClick()
-        //Espera 10 segundos para pausar la cancion
-        runBlocking {
-            delay(10000)
-            composeTestRule.onNodeWithContentDescription(
-                context.getString(R.string.cd_play)
-            ).performClick()
-        }
+        //Espera 5 segundos para pausar la cancion
+        runBlocking { delay(5000) }
+        composeTestRule.onNodeWithContentDescription(
+            context.getString(R.string.cd_play)
+        ).performClick()
     }
 
     @Test
-    fun nextMusic_playListView() {
+    fun nextMusic_PlayListView() {
         playListViewNavigation()
         //Click en el boton siguiente cancion
         composeTestRule.onNodeWithContentDescription(
@@ -125,17 +134,15 @@ class PlayListInstrumentedTest {
         composeTestRule.onNodeWithContentDescription(
             context.getString(R.string.cd_play)
         ).performClick()
-        //Espera 10 segundos para pausar la cancion
-        runBlocking {
-            delay(10000)
-            composeTestRule.onNodeWithContentDescription(
-                context.getString(R.string.cd_play)
-            ).performClick()
-        }
+        //Espera 5 segundos para pausar la cancion
+        runBlocking { delay(5000) }
+        composeTestRule.onNodeWithContentDescription(
+            context.getString(R.string.cd_play)
+        ).performClick()
     }
 
     @Test
-    fun previousMusic_playListView() {
+    fun previousMusic_PlayListView() {
         playListViewNavigation()
         //Click en el boton anterior cancion
         composeTestRule.onNodeWithContentDescription(
@@ -145,12 +152,46 @@ class PlayListInstrumentedTest {
         composeTestRule.onNodeWithContentDescription(
             context.getString(R.string.cd_play)
         ).performClick()
-        //Espera 10 segundos para pausar la cancion
-        runBlocking {
-            delay(10000)
-            composeTestRule.onNodeWithContentDescription(
-                context.getString(R.string.cd_play)
-            ).performClick()
-        }
+        //Espera 5 segundos para pausar la cancion
+        runBlocking { delay(5000) }
+        composeTestRule.onNodeWithContentDescription(
+            context.getString(R.string.cd_play)
+        ).performClick()
+    }
+
+    @Test
+    fun repeatMusic_PlayListView() {
+        playListViewNavigation()
+        //Click en el boton de repetir cancion
+        composeTestRule.onNodeWithContentDescription(
+            context.getString(R.string.cd_repeat)
+        ).performClick()
+        //Click en el boton de reproducir la cancion
+        composeTestRule.onNodeWithContentDescription(
+            context.getString(R.string.cd_play)
+        ).performClick()
+        //Espera 5 segundos para pausar la cancion
+        runBlocking { delay(5000) }
+        composeTestRule.onNodeWithContentDescription(
+            context.getString(R.string.cd_play)
+        ).performClick()
+    }
+
+    @Test
+    fun shuffleMusic_PlayListView() {
+        playListViewNavigation()
+        //Click en el boton de aleatorio
+        composeTestRule.onNodeWithContentDescription(
+            context.getString(R.string.cd_shuffle)
+        ).performClick()
+        //Click en el boton de reproducir la cancion
+        composeTestRule.onNodeWithContentDescription(
+            context.getString(R.string.cd_play)
+        ).performClick()
+        //Espera 5 segundos para pausar la cancion
+        runBlocking { delay(5000) }
+        composeTestRule.onNodeWithContentDescription(
+            context.getString(R.string.cd_play)
+        ).performClick()
     }
 }
