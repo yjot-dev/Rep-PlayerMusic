@@ -23,7 +23,7 @@ Esta app es un reproductor de música local, obtiene la música guardada de la m
 - Material 3
 
 # Uso
-- Al abrir la app, se muestra la pantalla de inicio *Lista de Artistas*
+- Al abrir la app, se muestra la vista de inicio *Lista de Artistas*
 - Desde *Lista de Artistas* puede hacer click en la barra superior a la derecha donde hay un icono *Listas de Reproduccion*
 - Desde *Lista de Artistas* puede hacer click en algun artista, esto le llevara a la *Musica del Artista*
 - Desde *Listas de Reproduccion* puede modificar el nombre de cada lista o borrarlas, si hace click en una lista se abrira *Lista de Reproducion*
