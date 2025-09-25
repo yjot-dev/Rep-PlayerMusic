@@ -11,7 +11,7 @@ Esta app es un reproductor de música local, obtiene la música guardada de la m
 - 📱 Compatible con Android 7.0 (API 24) en adelante
 
 # Instalación
-- Clona el repositorio: git clone [https://github.com/usuario/bananastatus.git](https://github.com/yjot-dev/Rep-PlayerMusic.git)
+- Clona el repositorio: git clone https://github.com/yjot-dev/Rep-PlayerMusic.git
 - Abre el proyecto en Android Studio (Giraffe o superior)
 - Sincroniza dependencias con Gradle
 - Conecta un dispositivo o emulador y ejecuta la app
@@ -33,7 +33,7 @@ Esta app es un reproductor de música local, obtiene la música guardada de la m
 - Desde *Musica Actual* puede ir a *Lista de Reproducion* o configurar el aleatorio o repetir musica, asi como cambiar a la siguiente o anterior musica, asi como pausar o reanudar la reproducion.
 
 # Ver video Demo
-[(Ver en YouTube)](https://youtu.be/8OROZRqCzdU?si=VAOE7lX58A5ScVyq)
+[Ver en YouTube](https://youtu.be/8OROZRqCzdU?si=VAOE7lX58A5ScVyq)
 
 # Contribución
 - Haz un fork del repositorio
