@@ -4,7 +4,7 @@ Esta app es un reproductor de música local, obtiene la música guardada de la m
 # Características principales
 - 🪟 Interfaz moderna con Jetpack Compose
 - 🌐 Navegación con Navigation Component
-- 📊 Integración con ViewModel + StateFlow
+- 📊 Integración con Service, ViewModel + StateFlow
 - 🎨 Patrón de diseño arquitectónico con MVVM + Hexagonal
 - 🧩 Inyección de dependencias con Hilt
 - 💽 Base de datos local con Room
