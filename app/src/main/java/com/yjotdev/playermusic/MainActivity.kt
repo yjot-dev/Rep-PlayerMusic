@@ -42,7 +42,6 @@ class MainActivity : ComponentActivity() {
 
     override fun onResume() {
         super.onResume()
-        vmPlayerMusic.getMusicList()
         vmPlayerMusic.getConfig()
     }
 

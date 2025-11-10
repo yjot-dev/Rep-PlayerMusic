@@ -3,7 +3,7 @@ package com.yjotdev.playermusic.application.navigation
 import androidx.annotation.StringRes
 import com.yjotdev.playermusic.R
 
-enum class ViewRoutes(@StringRes val idTitle: Int){
+enum class ViewRoutes(@get:StringRes val idTitle: Int){
     ArtistList(idTitle = R.string.app_artistList),
     MusicList(idTitle = R.string.app_musicList),
     CurrentMusic1(idTitle = R.string.app_currentMusic),

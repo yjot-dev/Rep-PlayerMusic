@@ -66,7 +66,7 @@ class ArtistListInstrumentedTest {
         //Espera a que cargen los datos
         composeTestRule.waitUntil(5000) {
             val state = viewModel.uiState.value
-            state.uiArtistList.isNotEmpty()
+            state.artistList.isNotEmpty()
         }
         //Click en el 1er artista de la lista de artistas
         composeTestRule.onNodeWithTag("artist:2").performClick()

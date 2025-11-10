@@ -1,6 +1,6 @@
 package com.yjotdev.playermusic
 
-import com.yjotdev.playermusic.domain.utils.Validation
+import com.yjotdev.playermusic.application.utils.Helper
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -12,7 +12,7 @@ import org.junit.Test
 class ValidationUnitTest {
     @Test
     fun durationFormatTest() {
-        val actual = Validation.durationFormat(350000)
+        val actual = Helper.durationFormat(350000)
         val expected = "5:50"
         assertEquals(expected, actual)
     }

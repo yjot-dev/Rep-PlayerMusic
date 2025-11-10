@@ -15,7 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.ActivityCompat
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.yjotdev.playermusic.application.mvvm.viewModel.PlayerMusicViewModel
@@ -27,7 +27,7 @@ fun PermissionView(
     isRestartApp: Boolean = false
 ){
     val uiStatePlayerMusic by vmPlayerMusic.uiState.collectAsState()
-    val artistList = uiStatePlayerMusic.uiArtistList
+    val artistList = uiStatePlayerMusic.artistList
     val context = LocalContext.current
     var hasPermissions by remember{ mutableStateOf(checkPermissions(context)) }
     val requestPermissionsLauncher = rememberLauncherForActivityResult(
@@ -37,8 +37,8 @@ fun PermissionView(
     if(hasPermissions){
         //Verifica si se reinicio la app y si se obtuvieron los datos
         LaunchedEffect(Unit){
-            vmPlayerMusic.setUiIsRestartApp(isRestartApp)
-            vmPlayerMusic.loadData(context.applicationContext)
+            vmPlayerMusic.setIsRestartApp(isRestartApp)
+            vmPlayerMusic.loadData()
         }
         if(artistList.isNotEmpty()) {
             //Navegación

@@ -15,7 +15,7 @@
     <string name="toast_shuffle1">Aleatorio activado</string>
     <string name="toast_shuffle2">Aleatorio desactivado</string>
     <string name="toast_repeat1">Repetir todo activado</string>
-    <string name="toast_repeat2">Repetir desactivado</string>
+    <string name="toast_repeat2">Repetir en aleatorio activado</string>
     <string name="toast_repeat3">Repetir actual activado</string>
     <string name="ad_deleteMusicPlayList">¿Quiere eliminar esta música de su playlist?</string>
     <string name="ad_removePlayList">¿Quiere quitar esta playlist?</string>

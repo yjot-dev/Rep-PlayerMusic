@@ -67,7 +67,7 @@ class PlayListInstrumentedTest {
         //Espera a que cargen los datos
         composeTestRule.waitUntil(5000) {
             val state = viewModel.uiState.value
-            state.uiArtistList.isNotEmpty()
+            state.artistList.isNotEmpty()
         }
         addPlayList_PlayListView()
         //Click en el boton de playList
