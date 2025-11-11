@@ -18,11 +18,9 @@ class FakeMediaPlayerRepository @Inject constructor(): MediaPlayerPort {
     private var currentIndex = -1
 
     private val _playerState = MutableStateFlow(PlayerEntity())
-    override val playerState: StateFlow<PlayerEntity> = _playerState.asStateFlow()
+    val playerState: StateFlow<PlayerEntity> = _playerState.asStateFlow()
 
-    // --- Implementación de los métodos del puerto ---
-
-    override fun play(track: MusicEntity, playlist: List<MusicEntity>) {
+    override fun play(track: MusicEntity, playlist: List<MusicEntity>, repeatMode: RepeatOptions) {
         this.currentPlaylist = playlist
         this.currentIndex = playlist.indexOf(track)
 
@@ -30,8 +28,9 @@ class FakeMediaPlayerRepository @Inject constructor(): MediaPlayerPort {
             it.copy(
                 isPlaying = true,
                 currentTrack = track,
-                totalDuration = track.musicDuration, // Usamos la duración del track
+                totalDuration = track.musicDuration,
                 currentPosition = 0,
+                hasCompleted = false,
                 error = ""
             )
         }
@@ -51,56 +50,35 @@ class FakeMediaPlayerRepository @Inject constructor(): MediaPlayerPort {
         _playerState.update { it.copy(currentPosition = position) }
     }
 
-    override fun stop() {
-        _playerState.value = PlayerEntity() // Resetea al estado inicial
-    }
-
-    override fun next(repeatMode: RepeatOptions) {
+    override fun next() {
         if (currentPlaylist.isEmpty()) return
-        currentIndex = newIndex(repeatMode)
+        // Asumimos un modo de repetición para la prueba, por ejemplo, 'All'.
+        currentIndex = (currentIndex + 1) % currentPlaylist.size
         val nextTrack = currentPlaylist[currentIndex]
-        play(nextTrack, currentPlaylist)
+        // Llamamos a play con el modo de repetición por defecto para la prueba
+        play(nextTrack, currentPlaylist, RepeatOptions.All)
     }
 
     override fun previous() {
         if (currentPlaylist.isEmpty()) return
         currentIndex = if (currentIndex - 1 < 0) currentPlaylist.size - 1 else currentIndex - 1
         val prevTrack = currentPlaylist[currentIndex]
-        play(prevTrack, currentPlaylist)
+        play(prevTrack, currentPlaylist, RepeatOptions.All)
     }
 
-    override fun onTrackCompletion(repeatMode: RepeatOptions) {
-        currentIndex = newIndex(repeatMode)
-        val nextTrack = currentPlaylist[currentIndex]
-        play(nextTrack, currentPlaylist)
+    /**
+     * Simula que la canción actual ha terminado de reproducirse.
+     * Esto es CRUCIAL para probar la lógica de `onTrackCompletion` en el ViewModel.
+     */
+    fun simulateTrackCompletion() {
+        _playerState.update { it.copy(hasCompleted = true, isPlaying = false) }
     }
 
-    // --- Métodos de Control para Pruebas ---
-    // Estos métodos NO están en el puerto, pero nos permiten manipular el estado desde nuestras pruebas.
-
-    private fun newIndex(repeatMode: RepeatOptions): Int{
-        return when (repeatMode) {
-            RepeatOptions.Current -> {
-                // Repetir la pista actual. Simplemente nos quedamos en el mismo índice.
-                currentIndex
-            }
-            RepeatOptions.Shuffle -> {
-                // Elegir una pista aleatoria que no sea la actual.
-                if (currentPlaylist.size > 1) {
-                    var randomIndex = (0 until currentPlaylist.size).random()
-                    while (randomIndex == currentIndex) {
-                        randomIndex = (0 until currentPlaylist.size).random()
-                    }
-                    randomIndex
-                } else {
-                    currentIndex // Si solo hay una, se repite.
-                }
-            }
-            RepeatOptions.All -> {
-                // Pasar a la siguiente de forma secuencial.
-                (currentIndex + 1) % currentPlaylist.size
-            }
-        }
+    /**
+     * Simula el avance del tiempo en el reproductor.
+     */
+    fun simulateProgress(newPosition: Int) {
+        _playerState.update { it.copy(currentPosition = newPosition) }
     }
 
     /**
@@ -111,9 +89,12 @@ class FakeMediaPlayerRepository @Inject constructor(): MediaPlayerPort {
     }
 
     /**
-     * Simula el avance del tiempo en el reproductor.
+     * Reinicia el estado del repositorio falso entre pruebas.
+     * Es buena práctica llamarlo en una regla de @Before.
      */
-    fun simulateProgress(newPosition: Int) {
-        _playerState.update { it.copy(currentPosition = newPosition) }
+    fun reset() {
+        currentPlaylist = emptyList()
+        currentIndex = -1
+        _playerState.value = PlayerEntity()
     }
 }

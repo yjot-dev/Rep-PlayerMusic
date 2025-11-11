@@ -1,5 +1,6 @@
 package com.yjotdev.playermusic.application.mvvm.view
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,28 +23,37 @@ fun MusicListView(
     modifier: Modifier = Modifier,
     musicList: List<MusicEntity> = listOf(),
     itemPlaying: MusicEntity,
+    selectedItems: List<MusicEntity>,
+    onSelectionChanged: (MusicEntity) -> Unit,
     itemClicked: (MusicEntity)-> Unit,
-    addPlayListClicked: (MusicEntity)-> Unit
+    navigateUp: () -> Unit
 ){
+    BackHandler { navigateUp() }
     LazyColumn(
         modifier = modifier,
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ){
-        items(musicList.size) { indexMusic ->
+        items(
+            count = musicList.size,
+            key = { index -> index }
+        ) { indexMusic ->
             val item = musicList[indexMusic]
+            val isSelected = selectedItems.contains(item)
             ItemMusic(
                 modifier = Modifier
                     .padding(dimensionResource(id = R.dimen.short_dp_1))
                     .fillMaxWidth()
-                    .clickable{ itemClicked(item) }
+                    .clickable { itemClicked(item) }
                     .testTag("music:$indexMusic"),
-                index = indexMusic,
                 title = item.musicName,
                 artist = item.artistName,
                 duration = durationFormat(item.musicDuration),
                 isPlaying = item == itemPlaying,
-                addPlayListClicked = { addPlayListClicked(item) }
+                isSelected = isSelected,
+                onSelectionChanged = { _ ->
+                    onSelectionChanged(item)
+                }
             )
         }
     }
@@ -56,8 +66,10 @@ private fun PreviewMusicListView(){
         MusicListView(
             musicList = listOf(),
             itemPlaying = MusicEntity(),
+            selectedItems = listOf(),
+            onSelectionChanged = {},
             itemClicked = {},
-            addPlayListClicked = {}
+            navigateUp = {}
         )
     }
 }

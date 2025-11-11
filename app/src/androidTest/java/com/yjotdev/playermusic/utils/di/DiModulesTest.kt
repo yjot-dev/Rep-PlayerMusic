@@ -15,13 +15,15 @@ import com.yjotdev.playermusic.domain.port.ArtistListPort
 import com.yjotdev.playermusic.domain.port.ConfigPort
 import com.yjotdev.playermusic.domain.port.MediaPlayerPort
 import com.yjotdev.playermusic.domain.port.PlayListPort
+import com.yjotdev.playermusic.domain.port.PlayerStatePort
 import com.yjotdev.playermusic.infrastructure.datasource.dao.PlayListDao
 import com.yjotdev.playermusic.infrastructure.datasource.database.PlayListDatabase
+import com.yjotdev.playermusic.infrastructure.di.DiModules
 import com.yjotdev.playermusic.utils.repositories.FakeArtistListRepository
 import com.yjotdev.playermusic.utils.repositories.FakeConfigRepository
 import com.yjotdev.playermusic.utils.repositories.FakeMediaPlayerRepository
 import com.yjotdev.playermusic.utils.repositories.FakePlayListRepository
-import com.yjotdev.playermusic.infrastructure.di.DiModules
+import com.yjotdev.playermusic.utils.repositories.FakePlayerStateRepository
 
 @Module
 @TestInstallIn(
@@ -53,6 +55,12 @@ abstract class DiModulesTest {
     abstract fun bindFakeMediaPlayerRepository(
         impl: FakeMediaPlayerRepository
     ): MediaPlayerPort
+
+    @Binds
+    @Singleton
+    abstract fun bindFakePlayerStateRepository(
+        impl: FakePlayerStateRepository
+    ): PlayerStatePort
 
     companion object {
         @Provides

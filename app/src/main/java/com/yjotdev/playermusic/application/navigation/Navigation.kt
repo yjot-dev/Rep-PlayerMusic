@@ -2,18 +2,11 @@ package com.yjotdev.playermusic.application.navigation
 
 import android.util.Log
 import android.widget.Toast
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -25,11 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -44,11 +34,11 @@ import com.yjotdev.playermusic.application.mvvm.view.MusicListView
 import com.yjotdev.playermusic.application.mvvm.view.PlayListView
 import com.yjotdev.playermusic.application.mvvm.viewModel.PlayerMusicViewModel
 import com.yjotdev.playermusic.application.components.MyAlertDialog
-import com.yjotdev.playermusic.domain.entity.MusicEntity
+import com.yjotdev.playermusic.application.components.ToolBarMenu
 import com.yjotdev.playermusic.domain.entity.MusicListEntity
 
 @Composable
-fun NavigationView(
+fun Navigation(
     vmPlayerMusic: PlayerMusicViewModel,
     navController: NavHostController
 ){
@@ -71,7 +61,6 @@ fun NavigationView(
     val isRepeat = uiState.repeat
     //Variables locales
     var playListName by remember{ mutableStateOf("") }
-    var selectedItem by remember{ mutableStateOf(playerState.currentTrack) }
     var selectedPlaylist by remember{ mutableStateOf(MusicListEntity()) }
     var editPlaylistName by remember{ mutableStateOf(false) }
     var removePlaylist by remember{ mutableStateOf(false) }
@@ -89,6 +78,12 @@ fun NavigationView(
     val smsAlert3 = stringResource(R.string.toast_deleteMusicPlayList)
     val smsYes = stringResource(R.string.ad_yes)
     val smsNo = stringResource(R.string.ad_no)
+    //Observa estados asincronicos
+    ObserveViewModelState(
+        vmPlayerMusic = vmPlayerMusic,
+        navController = navController
+    )
+    //UI
     Scaffold(
         topBar = {
             ToolBarMenu(
@@ -101,6 +96,7 @@ fun NavigationView(
                 canNavigateBack = navController.previousBackStackEntry != null,
                 navigateUp = {
                     //Navega hacia atras
+                    vmPlayerMusic.cleanItemSelected()
                     navController.navigateUp()
                 },
                 goPlayList = {
@@ -108,12 +104,36 @@ fun NavigationView(
                     navController.navigate(ViewRoutes.PlayList.name)
                 }
             )
+        },
+        floatingActionButton = {
+            // El botón de "añadir" o "quitar" solo aparece si hay canciones seleccionadas
+            if (uiState.itemSelected.isNotEmpty()) {
+                when(currentScreen){
+                    ViewRoutes.MusicList -> {
+                        FloatingActionButton(onClick = {
+                            navController.navigate(ViewRoutes.AddPlayList.name)
+                        }) {
+                            Icon(
+                                imageVector = ImageVector.vectorResource(id = R.drawable.playlist_add_48),
+                                contentDescription = "Agregar a playlist"
+                            )
+                        }
+                    }
+                    ViewRoutes.CurrentPlayList -> {
+                        FloatingActionButton(onClick = {
+                            removeMusic = true
+                        }) {
+                            Icon(
+                                imageVector = ImageVector.vectorResource(id = R.drawable.remove_48),
+                                contentDescription = "Quitar de playlist"
+                            )
+                        }
+                    }
+                    else -> {}
+                }
+            }
         }
     ){ innerPadding ->
-        ObserveViewModelState(
-            vmPlayerMusic = vmPlayerMusic,
-            navController = navController
-        )
         NavHost(
             navController = navController,
             startDestination = ViewRoutes.ArtistList.name,
@@ -136,6 +156,10 @@ fun NavigationView(
                     modifier = Modifier.fillMaxSize(),
                     musicList = selectedArtistList?.musicList ?: emptyList(),
                     itemPlaying = playerState.currentTrack,
+                    selectedItems = uiState.itemSelected,
+                    onSelectionChanged = { song ->
+                        vmPlayerMusic.toggleSongSelection(song)
+                    },
                     itemClicked = { item ->
                         //Informa al ViewModel que esta canción debe sonar
                         if (playerState.currentTrack != item) {
@@ -147,9 +171,9 @@ fun NavigationView(
                         //Navega a la música seleccionada
                         navController.navigate(ViewRoutes.CurrentMusic1.name)
                     },
-                    addPlayListClicked = { item ->
-                        selectedItem = item
-                        navController.navigate(ViewRoutes.AddPlayList.name)
+                    navigateUp = {
+                        vmPlayerMusic.cleanItemSelected()
+                        navController.navigateUp()
                     }
                 )
             }
@@ -197,7 +221,7 @@ fun NavigationView(
                     totalDuration = playerState.totalDuration,
                     currentDuration = playerState.currentPosition,
                     value = (playerState.currentPosition/1000).toFloat(), //Equivalente en segundos
-                    onValue = { position -> vmPlayerMusic.onSeekTrack(position.toInt()) },
+                    onValue = { position -> vmPlayerMusic.onSeekTo(position) },
                     valueRange = 0f..(playerState.totalDuration/1000).toFloat(),
                     steps = playerState.totalDuration/1000
                 )
@@ -283,22 +307,14 @@ fun NavigationView(
                         message = smsMessage3,
                         confirmClicked = {
                             selectedPlayList?.let { playList ->
-                                val list = playList.musicList.toMutableList()
-                                list.remove(selectedItem)
-                                val item = MusicListEntity(
-                                    id = playList.id,
-                                    name = playList.name,
-                                    musicList = list
-                                )
-                                vmPlayerMusic.updatePlayList(item)
+                                vmPlayerMusic.removeSelectedSongsFromPlaylist(playList)
                                 Toast.makeText(context, smsAlert3, Toast.LENGTH_SHORT).show()
                                 removeMusic = false
-                                selectedItem = MusicEntity()
                             }
                         },
                         dismissClicked = {
                             removeMusic = false
-                            selectedItem = MusicEntity()
+                            vmPlayerMusic.cleanItemSelected()
                         },
                     )
                 }
@@ -306,6 +322,10 @@ fun NavigationView(
                     modifier = Modifier.fillMaxSize(),
                     playListMusic = selectedPlayList?.musicList ?: emptyList(),
                     itemPlaying = playerState.currentTrack,
+                    selectedItems = uiState.itemSelected,
+                    onSelectionChanged = { song ->
+                        vmPlayerMusic.toggleSongSelection(song)
+                    },
                     itemClicked = { item ->
                         //Informa al ViewModel que esta canción debe sonar
                         if (playerState.currentTrack != item) {
@@ -317,9 +337,9 @@ fun NavigationView(
                         //Navega a la música seleccionada
                         navController.navigate(ViewRoutes.CurrentMusic2.name)
                     },
-                    removeMusicClicked = { item ->
-                        removeMusic = true
-                        selectedItem = item
+                    navigateUp = {
+                        vmPlayerMusic.cleanItemSelected()
+                        navController.navigateUp()
                     }
                 )
             }
@@ -367,7 +387,7 @@ fun NavigationView(
                     totalDuration = playerState.totalDuration,
                     currentDuration = playerState.currentPosition,
                     value = (playerState.currentPosition/1000).toFloat(), //Equivalente en segundos
-                    onValue = { position -> vmPlayerMusic.onSeekTrack(position.toInt()) },
+                    onValue = { position -> vmPlayerMusic.onSeekTo(position) },
                     valueRange = 0f..(playerState.totalDuration/1000).toFloat(),
                     steps = playerState.totalDuration/1000
                 )
@@ -386,96 +406,19 @@ fun NavigationView(
                     },
                     addPlayListClicked = { name ->
                         //Agrega o actualiza una playlist
-                        val existIndex = playList.indexOfLast { it.name == name }
-                        val message: String
-                        if(existIndex == -1){
-                            message = if(name.isEmpty()){
-                                context.getString(R.string.toast_playListName)
-                            }else{
-                                //Caso 1 si agrego una música a una nueva playlist
-                                val list = listOf(selectedItem)
-                                val item = MusicListEntity(
-                                    name = name,
-                                    musicList = list
-                                )
-                                vmPlayerMusic.insertPlayList(item)
-                                context.getString(R.string.toast_insertPlayList, name)
-                            }
-                        }else{
-                            //Caso 2 si agrego una música a una playlist existente
-                            val list = playList[existIndex].musicList.toMutableList()
-                            list.add(selectedItem)
-                            val item = MusicListEntity(
-                                id = playList[existIndex].id,
-                                name = playList[existIndex].name,
-                                musicList = list
-                            )
-                            vmPlayerMusic.updatePlayList(item)
-                            message = context.getString(R.string.toast_addMusicPlayList)
+                        val message = when(vmPlayerMusic.addSelectedSongsToPlaylist(name)){
+                            1 -> { context.getString(R.string.toast_playListName) }
+                            2 -> { context.getString(R.string.toast_insertPlayList, name) }
+                            else -> { context.getString(R.string.toast_addMusicPlayList) }
                         }
                         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                         playListName = ""
-                        selectedItem = MusicEntity()
                         navController.navigateUp()
                     }
                 )
             }
         }
     }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun ToolBarMenu(
-    routeTitles: ViewRoutes,
-    routeArg: String,
-    canNavigateBack: Boolean,
-    navigateUp: ()-> Unit,
-    goPlayList: ()-> Unit
-){
-    TopAppBar(
-        title = {
-            Text(
-                modifier = Modifier.horizontalScroll(rememberScrollState()),
-                text = stringResource(routeTitles.idTitle, routeArg),
-                style = MaterialTheme.typography.titleLarge,
-                maxLines = 1,
-                overflow = TextOverflow.Clip
-            )
-        },
-        navigationIcon = {
-            if(canNavigateBack){
-                IconButton(
-                    onClick = navigateUp,
-                    modifier = Modifier
-                        .size(dimensionResource(id = R.dimen.short_dp_5))
-                        .testTag(stringResource(R.string.cd_navigation_back))
-                ) {
-                    Icon(
-                        imageVector = ImageVector.vectorResource(R.drawable.arrow_back_48),
-                        contentDescription = null,
-                        modifier = Modifier.size(dimensionResource(id = R.dimen.short_dp_4))
-                    )
-                }
-            }
-        },
-        actions = {
-            if(routeTitles.name == ViewRoutes.ArtistList.name){
-                IconButton(
-                    onClick = goPlayList,
-                    modifier = Modifier
-                        .size(dimensionResource(id = R.dimen.short_dp_5))
-                        .testTag(stringResource(R.string.cd_navigation_playlist))
-                ) {
-                    Icon(
-                        imageVector = ImageVector.vectorResource(R.drawable.playlist_48),
-                        contentDescription = null,
-                        modifier = Modifier.size(dimensionResource(id = R.dimen.short_dp_5))
-                    )
-                }
-            }
-        }
-    )
 }
 
 @Composable

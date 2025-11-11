@@ -1,5 +1,9 @@
 package com.yjotdev.playermusic.domain.entity
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class MusicEntity(
     //Datos de la música según el artista
     val musicPath: String = "",//Ruta del archivo de música
@@ -8,4 +12,4 @@ data class MusicEntity(
     val artistName: String = "",
     val albumName: String = "",
     val albumUri: String = ""//Uri de la imagen del album
-)
+): Parcelable

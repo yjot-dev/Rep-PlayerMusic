@@ -1,5 +1,6 @@
 package com.yjotdev.playermusic.application.mvvm.view
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,9 +23,12 @@ fun CurrentPlayListView(
     modifier: Modifier = Modifier,
     playListMusic: List<MusicEntity> = listOf(),
     itemPlaying: MusicEntity,
+    selectedItems: List<MusicEntity>,
+    onSelectionChanged: (MusicEntity) -> Unit,
     itemClicked: (MusicEntity)-> Unit,
-    removeMusicClicked: (MusicEntity)-> Unit
+    navigateUp: () -> Unit
 ){
+    BackHandler { navigateUp() }
     LazyColumn(
         modifier = modifier,
         verticalArrangement = Arrangement.Top,
@@ -32,18 +36,21 @@ fun CurrentPlayListView(
     ){
         items(playListMusic.size) { indexPlayListMusic ->
             val item = playListMusic[indexPlayListMusic]
+            val isSelected = selectedItems.contains(item)
             ItemPlayListMusic(
                 modifier = Modifier
                     .padding(dimensionResource(id = R.dimen.short_dp_1))
                     .fillMaxWidth()
                     .clickable { itemClicked(item) }
                     .testTag("music:$indexPlayListMusic"),
-                index = indexPlayListMusic,
                 title = item.musicName,
                 artist = item.artistName,
                 duration = durationFormat(item.musicDuration),
                 isPlaying = item == itemPlaying,
-                removeMusicClicked = { removeMusicClicked(item) }
+                isSelected = isSelected,
+                onSelectionChanged = { _ ->
+                    onSelectionChanged(item)
+                }
             )
         }
     }
@@ -56,8 +63,10 @@ private fun PreviewCurrentPlayListView(){
         CurrentPlayListView(
             playListMusic = listOf(),
             itemPlaying = MusicEntity(),
+            selectedItems = listOf(),
+            onSelectionChanged = {},
             itemClicked = {},
-            removeMusicClicked = {}
+            navigateUp = {}
         )
     }
 }

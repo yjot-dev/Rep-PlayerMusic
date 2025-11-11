@@ -13,12 +13,14 @@ import com.yjotdev.playermusic.domain.port.ConfigPort
 import com.yjotdev.playermusic.domain.port.PlayListPort
 import com.yjotdev.playermusic.domain.port.ArtistListPort
 import com.yjotdev.playermusic.domain.port.MediaPlayerPort
+import com.yjotdev.playermusic.domain.port.PlayerStatePort
 import com.yjotdev.playermusic.infrastructure.datasource.dao.PlayListDao
 import com.yjotdev.playermusic.infrastructure.datasource.database.PlayListDatabase
 import com.yjotdev.playermusic.infrastructure.repositories.ArtistListRepository
 import com.yjotdev.playermusic.infrastructure.repositories.ConfigRepository
 import com.yjotdev.playermusic.infrastructure.repositories.PlayListRepository
 import com.yjotdev.playermusic.infrastructure.repositories.MediaPlayerRepository
+import com.yjotdev.playermusic.infrastructure.repositories.PlayerStateRepository
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -47,6 +49,12 @@ abstract class DiModules {
     abstract fun bindMediaPlayerRepository(
         impl: MediaPlayerRepository
     ): MediaPlayerPort
+
+    @Binds
+    @Singleton
+    abstract fun bindPlayerStateRepository(
+        impl: PlayerStateRepository
+    ): PlayerStatePort
 
     companion object {
         @Provides

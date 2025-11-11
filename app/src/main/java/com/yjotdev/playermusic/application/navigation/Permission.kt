@@ -38,11 +38,10 @@ fun PermissionView(
         //Verifica si se reinicio la app y si se obtuvieron los datos
         LaunchedEffect(Unit){
             vmPlayerMusic.setIsRestartApp(isRestartApp)
-            vmPlayerMusic.loadData()
         }
         if(artistList.isNotEmpty()) {
             //Navegación
-            NavigationView(
+            Navigation(
                 vmPlayerMusic = vmPlayerMusic,
                 navController = navController
             )

@@ -1,5 +1,6 @@
 package com.yjotdev.playermusic.application.mvvm.model
 
+import com.yjotdev.playermusic.domain.entity.MusicEntity
 import com.yjotdev.playermusic.domain.entity.MusicListEntity
 import com.yjotdev.playermusic.domain.entity.RepeatOptions
 
@@ -10,5 +11,6 @@ data class PlayerMusicModel(
     val selectedPlaylist: MusicListEntity? = null,
     val repeat: RepeatOptions = RepeatOptions.Current,
     val isRestartApp: Boolean = false,
-    val isPlayList: Boolean = false
+    val isPlayList: Boolean = false,
+    val itemSelected: List<MusicEntity> = listOf()
 )
