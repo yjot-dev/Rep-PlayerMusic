@@ -130,17 +130,20 @@ class PlayerMusicViewModel @Inject constructor(
     }
     /** Gestiona la selección de las canciones **/
     fun toggleSongSelection(song: MusicEntity) {
-        val currentSelected = _uiState.value.itemSelected.toMutableList()
-        if (currentSelected.contains(song)) {
-            currentSelected.remove(song)
-        } else {
-            currentSelected.add(song)
+        _uiState.update { currentState ->
+            val currentSelected = currentState.itemSelected.toMutableList()
+            if (currentSelected.contains(song)) {
+                currentSelected.remove(song)
+            } else {
+                currentSelected.add(song)
+            }
+            currentState.copy(itemSelected = currentSelected)
         }
-        _uiState.update { it.copy(itemSelected = currentSelected) }
     }
     /** Agrega las canciones seleccionadas a una playlist **/
-    fun addSelectedSongsToPlaylist(name: String): Int {
-        val playlist = _uiState.value.playList
+    fun addMusicsToPlaylist(name: String): Int {
+        val playlist = uiState.value.playList
+        val selectedSongs = uiState.value.itemSelected
         val existIndex = playlist.indexOfLast { it.name == name }
         return if(existIndex == -1){
             if(name.isEmpty()){
@@ -149,47 +152,54 @@ class PlayerMusicViewModel @Inject constructor(
                 //Caso 1: Agrego músicas a una nueva playlist
                 val item = MusicListEntity(
                     name = name,
-                    musicList = _uiState.value.itemSelected
+                    musicList = selectedSongs
                 )
                 insertPlayList(item)
-                // Limpiar la selección después de la operación
-                _uiState.update { it.copy(itemSelected = emptyList()) }
+                cleanItemSelected()
                 2
             }
         }else{
             //Caso 2: Agrego músicas a una playlist existente
-            val list = playlist[existIndex].musicList.toMutableList()
-            list.addAll(_uiState.value.itemSelected)
-            val item = MusicListEntity(
-                id = playlist[existIndex].id,
-                name = playlist[existIndex].name,
-                musicList = list
+            val existingPlaylist = playlist[existIndex]
+            val updatedMusicList = existingPlaylist.musicList.toMutableList()
+            updatedMusicList.addAll(selectedSongs)
+            val item = existingPlaylist.copy(
+                musicList = updatedMusicList
             )
             updatePlayList(item)
-            // Limpiar la selección después de la operación
-            _uiState.update { it.copy(itemSelected = emptyList()) }
+            cleanItemSelected()
             3
         }
     }
     /** Elimina las canciones seleccionadas de una playlist **/
-    fun removeSelectedSongsFromPlaylist(playList: MusicListEntity){
-        val list = playList.musicList.toMutableList()
-        list.removeAll(_uiState.value.itemSelected)
+    fun removeMusicsFromPlaylist(playList: MusicListEntity){
+        val removeMusicFromList = playList.musicList.toMutableList()
+        val selectedSongs = uiState.value.itemSelected
+        removeMusicFromList.removeAll(selectedSongs)
         val item = MusicListEntity(
             id = playList.id,
             name = playList.name,
-            musicList = list
+            musicList = removeMusicFromList
+        )
+        setPlayListSelected(item)
+        updatePlayList(item)
+        cleanItemSelected()
+    }
+    /** Edita el nombre de una playlist **/
+    fun editNameFromPlaylist(playlistName: String, playList: MusicListEntity){
+        val item = MusicListEntity(
+            id = playList.id,
+            name = playlistName,
+            musicList = playList.musicList
         )
         updatePlayList(item)
-        // Limpiar la selección después de la operación
-        _uiState.update { it.copy(itemSelected = emptyList()) }
     }
     /** Crea e inserta una lista de reproducción en la BD local **/
-    fun insertPlayList(item: MusicListEntity){
+    private fun insertPlayList(item: MusicListEntity){
         viewModelScope.launch{ insertPlayListUseCase(item) }
     }
     /** Actualiza una lista de reproducción en la BD local **/
-    fun updatePlayList(item: MusicListEntity){
+    private fun updatePlayList(item: MusicListEntity){
         viewModelScope.launch{ updatePlayListUseCase(item) }
     }
     /** Elimina una lista de reproducción en la BD local **/

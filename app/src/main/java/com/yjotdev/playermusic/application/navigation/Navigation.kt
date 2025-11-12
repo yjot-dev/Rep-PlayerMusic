@@ -1,5 +1,6 @@
 package com.yjotdev.playermusic.application.navigation
 
+import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.fillMaxSize
@@ -56,28 +57,31 @@ fun Navigation(
     val selectedArtistList = uiState.selectedArtistList
     //Vista PlayList
     val playList = uiState.playList
-    val selectedPlayList = uiState.selectedPlaylist
+    val selectedPlaylist = uiState.selectedPlaylist
     //Repetir en aleatorio, lineal o la misma musica
     val isRepeat = uiState.repeat
     //Variables locales
-    var playListName by remember{ mutableStateOf("") }
-    var selectedPlaylist by remember{ mutableStateOf(MusicListEntity()) }
+    var playlistName by remember{ mutableStateOf("") }
     var editPlaylistName by remember{ mutableStateOf(false) }
     var removePlaylist by remember{ mutableStateOf(false) }
     var removeMusic by remember{ mutableStateOf(false) }
     var filter by remember{ mutableStateOf(emptyList<MusicListEntity>()) }
     filter = playList
-    //Texto de AlertDialogs
-    val smsTitle = stringResource(R.string.ad_title)
-    val smsMessage1 = stringResource(R.string.ad_editNamePlayList)
-    val smsAlert1 = stringResource(R.string.toast_editNamePlayList)
-    val smsEditName = stringResource(R.string.ad_editName)
-    val smsMessage2 = stringResource(R.string.ad_removePlayList)
-    val smsAlert2 = stringResource(R.string.toast_removePlayList, playListName)
-    val smsMessage3 = stringResource(R.string.ad_deleteMusicPlayList)
-    val smsAlert3 = stringResource(R.string.toast_deleteMusicPlayList)
-    val smsYes = stringResource(R.string.ad_yes)
-    val smsNo = stringResource(R.string.ad_no)
+    //Observa los alertDialogs
+    ObserveAlertDialogs(
+        vmPlayerMusic = vmPlayerMusic,
+        editPlaylistName = editPlaylistName,
+        removePlaylist = removePlaylist,
+        removeMusic = removeMusic,
+        playlistName = playlistName,
+        selectedPlaylist = selectedPlaylist ?: MusicListEntity(),
+        onEditPlaylistName = { value -> editPlaylistName = value },
+        onRemovePlaylist = { value -> removePlaylist = value },
+        onRemoveMusic = { value -> removeMusic = value },
+        onPlaylistName = { name -> playlistName = name },
+        onSelectedPlayList = { item -> vmPlayerMusic.setPlayListSelected(item)  },
+        context = context
+    )
     //Observa estados asincronicos
     ObserveViewModelState(
         vmPlayerMusic = vmPlayerMusic,
@@ -90,7 +94,7 @@ fun Navigation(
                 routeTitles = currentScreen,
                 routeArg = when(currentScreen){
                                 ViewRoutes.MusicList -> selectedArtistList!!.name
-                                ViewRoutes.CurrentPlayList -> selectedPlayList!!.name
+                                ViewRoutes.CurrentPlayList -> selectedPlaylist!!.name
                                 else -> ""
                            },
                 canNavigateBack = navController.previousBackStackEntry != null,
@@ -227,57 +231,6 @@ fun Navigation(
                 )
             }
             composable(route = ViewRoutes.PlayList.name){
-                //Aviso para editar el nombre de playlist seleccionada
-                if(editPlaylistName){
-                    MyAlertDialog(
-                        confirm = smsYes,
-                        dismiss = smsNo,
-                        title = smsTitle,
-                        message = smsMessage1,
-                        confirmClicked = {
-                            selectedPlayList?.let { playList ->
-                                val item = MusicListEntity(
-                                    id = playList.id,
-                                    name = playListName,
-                                    musicList = playList.musicList
-                                )
-                                vmPlayerMusic.updatePlayList(item)
-                                Toast.makeText(context, smsAlert1, Toast.LENGTH_SHORT).show()
-                                editPlaylistName = false
-                                playListName = ""
-                            }
-                        },
-                        dismissClicked = {
-                            editPlaylistName = false
-                            playListName = ""
-                        },
-                        case = 2,
-                        value = playListName,
-                        label = smsEditName,
-                        onValue = { name -> playListName = name }
-                    )
-                }
-                //Aviso para eliminar la playlist seleccionada
-                if(removePlaylist){
-                    MyAlertDialog(
-                        confirm = smsYes,
-                        dismiss = smsNo,
-                        title = smsTitle,
-                        message = smsMessage2,
-                        confirmClicked = {
-                            vmPlayerMusic.deletePlayList(selectedPlaylist)
-                            Toast.makeText(context, smsAlert2, Toast.LENGTH_SHORT).show()
-                            removePlaylist = false
-                            playListName = ""
-                            selectedPlaylist = MusicListEntity()
-                        },
-                        dismissClicked = {
-                            removePlaylist = false
-                            playListName = ""
-                            selectedPlaylist = MusicListEntity()
-                        },
-                    )
-                }
                 PlayListView(
                     modifier = Modifier.fillMaxSize(),
                     playList = playList,
@@ -292,35 +245,15 @@ fun Navigation(
                     },
                     removePlayListClicked = { item ->
                         removePlaylist = true
-                        playListName = item.name
-                        selectedPlaylist = item
+                        playlistName = item.name
+                        vmPlayerMusic.setPlayListSelected(item)
                     }
                 )
             }
             composable(route = ViewRoutes.CurrentPlayList.name){
-                //Aviso para eliminar una música de la playlist seleccionada
-                if(removeMusic){
-                    MyAlertDialog(
-                        confirm = smsYes,
-                        dismiss = smsNo,
-                        title = smsTitle,
-                        message = smsMessage3,
-                        confirmClicked = {
-                            selectedPlayList?.let { playList ->
-                                vmPlayerMusic.removeSelectedSongsFromPlaylist(playList)
-                                Toast.makeText(context, smsAlert3, Toast.LENGTH_SHORT).show()
-                                removeMusic = false
-                            }
-                        },
-                        dismissClicked = {
-                            removeMusic = false
-                            vmPlayerMusic.cleanItemSelected()
-                        },
-                    )
-                }
                 CurrentPlayListView(
                     modifier = Modifier.fillMaxSize(),
-                    playListMusic = selectedPlayList?.musicList ?: emptyList(),
+                    playListMusic = selectedPlaylist?.musicList ?: emptyList(),
                     itemPlaying = playerState.currentTrack,
                     selectedItems = uiState.itemSelected,
                     onSelectionChanged = { song ->
@@ -396,28 +329,118 @@ fun Navigation(
                 AddPlayListView(
                     modifier = Modifier.fillMaxSize(),
                     filter = filter,
-                    playListName = playListName,
-                    playListNameChange = { name -> playListName = name },
+                    playListName = playlistName,
+                    playListNameChange = { name -> playlistName = name },
                     playListSearch = {
                         //Busqueda por nombre de playlist
-                        filter = playList.filter{ it.name == playListName }
+                        filter = playList.filter{ it.name == playlistName }
                             .ifEmpty { playList }
                         keyboardController?.hide()
                     },
                     addPlayListClicked = { name ->
                         //Agrega o actualiza una playlist
-                        val message = when(vmPlayerMusic.addSelectedSongsToPlaylist(name)){
+                        val message = when(vmPlayerMusic.addMusicsToPlaylist(name)){
                             1 -> { context.getString(R.string.toast_playListName) }
                             2 -> { context.getString(R.string.toast_insertPlayList, name) }
                             else -> { context.getString(R.string.toast_addMusicPlayList) }
                         }
                         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-                        playListName = ""
+                        playlistName = ""
                         navController.navigateUp()
                     }
                 )
             }
         }
+    }
+}
+
+@Composable
+private fun ObserveAlertDialogs(
+    vmPlayerMusic: PlayerMusicViewModel,
+    editPlaylistName: Boolean,
+    removePlaylist: Boolean,
+    removeMusic: Boolean,
+    playlistName: String,
+    selectedPlaylist: MusicListEntity,
+    onEditPlaylistName: (Boolean) -> Unit,
+    onRemovePlaylist: (Boolean) -> Unit,
+    onRemoveMusic: (Boolean) -> Unit,
+    onPlaylistName: (String) -> Unit,
+    onSelectedPlayList: (MusicListEntity) -> Unit,
+    context: Context
+){
+    //Texto de AlertDialogs
+    val smsTitle = stringResource(R.string.ad_title)
+    val smsMessage1 = stringResource(R.string.ad_editNamePlayList)
+    val smsAlert1 = stringResource(R.string.toast_editNamePlayList)
+    val smsEditName = stringResource(R.string.ad_editName)
+    val smsMessage2 = stringResource(R.string.ad_removePlayList)
+    val smsAlert2 = stringResource(R.string.toast_removePlayList, playlistName)
+    val smsMessage3 = stringResource(R.string.ad_deleteMusicPlayList)
+    val smsAlert3 = stringResource(R.string.toast_deleteMusicPlayList)
+    val smsYes = stringResource(R.string.ad_yes)
+    val smsNo = stringResource(R.string.ad_no)
+    //Aviso para eliminar una música de la playlist seleccionada
+    if(removeMusic){
+        MyAlertDialog(
+            confirm = smsYes,
+            dismiss = smsNo,
+            title = smsTitle,
+            message = smsMessage3,
+            confirmClicked = {
+                vmPlayerMusic.removeMusicsFromPlaylist(selectedPlaylist)
+                Toast.makeText(context, smsAlert3, Toast.LENGTH_SHORT).show()
+                onRemoveMusic(false)
+            },
+            dismissClicked = {
+                onRemoveMusic(false)
+                vmPlayerMusic.cleanItemSelected()
+            }
+        )
+    }
+    //Aviso para editar el nombre de playlist seleccionada
+    if(editPlaylistName){
+        MyAlertDialog(
+            confirm = smsYes,
+            dismiss = smsNo,
+            title = smsTitle,
+            message = smsMessage1,
+            confirmClicked = {
+                vmPlayerMusic.editNameFromPlaylist(playlistName, selectedPlaylist)
+                Toast.makeText(context, smsAlert1, Toast.LENGTH_SHORT).show()
+                onEditPlaylistName(false)
+                onPlaylistName("")
+            },
+            dismissClicked = {
+                onEditPlaylistName(false)
+                onPlaylistName("")
+            },
+            case = 2,
+            value = playlistName,
+            label = smsEditName,
+            onValue = { name -> onPlaylistName(name) }
+        )
+    }
+    //Aviso para eliminar la playlist seleccionada
+    if(removePlaylist){
+        MyAlertDialog(
+            confirm = smsYes,
+            dismiss = smsNo,
+            title = smsTitle,
+            message = smsMessage2,
+            confirmClicked = {
+                vmPlayerMusic.deletePlayList(selectedPlaylist)
+                Toast.makeText(context, smsAlert2, Toast.LENGTH_SHORT).show()
+                onRemovePlaylist(false)
+                onPlaylistName("")
+                onSelectedPlayList(MusicListEntity())
+            },
+            dismissClicked = {
+                onRemovePlaylist(false)
+                onPlaylistName("")
+                onSelectedPlayList(MusicListEntity())
+            }
+        )
     }
 }
 
