@@ -19,12 +19,14 @@ hiltCompose = "1.3.0"
 roomVersion = "2.6.1"
 
 # --- Librerías de Terceros ---
-kotlinxCoroutines = "1.8.1"
+coroutines = "1.8.1"
 gson = "2.11.0"
 coil = "2.6.0"
 
 # --- Dependencias de Testing ---
 junit = "4.13.2"
+mockk = "1.13.8"
+turbine = "1.0.0"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 coreKtxTest = "1.6.1"
@@ -39,7 +41,7 @@ androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
-kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
+kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
 kotlin-metadata-jvm = { group = "org.jetbrains.kotlin", name = "kotlin-metadata-jvm", version.ref = "kotlin" }
 
 androidx-navigation-runtime-ktx = { group = "androidx.navigation", name = "navigation-runtime-ktx", version.ref = "navigationRuntimeKtx" }
@@ -66,6 +68,9 @@ dagger-hilt-android-testing = { group = "com.google.dagger", name = "hilt-androi
 androidx-navigation-testing = { group = "androidx.navigation", name = "navigation-testing", version.ref = "navigationRuntimeKtx" }
 androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
+turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

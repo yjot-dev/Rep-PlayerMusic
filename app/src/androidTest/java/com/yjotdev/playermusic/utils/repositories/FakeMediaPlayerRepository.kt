@@ -1,8 +1,6 @@
 package com.yjotdev.playermusic.utils.repositories
 
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import javax.inject.Singleton
 import javax.inject.Inject
@@ -18,7 +16,6 @@ class FakeMediaPlayerRepository @Inject constructor(): MediaPlayerPort {
     private var currentIndex = -1
 
     private val _playerState = MutableStateFlow(PlayerEntity())
-    val playerState: StateFlow<PlayerEntity> = _playerState.asStateFlow()
 
     override fun play(track: MusicEntity, playlist: List<MusicEntity>, repeatMode: RepeatOptions) {
         this.currentPlaylist = playlist
@@ -64,37 +61,5 @@ class FakeMediaPlayerRepository @Inject constructor(): MediaPlayerPort {
         currentIndex = if (currentIndex - 1 < 0) currentPlaylist.size - 1 else currentIndex - 1
         val prevTrack = currentPlaylist[currentIndex]
         play(prevTrack, currentPlaylist, RepeatOptions.All)
-    }
-
-    /**
-     * Simula que la canción actual ha terminado de reproducirse.
-     * Esto es CRUCIAL para probar la lógica de `onTrackCompletion` en el ViewModel.
-     */
-    fun simulateTrackCompletion() {
-        _playerState.update { it.copy(hasCompleted = true, isPlaying = false) }
-    }
-
-    /**
-     * Simula el avance del tiempo en el reproductor.
-     */
-    fun simulateProgress(newPosition: Int) {
-        _playerState.update { it.copy(currentPosition = newPosition) }
-    }
-
-    /**
-     * Simula un error de reproducción.
-     */
-    fun injectError(errorMessage: String) {
-        _playerState.update { it.copy(error = errorMessage, isPlaying = false) }
-    }
-
-    /**
-     * Reinicia el estado del repositorio falso entre pruebas.
-     * Es buena práctica llamarlo en una regla de @Before.
-     */
-    fun reset() {
-        currentPlaylist = emptyList()
-        currentIndex = -1
-        _playerState.value = PlayerEntity()
     }
 }

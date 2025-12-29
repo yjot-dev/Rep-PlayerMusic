@@ -12,8 +12,4 @@ class FakePlayerStateRepository @Inject constructor()
     : PlayerStatePort {
     private val _playerState = MutableStateFlow(PlayerEntity())
     override val playerState = _playerState.asStateFlow()
-
-    fun updateState(newState: PlayerEntity) {
-        _playerState.value = newState
-    }
 }

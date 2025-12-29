@@ -94,6 +94,9 @@ dependencies {
     ksp(libs.dagger.hilt.android.compiler)
     //Test
     testImplementation(libs.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.turbine)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.test.ktx)
     androidTestImplementation(libs.androidx.espresso.core)

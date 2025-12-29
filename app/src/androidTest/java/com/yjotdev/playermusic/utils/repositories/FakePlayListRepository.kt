@@ -43,13 +43,4 @@ class FakePlayListRepository @Inject constructor(): PlayListPort {
             currentList.filter { it.id != item.id }
         }
     }
-
-    // --- Métodos de Control para Pruebas (Opcional pero recomendado) ---
-    fun setData(initialList: List<MusicListEntity>) {
-        inMemoryPlaylists.value = initialList
-    }
-
-    fun clearData() {
-        inMemoryPlaylists.value = emptyList()
-    }
 }
