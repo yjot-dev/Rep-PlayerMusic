@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.dimensionResource
 import com.yjotdev.playermusic.application.components.add_playlist_view.ItemAddPlayList
-import com.yjotdev.playermusic.application.components.add_playlist_view.HeaderAddPlayList
+import com.yjotdev.playermusic.application.components.add_playlist_view.HeaderAddPlaylist
 import com.yjotdev.playermusic.R
 import com.yjotdev.playermusic.application.theme.PlayerMusicTheme
 import com.yjotdev.playermusic.application.utils.ComponentPreview
@@ -33,7 +33,7 @@ fun AddPlayListView(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         item {
-            HeaderAddPlayList(
+            HeaderAddPlaylist(
                 modifier = Modifier.fillMaxWidth(0.9f),
                 playListName = playListName,
                 playListNameChange = playListNameChange,

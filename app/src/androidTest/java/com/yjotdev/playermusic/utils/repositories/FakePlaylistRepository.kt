@@ -7,10 +7,10 @@ import kotlinx.coroutines.flow.update
 import javax.inject.Singleton
 import javax.inject.Inject
 import com.yjotdev.playermusic.domain.entity.MusicListEntity
-import com.yjotdev.playermusic.domain.port.PlayListPort
+import com.yjotdev.playermusic.domain.port.PlaylistPort
 
 @Singleton
-class FakePlayListRepository @Inject constructor(): PlayListPort {
+class FakePlaylistRepository @Inject constructor(): PlaylistPort {
     // La "base de datos en memoria" es simplemente un StateFlow
     private val inMemoryPlaylists = MutableStateFlow<List<MusicListEntity>>(emptyList())
 

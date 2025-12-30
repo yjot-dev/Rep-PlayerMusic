@@ -14,15 +14,15 @@ import javax.inject.Singleton
 import com.yjotdev.playermusic.domain.port.ArtistListPort
 import com.yjotdev.playermusic.domain.port.ConfigPort
 import com.yjotdev.playermusic.domain.port.MediaPlayerPort
-import com.yjotdev.playermusic.domain.port.PlayListPort
+import com.yjotdev.playermusic.domain.port.PlaylistPort
 import com.yjotdev.playermusic.domain.port.PlayerStatePort
-import com.yjotdev.playermusic.infrastructure.datasource.dao.PlayListDao
-import com.yjotdev.playermusic.infrastructure.datasource.database.PlayListDatabase
+import com.yjotdev.playermusic.infrastructure.datasource.dao.PlaylistDao
+import com.yjotdev.playermusic.infrastructure.datasource.database.PlaylistDatabase
 import com.yjotdev.playermusic.infrastructure.di.DiModules
 import com.yjotdev.playermusic.utils.repositories.FakeArtistListRepository
 import com.yjotdev.playermusic.utils.repositories.FakeConfigRepository
 import com.yjotdev.playermusic.utils.repositories.FakeMediaPlayerRepository
-import com.yjotdev.playermusic.utils.repositories.FakePlayListRepository
+import com.yjotdev.playermusic.utils.repositories.FakePlaylistRepository
 import com.yjotdev.playermusic.utils.repositories.FakePlayerStateRepository
 
 @Module
@@ -35,8 +35,8 @@ abstract class DiModulesTest {
     @Binds
     @Singleton
     abstract fun bindFakePlayListRepository(
-        impl: FakePlayListRepository
-    ): PlayListPort
+        impl: FakePlaylistRepository
+    ): PlaylistPort
 
     @Binds
     @Singleton
@@ -65,15 +65,15 @@ abstract class DiModulesTest {
     companion object {
         @Provides
         @Singleton
-        fun provideFakeDatabase(@ApplicationContext context: Context): PlayListDatabase =
+        fun provideFakeDatabase(@ApplicationContext context: Context): PlaylistDatabase =
             Room.inMemoryDatabaseBuilder(
                 context,
-                PlayListDatabase::class.java
+                PlaylistDatabase::class.java
             ).build()
 
         @Provides
         @Singleton
-        fun provideFakePlayListDao(database: PlayListDatabase): PlayListDao =
+        fun provideFakePlayListDao(database: PlaylistDatabase): PlaylistDao =
             database.playListDao()
 
         @Provides

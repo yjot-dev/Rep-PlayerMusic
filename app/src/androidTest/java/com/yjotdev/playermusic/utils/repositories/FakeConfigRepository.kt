@@ -22,7 +22,7 @@ class FakeConfigRepository @Inject constructor(): ConfigPort {
 
     override fun getConfig(): MutableMap<String, Any> {
         if(config.isEmpty()){
-            config["repeat"] = 2
+            config["repeat"] = 1
             config["isPlayList"] = false
         }
         return config

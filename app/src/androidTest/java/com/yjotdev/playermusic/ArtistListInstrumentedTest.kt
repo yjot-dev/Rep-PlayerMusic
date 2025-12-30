@@ -68,7 +68,7 @@ class ArtistListInstrumentedTest {
     }
 
     @Test
-    fun artistListViewNavigation() {
+    fun navigationToCurrentMusic_ArtistListView() {
         composeTestRule.setContent {
             navController = TestNavHostController(LocalContext.current)
             navController.navigatorProvider.addNavigator(ComposeNavigator())
@@ -97,7 +97,7 @@ class ArtistListInstrumentedTest {
 
     @Test
     fun playMusic_ArtistListView() {
-        artistListViewNavigation()
+        navigationToCurrentMusic_ArtistListView()
         //Click en el boton de reproducir la cancion
         composeTestRule.onNodeWithContentDescription(
             context.getString(R.string.cd_play)
@@ -111,7 +111,7 @@ class ArtistListInstrumentedTest {
 
     @Test
     fun nextMusic_ArtistListView() {
-        artistListViewNavigation()
+        navigationToCurrentMusic_ArtistListView()
         //Click en el boton siguiente cancion
         composeTestRule.onNodeWithContentDescription(
             context.getString(R.string.cd_next)
@@ -129,7 +129,7 @@ class ArtistListInstrumentedTest {
 
     @Test
     fun previousMusic_ArtistListView() {
-        artistListViewNavigation()
+        navigationToCurrentMusic_ArtistListView()
         //Click en el boton anterior cancion
         composeTestRule.onNodeWithContentDescription(
             context.getString(R.string.cd_previous)
@@ -147,11 +147,8 @@ class ArtistListInstrumentedTest {
 
     @Test
     fun repeatMusic_ArtistListView() {
-        artistListViewNavigation()
-        //Click en el boton para repetir secuencialmente todas las musicas
-        composeTestRule.onNodeWithContentDescription(
-            context.getString(R.string.cd_repeat)
-        ).performClick()
+        navigationToCurrentMusic_ArtistListView()
+        //Repetir secuencialmente es la opcion por defecto
         //Click en el boton de reproducir la cancion
         composeTestRule.onNodeWithContentDescription(
             context.getString(R.string.cd_play)
@@ -165,7 +162,8 @@ class ArtistListInstrumentedTest {
 
     @Test
     fun shuffleMusic_ArtistListView() {
-        artistListViewNavigation()
+        navigationToCurrentMusic_ArtistListView()
+        //Repetir secuencialmente es la opcion por defecto
         //Click en el boton para repetir aleatoriamente todas las musicas
         composeTestRule.onNodeWithContentDescription(
             context.getString(R.string.cd_repeat)

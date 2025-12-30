@@ -35,19 +35,19 @@ import com.yjotdev.playermusic.domain.usecase.media_player.PlayTrackUseCase
 import com.yjotdev.playermusic.domain.usecase.media_player.PreviousTrackUseCase
 import com.yjotdev.playermusic.domain.usecase.media_player.ResumeTrackUseCase
 import com.yjotdev.playermusic.domain.usecase.media_player.SeekToUseCase
-import com.yjotdev.playermusic.domain.usecase.playlist.DeletePlayListUseCase
-import com.yjotdev.playermusic.domain.usecase.playlist.GetPlayListUseCase
-import com.yjotdev.playermusic.domain.usecase.playlist.InsertPlayListUseCase
-import com.yjotdev.playermusic.domain.usecase.playlist.UpdatePlayListUseCase
+import com.yjotdev.playermusic.domain.usecase.playlist.DeletePlaylistUseCase
+import com.yjotdev.playermusic.domain.usecase.playlist.GetPlaylistUseCase
+import com.yjotdev.playermusic.domain.usecase.playlist.InsertPlaylistUseCase
+import com.yjotdev.playermusic.domain.usecase.playlist.UpdatePlaylistUseCase
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class PlayerMusicViewModelTest {
 
     // Dependencias Mockeadas
-    private val insertPlayListUseCase: InsertPlayListUseCase = mockk(relaxed = true)
-    private val updatePlayListUseCase: UpdatePlayListUseCase = mockk(relaxed = true)
-    private val deletePlayListUseCase: DeletePlayListUseCase = mockk(relaxed = true)
-    private val getPlayListUseCase: GetPlayListUseCase = mockk()
+    private val insertPlayListUseCase: InsertPlaylistUseCase = mockk(relaxed = true)
+    private val updatePlayListUseCase: UpdatePlaylistUseCase = mockk(relaxed = true)
+    private val deletePlayListUseCase: DeletePlaylistUseCase = mockk(relaxed = true)
+    private val getPlayListUseCase: GetPlaylistUseCase = mockk()
     private val getArtistListUseCase: GetArtistListUseCase = mockk()
     private val configUseCase: ConfigUseCase = mockk(relaxed = true)
     private val playTrackUseCase: PlayTrackUseCase = mockk(relaxed = true)

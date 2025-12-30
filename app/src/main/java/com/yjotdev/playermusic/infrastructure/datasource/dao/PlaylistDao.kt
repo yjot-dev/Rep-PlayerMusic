@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.Flow
  * Pertenece a la capa de Infraestructura.
  */
 @Dao
-interface PlayListDao {
+interface PlaylistDao {
 
     @Insert
     suspend fun insertPlayList(item: MusicListModel)

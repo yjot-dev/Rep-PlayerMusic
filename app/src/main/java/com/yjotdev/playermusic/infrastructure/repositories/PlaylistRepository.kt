@@ -6,14 +6,14 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import com.yjotdev.playermusic.domain.entity.MusicListEntity
 import com.yjotdev.playermusic.domain.entity.MusicEntity
-import com.yjotdev.playermusic.domain.port.PlayListPort
-import com.yjotdev.playermusic.infrastructure.datasource.dao.PlayListDao
+import com.yjotdev.playermusic.domain.port.PlaylistPort
+import com.yjotdev.playermusic.infrastructure.datasource.dao.PlaylistDao
 import com.yjotdev.playermusic.infrastructure.datasource.model.MusicListModel
 
 @Singleton
-class PlayListRepository @Inject constructor(
-    private val playListDao: PlayListDao
-): PlayListPort {
+class PlaylistRepository @Inject constructor(
+    private val playListDao: PlaylistDao
+): PlaylistPort {
     private fun MusicListModel.toDomain(): MusicListEntity {
         return MusicListEntity(
             id = this.id,

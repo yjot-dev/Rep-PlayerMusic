@@ -119,7 +119,7 @@ fun Navigation(
                         }) {
                             Icon(
                                 imageVector = ImageVector.vectorResource(id = R.drawable.playlist_add_48),
-                                contentDescription = "Agregar a playlist"
+                                contentDescription = "AddToPlaylist"
                             )
                         }
                     }
@@ -129,7 +129,7 @@ fun Navigation(
                         }) {
                             Icon(
                                 imageVector = ImageVector.vectorResource(id = R.drawable.remove_48),
-                                contentDescription = "Quitar de playlist"
+                                contentDescription = "RemoveFromPlaylist"
                             )
                         }
                     }

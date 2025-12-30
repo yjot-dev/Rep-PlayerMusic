@@ -11,10 +11,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
-import com.yjotdev.playermusic.domain.usecase.playlist.DeletePlayListUseCase
-import com.yjotdev.playermusic.domain.usecase.playlist.GetPlayListUseCase
-import com.yjotdev.playermusic.domain.usecase.playlist.InsertPlayListUseCase
-import com.yjotdev.playermusic.domain.usecase.playlist.UpdatePlayListUseCase
+import com.yjotdev.playermusic.domain.usecase.playlist.DeletePlaylistUseCase
+import com.yjotdev.playermusic.domain.usecase.playlist.GetPlaylistUseCase
+import com.yjotdev.playermusic.domain.usecase.playlist.InsertPlaylistUseCase
+import com.yjotdev.playermusic.domain.usecase.playlist.UpdatePlaylistUseCase
 import com.yjotdev.playermusic.domain.usecase.artist_list.GetArtistListUseCase
 import com.yjotdev.playermusic.domain.usecase.media_player.GetPlayerStateUseCase
 import com.yjotdev.playermusic.domain.usecase.media_player.NextTrackUseCase
@@ -32,10 +32,10 @@ import com.yjotdev.playermusic.application.mvvm.model.PlayerMusicModel
 
 @HiltViewModel
 class PlayerMusicViewModel @Inject constructor(
-    private val insertPlayListUseCase: InsertPlayListUseCase,
-    private val updatePlayListUseCase: UpdatePlayListUseCase,
-    private val deletePlayListUseCase: DeletePlayListUseCase,
-    getPlayListUseCase: GetPlayListUseCase,
+    private val insertPlayListUseCase: InsertPlaylistUseCase,
+    private val updatePlayListUseCase: UpdatePlaylistUseCase,
+    private val deletePlayListUseCase: DeletePlaylistUseCase,
+    getPlayListUseCase: GetPlaylistUseCase,
     private val getArtistListUseCase: GetArtistListUseCase,
     private val configUseCase: ConfigUseCase,
     private val playTrackUseCase: PlayTrackUseCase,

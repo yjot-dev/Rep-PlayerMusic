@@ -8,7 +8,7 @@ import com.yjotdev.playermusic.domain.entity.MusicListEntity
  * Esta interfaz es pura y no conoce la fuente de datos (Room, API, etc.).
  * Pertenece a la capa de Dominio.
  */
-interface PlayListPort {
+interface PlaylistPort {
     suspend fun insertPlayList(item: MusicListEntity)
 
     suspend fun updatePlayList(item: MusicListEntity)

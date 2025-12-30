@@ -25,7 +25,7 @@ import com.yjotdev.playermusic.application.theme.PlayerMusicTheme
 import com.yjotdev.playermusic.application.utils.ComponentPreview
 
 @Composable
-fun HeaderAddPlayList(
+fun HeaderAddPlaylist(
     modifier: Modifier = Modifier,
     playListName: String,
     playListNameChange: (String)-> Unit,
@@ -73,7 +73,7 @@ fun HeaderAddPlayList(
 @Composable
 private fun PreviewHeaderAddPlayList(){
     PlayerMusicTheme {
-        HeaderAddPlayList(
+        HeaderAddPlaylist(
             playListName = "PlayList",
             playListNameChange = {},
             playListSearch = {},
