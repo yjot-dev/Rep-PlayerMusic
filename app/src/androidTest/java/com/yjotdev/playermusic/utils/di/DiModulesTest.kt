@@ -1,8 +1,6 @@
 package com.yjotdev.playermusic.utils.di
 
 import android.content.Context
-import androidx.navigation.compose.ComposeNavigator
-import androidx.navigation.testing.TestNavHostController
 import androidx.room.Room
 import dagger.Module
 import dagger.hilt.components.SingletonComponent
@@ -75,12 +73,5 @@ abstract class DiModulesTest {
         @Singleton
         fun provideFakePlayListDao(database: PlaylistDatabase): PlaylistDao =
             database.playListDao()
-
-        @Provides
-        @Singleton
-        fun provideTestNavHostController(@ApplicationContext context: Context) =
-            TestNavHostController(context).apply {
-                navigatorProvider.addNavigator(ComposeNavigator())
-            }
     }
 }
