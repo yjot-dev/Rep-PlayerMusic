@@ -28,14 +28,12 @@ class MainActivity : ComponentActivity() {
         vmPlayerMusic = ViewModelProvider(this)[PlayerMusicViewModel::class.java]
         //Verifico si se reinició la app
         val isRestartApp = intent.getBooleanExtra("IS_RESTART_APP", false)
-        if (!isRunningTest()){
-            setContent {
-                PlayerMusicTheme {
-                    PermissionView(
-                        vmPlayerMusic = vmPlayerMusic,
-                        isRestartApp = isRestartApp
-                    )
-                }
+        setContent {
+            PlayerMusicTheme {
+                PermissionView(
+                    vmPlayerMusic = vmPlayerMusic,
+                    isRestartApp = isRestartApp
+                )
             }
         }
     }
@@ -62,12 +60,6 @@ class MainActivity : ComponentActivity() {
                 window.attributes.layoutInDisplayCutoutMode =
                     WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_ALWAYS
             }
-        }
-    }
-
-    private fun isRunningTest(): Boolean {
-        return BuildConfig.DEBUG && Thread.currentThread().stackTrace.any {
-            it.className.contains("androidx.test")
         }
     }
 }

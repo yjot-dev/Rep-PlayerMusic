@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">Player Music</string>
+    <string name="app_artistList">Artists</string>
+    <string name="app_musicList">%s</string>
+    <string name="app_currentMusic">Now Playing</string>
+    <string name="app_playList">Playlists</string>
+    <string name="app_addPlayList">Add playlist</string>
+    <string name="app_search">Search or create playlist</string>
+    <string name="toast_playListName">Enter playlist name</string>
+    <string name="toast_insertPlayList">Playlist %s added</string>
+    <string name="toast_addMusicPlayList">Music added to playlist</string>
+    <string name="toast_deleteMusicPlayList">Music removed from playlist</string>
+    <string name="toast_editNamePlayList">Playlist name edited</string>
+    <string name="toast_removePlayList">Playlist %s removed</string>
+    <string name="toast_shuffle1">Shuffle on</string>
+    <string name="toast_shuffle2">Shuffle off</string>
+    <string name="toast_repeat1">Repeat all on</string>
+    <string name="toast_repeat2">Repeat in shuffle on</string>
+    <string name="toast_repeat3">Repeat current on</string>
+    <string name="ad_deleteMusicPlayList">Do you want to remove this music from your playlist?</string>
+    <string name="ad_removePlayList">Do you want to remove this playlist?</string>
+    <string name="ad_editNamePlayList">Do you want to edit the name of your playlist?</string>
+    <string name="ad_editName">New name</string>
+    <string name="ad_title">NOTICE</string>
+    <string name="ad_yes">YES</string>
+    <string name="ad_no">NO</string>
+    <string name="cd_navigation_back">Back</string>
+    <string name="cd_navigation_playlist">Go to playlist</string>
+    <string name="cd_shuffle">Shuffle</string>
+    <string name="cd_repeat">Repeat</string>
+    <string name="cd_next">Next</string>
+    <string name="cd_previous">Previous</string>
+    <string name="cd_play">Play music</string>
+</resources>

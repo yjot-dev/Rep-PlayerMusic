@@ -1,5 +1,8 @@
 # PLAYER MUSIC
-Esta app es un reproductor de música local, obtiene la música guardada de la memoria interna y SD del dispositivo, ofrece la opción de agregar y eliminar música de una playlist, así como crear o quitar una playlist, puede reproducir música en aleatorio, o en secuencia.
+Esta app es un reproductor de música local, obtiene la música guardada de la memoria 
+interna y SD del dispositivo, ofrece la opción de agregar y eliminar música de una 
+playlist, así como crear o quitar una playlist, puede reproducir música en aleatorio, 
+o en secuencia.
 
 # Características principales
 - 🪟 Interfaz moderna con Jetpack Compose
