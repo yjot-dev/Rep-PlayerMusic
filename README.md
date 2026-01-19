@@ -36,7 +36,7 @@ o en secuencia.
 - Desde *Musica Actual* puede ir a *Lista de Reproducion* o configurar el aleatorio o repetir musica, asi como cambiar a la siguiente o anterior musica, asi como pausar o reanudar la reproducion.
 
 # Ver video Demo
-[Ver en YouTube](https://youtu.be/8OROZRqCzdU?si=VAOE7lX58A5ScVyq)
+[Ver en YouTube](https://youtu.be/Ivs9VpvraVI)
 
 # Contribución
 - Haz un fork del repositorio
