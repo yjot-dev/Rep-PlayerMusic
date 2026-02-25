@@ -1,8 +1,5 @@
 # PLAYER MUSIC
-Esta app es un reproductor de música local, obtiene la música guardada de la memoria 
-interna y SD del dispositivo, ofrece la opción de agregar y eliminar música de una 
-playlist, así como crear o quitar una playlist, puede reproducir música en aleatorio, 
-o en secuencia.
+PLAYER MUSIC es una aplicación móvil nativa de Android diseñada para ofrecer una experiencia de reproducción de música local fluida y organizada. El objetivo principal es permitir a los usuarios gestionar y disfrutar de su biblioteca musical personal almacenada en el dispositivo, con funcionalidades robustas para la creación y administración de playlists.
 
 # Características principales
 - 🪟 Interfaz moderna con Jetpack Compose
@@ -26,14 +23,20 @@ o en secuencia.
 - Material 3
 
 # Uso
-- Al abrir la app, se muestra la vista de inicio *Lista de Artistas*
-- Desde *Lista de Artistas* puede hacer click en la barra superior a la derecha donde hay un icono *Listas de Reproduccion*
-- Desde *Lista de Artistas* puede hacer click en algun artista, esto le llevara a la *Musica del Artista*
-- Desde *Listas de Reproduccion* puede modificar el nombre de cada lista o borrarlas, si hace click en una lista se abrira *Lista de Reproducion*
-- Desde *Lista de Reproducion* puede hacer click en una musica para reproducir *Musica Actual* o puede hacer click en el icono de borrar a la derecha para quitarla de la lista.
-- Desde *Musica del Artista* puede hacer click en una musica para reproducir *Musica Actual* o puede hacer click en el icono de agregar a la derecha para añadir una *Lista de Reproducion*
-- Para agregar la musica a una *Lista de Reproducion* se abre una vista "Agregar listas" donde se puede escribir un nombre para la nueva lista y luego se hace click en la derecha para crear la *Lista de Reproducion* y a la vez agregarle dicha musica, tambien puedes en la misma vista "Agregar listas" buscar una *Lista de Reproducion* existente para agregar hay la musica.
-- Desde *Musica Actual* puede ir a *Lista de Reproducion* o configurar el aleatorio o repetir musica, asi como cambiar a la siguiente o anterior musica, asi como pausar o reanudar la reproducion.
+El flujo de uso de la aplicación está diseñado para ser intuitivo y potente, guiando al usuario a través de los siguientes pasos:
+ 
+1. Exploración de la Biblioteca Musical: Al iniciar la aplicación, el usuario es recibido en la vista principal, la Lista de Artistas. Esta pantalla organiza automáticamente toda la música local del dispositivo por artista, sirviendo como el punto de partida para la exploración musical. Desde aquí, el usuario puede:
+   - Seleccionar un artista para navegar a una vista detallada con todas sus canciones.
+   - Acceder a la gestión de playlists a través de un ícono en la barra superior.
+2. Gestión y Creación de Playlists: La aplicación ofrece un sistema completo para que los usuarios guarden sus propias colecciones de música:
+   - Vista de Listas de Reproducción: Desde aquí, los usuarios pueden ver todas sus playlists creadas. Tienen la capacidad de editar el nombre de cualquier lista o eliminarla por completo.
+   - Añadir Música a una Playlist: Mientras explora la música de un artista, el usuario puede seleccionar una canción y añadirla a una playlist. Se presenta una interfaz donde puede buscar una lista existente o crear una nueva al instante. Al crear una nueva lista, la canción se añade automáticamente a ella, agilizando el proceso.
+   - Gestionar Contenido de una Playlist: Al entrar en una playlist específica, el usuario puede ver todas las canciones que contiene y tiene la opción de eliminar pistas individualmente.
+3. Reproducción de Música: El núcleo de la experiencia se centra en la pantalla de Música Actual, el reproductor principal. El usuario puede llegar aquí seleccionando una canción desde la lista de un artista o desde una de sus playlists. Esta pantalla proporciona control total sobre la reproducción con las siguientes funcionalidades:
+   - Controles Esenciales: Pausar, reanudar, y navegar a la canción siguiente o anterior en la cola de reproducción.
+   - Modos de Reproducción: El usuario puede personalizar su experiencia auditiva activando el modo de reproducción aleatoria (shuffle) o configurando diferentes modos de repetición (repetir toda la lista o la canción actual).
+
+En resumen, PLAYER MUSIC empodera al usuario con una herramienta completa para organizar y disfrutar de su música local, permitiendo una gestión de biblioteca y una experiencia de reproducción eficientes y agradables.
 
 # Ver video Demo
 [Ver en YouTube](https://youtu.be/Ivs9VpvraVI)
