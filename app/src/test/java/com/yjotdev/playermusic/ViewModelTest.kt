@@ -41,7 +41,7 @@ import com.yjotdev.playermusic.domain.usecase.playlist.InsertPlaylistUseCase
 import com.yjotdev.playermusic.domain.usecase.playlist.UpdatePlaylistUseCase
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class PlayerMusicViewModelTest {
+class ViewModelTest {
 
     // Dependencias Mockeadas
     private val insertPlayListUseCase: InsertPlaylistUseCase = mockk(relaxed = true)
