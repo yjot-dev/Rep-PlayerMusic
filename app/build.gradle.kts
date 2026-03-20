@@ -22,13 +22,23 @@ android {
             useSupportLibrary = true
         }
     }
+    signingConfigs {
+        create("release") {
+            keyAlias = project.findProperty("APP_KEY_ALIAS") as? String
+            keyPassword = project.findProperty("APP_KEY_PASSWORD") as? String
+            storePassword = project.findProperty("APP_STORE_PASSWORD") as? String
+            storeFile = project.findProperty("APP_STORE_FILE")?.let { rootProject.file(it) }
+        }
+    }
     buildTypes {
         debug {
             applicationIdSuffix = ".debug"
             isDebuggable = true
         }
         release {
+            signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
