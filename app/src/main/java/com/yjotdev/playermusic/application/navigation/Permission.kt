@@ -8,7 +8,6 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,8 +25,6 @@ fun PermissionView(
     navController: NavHostController = rememberNavController(),
     isRestartApp: Boolean = false
 ){
-    val uiStatePlayerMusic by vmPlayerMusic.uiState.collectAsState()
-    val artistList = uiStatePlayerMusic.artistList
     val context = LocalContext.current
     var hasPermissions by remember{ mutableStateOf(checkPermissions(context)) }
     val requestPermissionsLauncher = rememberLauncherForActivityResult(
@@ -35,17 +32,15 @@ fun PermissionView(
         hasPermissions = permissions.all { permission -> permission.value }
     }
     if(hasPermissions){
+        //Carga las musicas del dipositivo
+        vmPlayerMusic.loadArtistList()
         //Verifica si se reinicio la app y si se obtuvieron los datos
-        LaunchedEffect(Unit){
-            vmPlayerMusic.setIsRestartApp(isRestartApp)
-        }
-        if(artistList.isNotEmpty()) {
-            //Navegación
-            Navigation(
-                vmPlayerMusic = vmPlayerMusic,
-                navController = navController
-            )
-        }
+        vmPlayerMusic.setIsRestartApp(isRestartApp)
+        //Navegación
+        Navigation(
+            vmPlayerMusic = vmPlayerMusic,
+            navController = navController
+        )
     }else{
         // Solicitar permisos al usuario
         LaunchedEffect(Unit){

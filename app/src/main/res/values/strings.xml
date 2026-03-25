@@ -17,6 +17,7 @@
     <string name="toast_repeat1">Repetir todo activado</string>
     <string name="toast_repeat2">Repetir en aleatorio activado</string>
     <string name="toast_repeat3">Repetir actual activado</string>
+    <string name="toast_invalid_playlist">Nombre de playlist inválido</string>
     <string name="ad_deleteMusicPlayList">¿Quiere eliminar esta música de su playlist?</string>
     <string name="ad_removePlayList">¿Quiere quitar esta playlist?</string>
     <string name="ad_editNamePlayList">¿Quiere editar el nombre de su playlist?</string>

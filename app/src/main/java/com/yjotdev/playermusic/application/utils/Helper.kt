@@ -9,6 +9,11 @@ import com.yjotdev.playermusic.R
  * Pertenece a la capa de Application.
  */
 object Helper {
+    /** Valida si el nombre de la playlist es válido **/
+    fun isValidWordsAndNumbers(input: String): Boolean{
+        return Regex("^[A-Za-z0-9 ]+\$").matches(input)
+    }
+
     /** Convierte duración de Long a String formato minutos:segundos **/
     fun durationFormat(duration: Int) : String {
         var seconds = duration/1000

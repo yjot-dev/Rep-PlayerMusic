@@ -5,6 +5,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -25,7 +26,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.yjotdev.playermusic.R
 import com.yjotdev.playermusic.domain.entity.RepeatOptions
 import com.yjotdev.playermusic.application.mvvm.view.AddPlayListView
 import com.yjotdev.playermusic.application.mvvm.view.ArtistListView
@@ -36,15 +36,19 @@ import com.yjotdev.playermusic.application.mvvm.view.PlayListView
 import com.yjotdev.playermusic.application.mvvm.viewModel.PlayerMusicViewModel
 import com.yjotdev.playermusic.application.components.MyAlertDialog
 import com.yjotdev.playermusic.application.components.ToolBarMenu
+import com.yjotdev.playermusic.application.utils.Helper
 import com.yjotdev.playermusic.domain.entity.MusicListEntity
+import com.yjotdev.playermusic.R
 
 @Composable
 fun Navigation(
     vmPlayerMusic: PlayerMusicViewModel,
     navController: NavHostController
 ){
+    //Contexto de la aplicacion
     val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
+    //Lectura de los estados del ViewModel
     val uiState by vmPlayerMusic.uiState.collectAsState()
     val playerState by vmPlayerMusic.playerState.collectAsState()
     //Vista ToolBarMenu
@@ -144,16 +148,20 @@ fun Navigation(
             modifier = Modifier.padding(innerPadding))
         {
             composable(route = ViewRoutes.ArtistList.name){
-                ArtistListView(
-                    modifier = Modifier.fillMaxSize(),
-                    artistList = artistList,
-                    itemClicked = { itemArtist ->
-                        //Informa al ViewModel de la selección
-                        vmPlayerMusic.setArtistListSelected(itemArtist)
-                        //Navega a la lista de música del artista seleccionado
-                        navController.navigate(ViewRoutes.MusicList.name)
-                    }
-                )
+                if (artistList.isEmpty()) {
+                    CircularProgressIndicator()
+                } else {
+                    ArtistListView(
+                        modifier = Modifier.fillMaxSize(),
+                        artistList = artistList,
+                        itemClicked = { itemArtist ->
+                            //Informa al ViewModel de la selección
+                            vmPlayerMusic.setArtistListSelected(itemArtist)
+                            //Navega a la lista de música del artista seleccionado
+                            navController.navigate(ViewRoutes.MusicList.name)
+                        }
+                    )
+                }
             }
             composable(route = ViewRoutes.MusicList.name){
                 MusicListView(
@@ -338,15 +346,20 @@ fun Navigation(
                         keyboardController?.hide()
                     },
                     addPlayListClicked = { name ->
-                        //Agrega o actualiza una playlist
-                        val message = when(vmPlayerMusic.addMusicsToPlaylist(name)){
-                            1 -> { context.getString(R.string.toast_playListName) }
-                            2 -> { context.getString(R.string.toast_insertPlayList, name) }
-                            else -> { context.getString(R.string.toast_addMusicPlayList) }
+                        if (Helper.isValidWordsAndNumbers(name)) {
+                            //Agrega o actualiza una playlist
+                            val message = when(vmPlayerMusic.addMusicsToPlaylist(name)){
+                                1 -> { context.getString(R.string.toast_playListName) }
+                                2 -> { context.getString(R.string.toast_insertPlayList, name) }
+                                else -> { context.getString(R.string.toast_addMusicPlayList) }
+                            }
+                            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                            playlistName = ""
+                            navController.navigateUp()
+                        } else {
+                            val message = context.getString(R.string.toast_invalid_playlist)
+                            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                         }
-                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-                        playlistName = ""
-                        navController.navigateUp()
                     }
                 )
             }

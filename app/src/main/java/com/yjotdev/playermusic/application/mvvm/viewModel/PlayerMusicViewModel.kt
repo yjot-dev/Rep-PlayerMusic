@@ -75,13 +75,10 @@ class PlayerMusicViewModel @Inject constructor(
     //Estado del reproductor
     val playerState: StateFlow<PlayerEntity> = getPlayerStateUseCase()
 
-    init {
-        loadArtistList()
-        getConfig()
-    }
+    init { getConfig() }
 
     /** Carga los datos no reactivos del listado de artistas **/
-    private fun loadArtistList() {
+    fun loadArtistList() {
         viewModelScope.launch {
             _artistListState.value = getArtistListUseCase()
         }
