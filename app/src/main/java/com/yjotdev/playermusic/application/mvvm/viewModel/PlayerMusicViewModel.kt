@@ -49,7 +49,7 @@ class PlayerMusicViewModel @Inject constructor(
     // Para datos que no son un Flow continuo
     private val _artistListState = MutableStateFlow<List<MusicListEntity>>(emptyList())
     // Para el Flow reactivo de Room.
-    private val _playListState: StateFlow<List<MusicListEntity>> = getPlayListUseCase()
+    private val _playListState = getPlayListUseCase()
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
@@ -57,7 +57,7 @@ class PlayerMusicViewModel @Inject constructor(
         )
     // Para el resto de estados de la UI.
     private val _uiState = MutableStateFlow(PlayerMusicModel())
-    // ESTADO UNIFICADO PARA LA UI
+    // Estado unificado de la UI
     val uiState: StateFlow<PlayerMusicModel> = combine(
         _artistListState,
         _playListState,
@@ -73,7 +73,8 @@ class PlayerMusicViewModel @Inject constructor(
         initialValue = PlayerMusicModel()
     )
     //Estado del reproductor
-    val playerState: StateFlow<PlayerEntity> = getPlayerStateUseCase()
+    private val _playerState = getPlayerStateUseCase()
+    val playerState: StateFlow<PlayerEntity> = _playerState
 
     init { getConfig() }
 
