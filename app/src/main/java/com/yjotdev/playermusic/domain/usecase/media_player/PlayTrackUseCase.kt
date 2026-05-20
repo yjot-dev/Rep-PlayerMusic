@@ -1,16 +1,14 @@
 package com.yjotdev.playermusic.domain.usecase.media_player
 
-import javax.inject.Singleton
 import javax.inject.Inject
-import com.yjotdev.playermusic.domain.entity.MusicEntity
-import com.yjotdev.playermusic.domain.entity.RepeatOptions
-import com.yjotdev.playermusic.domain.port.MediaPlayerPort
+import com.yjotdev.playermusic.domain.model.MusicModel
+import com.yjotdev.playermusic.domain.utils.RepeatOptions
+import com.yjotdev.playermusic.domain.repository.MediaPlayerRepository
 
-@Singleton
 class PlayTrackUseCase @Inject constructor(
-    private val mediaPlayerPort: MediaPlayerPort
+    private val mediaPlayerRepository: MediaPlayerRepository
 ) {
-    operator fun invoke(track: MusicEntity, currentList: List<MusicEntity>, repeat: RepeatOptions) {
-        mediaPlayerPort.play(track, currentList, repeat)
+    operator fun invoke(track: MusicModel, currentList: List<MusicModel>, repeat: RepeatOptions) {
+        mediaPlayerRepository.play(track, currentList, repeat)
     }
 }

@@ -4,9 +4,9 @@ import io.mockk.mockk
 import io.mockk.verify
 import org.junit.Before
 import org.junit.Test
-import com.yjotdev.playermusic.domain.entity.MusicEntity
-import com.yjotdev.playermusic.domain.entity.RepeatOptions
-import com.yjotdev.playermusic.domain.port.MediaPlayerPort
+import com.yjotdev.playermusic.domain.model.MusicModel
+import com.yjotdev.playermusic.domain.utils.RepeatOptions
+import com.yjotdev.playermusic.domain.repository.MediaPlayerRepository
 import com.yjotdev.playermusic.domain.usecase.media_player.NextTrackUseCase
 import com.yjotdev.playermusic.domain.usecase.media_player.PauseTrackUseCase
 import com.yjotdev.playermusic.domain.usecase.media_player.PlayTrackUseCase
@@ -19,7 +19,7 @@ import com.yjotdev.playermusic.domain.usecase.media_player.SeekToUseCase
  */
 class MediaPlayerUseCaseTest {
 
-    private lateinit var mediaPlayerPort: MediaPlayerPort
+    private lateinit var mediaPlayerRepository: MediaPlayerRepository
     private lateinit var playTrackUseCase: PlayTrackUseCase
     private lateinit var pauseTrackUseCase: PauseTrackUseCase
     private lateinit var resumeTrackUseCase: ResumeTrackUseCase
@@ -29,19 +29,19 @@ class MediaPlayerUseCaseTest {
 
     @Before
     fun setUp() {
-        mediaPlayerPort = mockk(relaxed = true)
-        playTrackUseCase = PlayTrackUseCase(mediaPlayerPort)
-        pauseTrackUseCase = PauseTrackUseCase(mediaPlayerPort)
-        resumeTrackUseCase = ResumeTrackUseCase(mediaPlayerPort)
-        nextTrackUseCase = NextTrackUseCase(mediaPlayerPort)
-        previousTrackUseCase = PreviousTrackUseCase(mediaPlayerPort)
-        seekToUseCase = SeekToUseCase(mediaPlayerPort)
+        mediaPlayerRepository = mockk(relaxed = true)
+        playTrackUseCase = PlayTrackUseCase(mediaPlayerRepository)
+        pauseTrackUseCase = PauseTrackUseCase(mediaPlayerRepository)
+        resumeTrackUseCase = ResumeTrackUseCase(mediaPlayerRepository)
+        nextTrackUseCase = NextTrackUseCase(mediaPlayerRepository)
+        previousTrackUseCase = PreviousTrackUseCase(mediaPlayerRepository)
+        seekToUseCase = SeekToUseCase(mediaPlayerRepository)
     }
 
     @Test
     fun whenPlayTrackUseCaseIsInvokedThenPortPlayMethodIsCalled() {
         // Given
-        val track = MusicEntity(
+        val track = MusicModel(
             musicPath = "path/to/track",
             musicDuration = 200,
             musicName = "Track Name",
@@ -53,7 +53,7 @@ class MediaPlayerUseCaseTest {
         playTrackUseCase(track, playlist, repeatMode)
 
         // Then
-        verify(exactly = 1) { mediaPlayerPort.play(track, playlist, repeatMode) }
+        verify(exactly = 1) { mediaPlayerRepository.play(track, playlist, repeatMode) }
     }
 
     @Test
@@ -62,7 +62,7 @@ class MediaPlayerUseCaseTest {
         pauseTrackUseCase()
 
         // Then
-        verify(exactly = 1) { mediaPlayerPort.pause() }
+        verify(exactly = 1) { mediaPlayerRepository.pause() }
     }
 
     @Test
@@ -71,7 +71,7 @@ class MediaPlayerUseCaseTest {
         resumeTrackUseCase()
 
         // Then
-        verify(exactly = 1) { mediaPlayerPort.resume() }
+        verify(exactly = 1) { mediaPlayerRepository.resume() }
     }
 
     @Test
@@ -80,7 +80,7 @@ class MediaPlayerUseCaseTest {
         nextTrackUseCase()
 
         // Then
-        verify(exactly = 1) { mediaPlayerPort.next() }
+        verify(exactly = 1) { mediaPlayerRepository.next() }
     }
 
     @Test
@@ -89,7 +89,7 @@ class MediaPlayerUseCaseTest {
         previousTrackUseCase()
 
         // Then
-        verify(exactly = 1) { mediaPlayerPort.previous() }
+        verify(exactly = 1) { mediaPlayerRepository.previous() }
     }
 
     @Test
@@ -101,6 +101,6 @@ class MediaPlayerUseCaseTest {
         seekToUseCase(position)
 
         // Then
-        verify(exactly = 1) { mediaPlayerPort.seekTo(position) }
+        verify(exactly = 1) { mediaPlayerRepository.seekTo(position) }
     }
 }

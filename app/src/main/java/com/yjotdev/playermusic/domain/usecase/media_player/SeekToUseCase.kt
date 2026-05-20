@@ -1,14 +1,12 @@
 package com.yjotdev.playermusic.domain.usecase.media_player
 
 import javax.inject.Inject
-import javax.inject.Singleton
-import com.yjotdev.playermusic.domain.port.MediaPlayerPort
+import com.yjotdev.playermusic.domain.repository.MediaPlayerRepository
 
-@Singleton
 class SeekToUseCase @Inject constructor(
-    private val mediaPlayerPort: MediaPlayerPort
+    private val mediaPlayerRepository: MediaPlayerRepository
 ) {
     operator fun invoke(position: Int) {
-        mediaPlayerPort.seekTo(position)
+        mediaPlayerRepository.seekTo(position)
     }
 }

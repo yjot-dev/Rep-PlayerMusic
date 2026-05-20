@@ -5,8 +5,8 @@ PLAYER MUSIC es una aplicación móvil nativa de Android diseñada para ofrecer 
 - 🪟 Interfaz moderna con Jetpack Compose
 - 🌐 Navegación con Navigation Component
 - 📊 Integración con Service, ViewModel + StateFlow
-- 🎨 Patrón de diseño arquitectónico con MVVM + Hexagonal
-- 🧩 Inyección de dependencias con Hilt
+- 🎨 Patrón de diseño arquitectónico con MVVM + Clean Architecture
+- 💉 Inyección de dependencias con Hilt
 - 💽 Base de datos local con Room
 - 📱 Compatible con Android 7.0 (API 24) en adelante
 

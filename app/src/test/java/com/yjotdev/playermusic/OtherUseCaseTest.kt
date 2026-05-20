@@ -12,12 +12,12 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Suite
-import com.yjotdev.playermusic.domain.entity.MusicListEntity
-import com.yjotdev.playermusic.domain.entity.PlayerEntity
-import com.yjotdev.playermusic.domain.entity.RepeatOptions
-import com.yjotdev.playermusic.domain.port.ArtistListPort
-import com.yjotdev.playermusic.domain.port.ConfigPort
-import com.yjotdev.playermusic.domain.port.PlayerStatePort
+import com.yjotdev.playermusic.domain.model.MusicListModel
+import com.yjotdev.playermusic.domain.model.PlayerModel
+import com.yjotdev.playermusic.domain.utils.RepeatOptions
+import com.yjotdev.playermusic.domain.repository.ArtistListRepository
+import com.yjotdev.playermusic.domain.repository.ConfigRepository
+import com.yjotdev.playermusic.domain.repository.PlayerStateRepository
 import com.yjotdev.playermusic.domain.usecase.artist_list.GetArtistListUseCase
 import com.yjotdev.playermusic.domain.usecase.config.ConfigUseCase
 import com.yjotdev.playermusic.domain.usecase.media_player.GetPlayerStateUseCase
@@ -37,27 +37,27 @@ class OtherUseCasesTest {
      * Pruebas para GetArtistListUseCase.
      */
     class ArtistListUseCaseTest {
-        private lateinit var artistListPort: ArtistListPort
+        private lateinit var artistListRepository: ArtistListRepository
         private lateinit var getArtistListUseCase: GetArtistListUseCase
 
         @Before
         fun setUp() {
-            artistListPort = mockk()
-            getArtistListUseCase = GetArtistListUseCase(artistListPort)
+            artistListRepository = mockk()
+            getArtistListUseCase = GetArtistListUseCase(artistListRepository)
         }
 
         @Test
         fun whenGetArtistListUseCaseIsInvokedThenItReturnsArtistList() = runTest {
             // Given
-            val fakeArtistList = listOf(MusicListEntity(name = "Anuel AA", musicList = emptyList()))
-            coEvery { artistListPort.getArtistMusicList() } returns fakeArtistList
+            val fakeArtistList = listOf(MusicListModel(name = "Anuel AA", musicList = emptyList()))
+            coEvery { artistListRepository.getArtistMusicList() } returns fakeArtistList
 
             // When
             val result = getArtistListUseCase()
 
             // Then
             assertEquals(fakeArtistList, result)
-            coVerify(exactly = 1) { artistListPort.getArtistMusicList() }
+            coVerify(exactly = 1) { artistListRepository.getArtistMusicList() }
         }
     }
 
@@ -65,13 +65,13 @@ class OtherUseCasesTest {
      * Pruebas para ConfigUseCase.
      */
     class ConfigUseCaseTest {
-        private lateinit var configPort: ConfigPort
+        private lateinit var configRepository: ConfigRepository
         private lateinit var configUseCase: ConfigUseCase
 
         @Before
         fun setUp() {
-            configPort = mockk(relaxed = true)
-            configUseCase = ConfigUseCase(configPort)
+            configRepository = mockk(relaxed = true)
+            configUseCase = ConfigUseCase(configRepository)
         }
 
         @Test
@@ -84,21 +84,21 @@ class OtherUseCasesTest {
             configUseCase.invoke(repeatValue, isPlaylist)
 
             // Then
-            verify(exactly = 1) { configPort.saveConfig(repeatValue, isPlaylist) }
+            verify(exactly = 1) { configRepository.saveConfig(repeatValue, isPlaylist) }
         }
 
         @Test
         fun whenConfigUseCaseIsInvokedToGetThenPortGetMethodReturnsConfig() {
             // Given
             val fakeConfig: MutableMap<String, Any> = mutableMapOf("repeat" to 1, "isPlayList" to true)
-            every { configPort.getConfig() } returns fakeConfig
+            every { configRepository.getConfig() } returns fakeConfig
 
             // When
             val result = configUseCase.invoke()
 
             // Then
             assertEquals(fakeConfig, result)
-            verify(exactly = 1) { configPort.getConfig() }
+            verify(exactly = 1) { configRepository.getConfig() }
         }
     }
 
@@ -106,28 +106,28 @@ class OtherUseCasesTest {
      * Pruebas para GetPlayerStateUseCase.
      */
     class PlayerStateUseCaseTest {
-        private lateinit var playerStatePort: PlayerStatePort
+        private lateinit var playerStateRepository: PlayerStateRepository
         private lateinit var getPlayerStateUseCase: GetPlayerStateUseCase
 
         @Before
         fun setUp() {
-            playerStatePort = mockk()
+            playerStateRepository = mockk()
         }
 
         @Test
         fun whenGetPlayerStateUseCaseIsInvokedThenItReturnsPlayerStateFlow() {
             // Given
-            val fakePlayerState = PlayerEntity()
+            val fakePlayerState = PlayerModel()
             val stateFlow = MutableStateFlow(fakePlayerState)
-            every { playerStatePort.playerState } returns stateFlow
-            getPlayerStateUseCase = GetPlayerStateUseCase(playerStatePort)
+            every { playerStateRepository.playerState } returns stateFlow
+            getPlayerStateUseCase = GetPlayerStateUseCase(playerStateRepository)
 
             // When
             val result = getPlayerStateUseCase()
 
             // Then
             assertEquals(stateFlow, result)
-            verify(exactly = 1) { playerStatePort.playerState }
+            verify(exactly = 1) { playerStateRepository.playerState }
         }
     }
 }

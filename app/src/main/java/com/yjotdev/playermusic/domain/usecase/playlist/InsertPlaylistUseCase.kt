@@ -1,15 +1,13 @@
 package com.yjotdev.playermusic.domain.usecase.playlist
 
-import javax.inject.Singleton
 import javax.inject.Inject
-import com.yjotdev.playermusic.domain.port.PlaylistPort
-import com.yjotdev.playermusic.domain.entity.MusicListEntity
+import com.yjotdev.playermusic.domain.repository.PlaylistRepository
+import com.yjotdev.playermusic.domain.model.MusicListModel
 
-@Singleton
 class InsertPlaylistUseCase @Inject constructor(
-    private val playListPort: PlaylistPort
+    private val playListRepository: PlaylistRepository
 ) {
-    suspend operator fun invoke(item: MusicListEntity){
-        playListPort.insertPlayList(item)
+    suspend operator fun invoke(item: MusicListModel){
+        playListRepository.insertPlayList(item)
     }
 }

@@ -1,6 +1,6 @@
 package com.yjotdev.playermusic.domain.utils
 
-import com.yjotdev.playermusic.domain.entity.MusicEntity
+import com.yjotdev.playermusic.domain.model.MusicModel
 
 /**
  * Contiene funciones de utilidad relacionadas con los casos de uso.
@@ -8,7 +8,7 @@ import com.yjotdev.playermusic.domain.entity.MusicEntity
  */
 object Helper {
     /** Obtiene el total de canciones del artista **/
-    fun getTotalArtistMusic(musicList: List<MusicEntity>): String{
+    fun getTotalArtistMusic(musicList: List<MusicModel>): String{
         return when(val res = musicList.count()){
             1 -> "$res canción"
             else -> "$res canciones"
@@ -16,7 +16,7 @@ object Helper {
     }
 
     /** Obtiene el total de albumes del artista **/
-    fun getTotalArtistAlbum(musicList: List<MusicEntity>): String{
+    fun getTotalArtistAlbum(musicList: List<MusicModel>): String{
         return when(val res = musicList.distinctBy{ it.albumName }.count()){
             1 -> "$res álbum"
             else -> "$res álbumes"

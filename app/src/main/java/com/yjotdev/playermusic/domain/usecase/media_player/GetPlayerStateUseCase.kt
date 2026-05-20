@@ -1,16 +1,14 @@
 package com.yjotdev.playermusic.domain.usecase.media_player
 
 import javax.inject.Inject
-import javax.inject.Singleton
 import kotlinx.coroutines.flow.StateFlow
-import com.yjotdev.playermusic.domain.entity.PlayerEntity
-import com.yjotdev.playermusic.domain.port.PlayerStatePort
+import com.yjotdev.playermusic.domain.model.PlayerModel
+import com.yjotdev.playermusic.domain.repository.PlayerStateRepository
 
-@Singleton
 class GetPlayerStateUseCase @Inject constructor(
-    private val playerStatePort: PlayerStatePort
+    private val playerStateRepository: PlayerStateRepository
 ) {
-    operator fun invoke(): StateFlow<PlayerEntity> {
-        return playerStatePort.playerState
+    operator fun invoke(): StateFlow<PlayerModel> {
+        return playerStateRepository.playerState
     }
 }

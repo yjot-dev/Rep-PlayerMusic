@@ -16,94 +16,136 @@
 ### A.1.2 Perfil de Estructura: MVVM Simple
 - **Uso:** Ideal para aplicaciones pequeñas, de una sola capa, que no se conectan a APIs o bases de datos complejas y gestionan su lógica principalmente en la capa de presentación.
 - **Estructura de Directorios:**
-    - `application` (Capa de Presentación)
-        - `mvvm`: Contiene las view, viewmodel y model de la aplicación.
-            - `view`: Contiene las UI (pantallas) de la aplicación.
-                - `NombreDePantallaView.kt`
+    - `presentation` (Capa de Presentación)
+        - `mvvm`: Contiene las UI (pantallas), viewmodel y states de la aplicación.
+            - `ui`: Contiene las UI de la aplicación.
+                - **(Condicional) Si el paradigma es `UI_COMPOSE`:**
+                    - `NombreDePantallaUi.kt`
+                - **(Condicional) Si el paradigma es `UI_XML`:**
+                    - `fragment`: Contiene los Fragments/Activities.
+                        - `NombreDePantallaFragment.kt`
+                    - `adapter`: Contiene los Adapters del RecyclerView.
+                        - `NombreDePantallaAdapter.kt`
+                    - **(Opcional) Si los ViewHolders son complejos y se extraen:**
+                        - `viewholder`: Contiene los ViewHolders complejos.
+                            - `NombreDePantallaViewHolder.kt`
             - `viewmodel`: Contiene la lógica de UI de la aplicación.
                 - `UiViewModel.kt`
-            - `model`: Contiene los modelos de datos de la UI (Data Class, `UiState`).
-                - `UiModel.kt`
-        - `navigation`: Lógica de navegación.
+            - `state`: Contiene los modelos de datos de la UI.
+                - `UiState.kt`
+        - `navigation`: Contiene los grafos, canales de eventos y rutas de navegación.
+            - `Navigation.kt`
+            - `UiEvent.kt`
+            - **(Condicional) Si el paradigma es `UI_COMPOSE`:**
+                - `Routes.kt`
+                - `Permission.kt`
         - **(Condicional) Si el paradigma es `UI_COMPOSE`:**
-            - `components`: Composables reutilizables en varias UI.
-            - `theme`: Tema de la aplicación.
+            - `components`: Contiene los composables reutilizables en varias UI.
+            - `theme`: Contiene el tema de la aplicación.
         - **(Condicional) Si el paradigma es `UI_XML`:**
             - Se omiten los directorios `components` y `theme`.
             - Las vistas (layouts XML) residen en el directorio `res/layout`.
             - Los estilos y temas residen en el directorio `res/values`.
-        - `utils`: Contiene helpers sin estado y funciones puras que realizan tareas de apoyo muy específicas y reutilizables.
-            - `Helper.kt`
+        - **(Opcional) Si se requiere metodos auxiliares:**
+            - `utils`: Contiene los helpers de UI.
+                - `Helper.kt`
 
-### A.1.3 Perfil de Estructura: Arquitectura Hexagonal
+### A.1.3 Perfil de Estructura: Clean Architecture
 - **Uso:** Para aplicaciones completas que requieren una separación estricta de responsabilidades, con capas de dominio, datos (infraestructura) y aplicación bien definidas. Ideal para proyectos con APIs, bases de datos, etc.
 - **Estructura de Directorios:**
-    - `application` (Capa de Presentación)
-        - `mvvm`: Contiene las view, viewmodel y model de la aplicación.
-            - `view`: Contiene las UI (pantallas) de la aplicación.
-                - `NombreDePantallaView.kt`
+    - `presentation` (Capa de Presentación)
+        - `mvvm`: Contiene las UI (pantallas), viewmodel y states de la aplicación.
+            - `ui`: Contiene las UI de la aplicación.
+                - **(Condicional) Si el paradigma es `UI_COMPOSE`:**
+                    - `NombreDePantallaUi.kt`
+                - **(Condicional) Si el paradigma es `UI_XML`:**
+                    - `fragment`: Contiene los Fragments/Activities.
+                        - `NombreDePantallaFragment.kt`
+                    - `adapter`: Contiene los Adapters del RecyclerView.
+                        - `NombreDePantallaAdapter.kt`
+                    - **(Opcional) Si los ViewHolders son complejos y se extraen:**
+                        - `viewholder`: Contiene los ViewHolders complejos.
+                            - `NombreDePantallaViewHolder.kt`
             - `viewmodel`: Contiene la lógica de UI de la aplicación.
                 - `UiViewModel.kt`
-            - `model`: Contiene los modelos de datos de la UI (Data Class, `UiState`).
-                - `UiModel.kt`
-        - `navigation`: Lógica de navegación.
+            - `state`: Contiene los modelos de datos de la UI.
+                - `UiState.kt`
+        - `navigation`: Contiene los grafos, canales de eventos y rutas de navegación.
+            - `Navigation.kt`
+            - `UiEvent.kt`
+            - **(Condicional) Si el paradigma es `UI_COMPOSE`:**
+                - `Routes.kt`
+                - `Permission.kt`
         - **(Condicional) Si el paradigma es `UI_COMPOSE`:**
-            - `components`: Composables reutilizables en varias UI.
-            - `theme`: Tema de la aplicación.
+            - `components`: Contiene los composables reutilizables en varias UI.
+            - `theme`: Contiene el tema de la aplicación.
         - **(Condicional) Si el paradigma es `UI_XML`:**
             - Se omiten los directorios `components` y `theme`.
             - Las vistas (layouts XML) residen en el directorio `res/layout`.
             - Los estilos y temas residen en el directorio `res/values`.
-        - `utils`: Contiene helpers sin estado y funciones puras que realizan tareas de apoyo muy específicas y reutilizables.
-            - `Helper.kt`
-    - `domain` (Capa de Dominio)
-        - `core`: Abstracciones y modelos fundamentales que definen la estructura y comunicación del dominio.
+        - **(Opcional) Si se requiere metodos auxiliares:**
+            - `utils`: Contiene los helpers de UI.
+                - `Helper.kt`
+    - `domain` (Capa de lógica de negocio pura)
+        - `core`: Contiene los resultados y excepciones base.
             - `Result.kt`
-        - `entity`: Entidades de negocio puras (Data Class).
-            - `NombreDeTablaEntity.kt`
-        - `port`: Interfaces que definen los contratos para la obtención de datos.
-            - `NombreDeTablaPort.kt`
-        - `usecase`: Clases que contienen la lógica de negocio.
-            - `NombreDeTablaUseCase.kt`
-        - `utils`: Contiene helpers sin estado y funciones puras que realizan tareas de apoyo muy específicas y reutilizables.
-            - `Helper.kt`
-    - `infrastructure` (Capa de Datos y Servicios)
-        - `di`: Configuración de la inyección de dependencias (Hilt, Koin).
-            - `DiModules.kt`
-        - `repository`: Implementaciones concretas de las interfaces del dominio.
+        - `model`: Contiene los objetos de datos de negocio
+            - `NombreDeTablaModel.kt`
+        - `repository`: Contiene las interfaces (contratos) que definen el acceso a datos.
             - `NombreDeTablaRepository.kt`
+        - `usecase`: Contiene los casos de uso/Interactores (una clase por acción).
+            - `NombreDeTablaUseCase.kt`
+        - **(Opcional) Si se requiere metodos auxiliares:**
+            - `utils`: Contiene los helpers de Domain.
+                - `Helper.kt`
+    - `data` (Capa de datos e implementación)
+        - `di`: Contiene la configuración de la inyección de dependencias.
+            - `DiModules.kt`
+        - `repository`: Contiene las implementaciones concretas de las interfaces del dominio.
+            - `NombreDeTablaRepositoryImpl.kt`
         - **(Condicional) Si se usa una base de datos local (ej: Room):**
-            - `datasource`: Clases relacionadas con la base de datos local.
+            - `local`: Contiene las clases relacionadas con la base de datos local.
                 - `dao`: Contiene los Data Access Objects (DAOs).
                     - `NombreDeTablaDao.kt`
-                - `converter`: Conversores de tipos para la base de datos.
+                - `converter`: Contiene los conversores de tipos para la base de datos.
                     - `Converters.kt`
-                - `database`: La clase principal que define la base de datos.
+                - `database`: Contiene la clase principal que define la base de datos.
                     - `NombreDeProyectoDatabase.kt`
-                - `model`: Modelos de datos puros (Data Class)
-                    - `NombreDeTablaModel.kt`
+                - `entity`: Contiene las entidades para la base de datos
+                    - `NombreDeTablaEntity.kt`
+                - `mapper`: Contiene los conversores de entidades a modelos de dominio.
+                    - `NombreDeTablaMapper.kt`
         - **(Condicional) Si se usa una API remota (ej: Retrofit):**
-            - `network`: Clases relacionadas con la comunicación de red.
-                - `client`: Contiene la configuración del cliente HTTP (ej: OkHttpClient).
-                    - `Api.kt`
-                    - `Client.kt`
+            - `remote`: Contiene las clases relacionadas con la comunicación de red.
+                - `api`: Contiene los endpoints de la API.
+                    - `NombreDeEndPointApi.kt`
+                - `network`: Contiene la configuración de red con cliente HTTP e interceptores.
+                    - `RetrofitBuilder.kt`
                     - `HeaderInterceptor.kt`
-                - `api`: Define los endpoints de la API.
-                    - `NombreDelServicioApi.kt`
-                - `core`: Utilidades de red como `safeApiCall` o conversores.
+                - `dto`: Contiene los modelos de datos que coinciden exactamente con la respuesta JSON de la API.
+                    - `NombreDeTablaDto.kt`
+                - `mapper`: Contiene los conversores de DTOs a modelos de dominio.
+                    - `NombreDeTablaMapper.kt`
+                - `core`: Contiene las utilidades de red o conversores.
                     - `NetworkUtils.kt`
                     - `NullOnEmptyConverterFactory.kt`
         - **(Condicional) Si se usa Machine Learning local (ej: TensorFlow Lite, MLKit):**
-            - `ml`: Clases relacionadas con el procesamiento de modelos de IA.
-                - `source`: Clases que interactúan directamente con el intérprete (Interpreter).
-                    - `NombreDelModeloSource.kt`
-                - `model`: Modelos específicos de entrada/salida del intérprete (no confundir con Domain Entities).
-                    - `InputTensorModel.kt`
-                - `utils`: Utilidades de procesamiento de imagen (Bitmaps, tensores).
-                    - `ImageProcessorHelper.kt`
+            - `ml`: Contiene las implementaciones del procesamiento de inteligencia artificial.
+                - `datasource`: Contiene las clases que gestionan el ciclo de vida del intérprete.
+                    - `TfLiteDataSource.kt`
+                - `dto`: Contiene los objetos de entrada/salida del modelo (Tensors/Recognitions).
+                    - `RecognitionDto.kt`
+                - `analyzer`: Contiene la lógica de pre-procesamiento y post-procesamiento.
+                    - `ImageAnalyzer.kt`
+                    - `TensorProcessor.kt`
+                - `mapper`: Contiene los conversores de DTOs de ML a Modelos de Dominio.
+                    - `MlResultMapper.kt`
         - **(Opcional) Si la aplicación requiere servicios en segundo plano:**
-            - `service`: Contiene implementaciones de `Service` de Android.
-                - `NombreDelServicio.kt`
+            - `service`: Contiene implementaciones para un servicio en Android.
+                - `NombreService.kt`
+        - **(Opcional) Si la aplicación requiere trabajadores en segundo plano:**
+            - `worker`: Contiene implementaciones para un trabajador en Android.
+                - `NombreWorker.kt`
 
 ## A.2 Estilo del ViewModel
 - **Requisito:** Todo el codigo de cada `ViewModel` debe seguir un estilo de implementación.
@@ -112,36 +154,36 @@
     - Exponer una propiedad pública e inmutable llamada `uiState` de tipo `StateFlow`. Esta propiedad será la versión de solo lectura de `_uiState` obtenida a través de `.asStateFlow()`.
     - Implementar el metodo onCleared()
     - **Ejemplo de código:**
-```kotlin
-    /*
-    * La clase hereda de `ViewModel`.
-    * El nombre de la clase sigue el patrón "{NombrePantalla}ViewModel".
-    * Los casos de uso se inyectan en el constructor (ej: con Hilt).
-    * Expone el estado de la UI siguiendo el patrón `_uiState` / `uiState`.
-    * Limpia el estado en `onCleared`.
-    */
-    @HiltViewModel
-    class LoginViewModel @Inject constructor(
-        private val loginUserUseCase: LoginUserUseCase,
-        private val getSavedUserUseCase: GetSavedUserUseCase
-    ) : ViewModel() {
-        // 1. Estado privado y mutable. El nombre del UiState es específico de la pantalla.
-        private val _uiState = MutableStateFlow(LoginUiState())
-    
-        // 2. Estado público e inmutable.
-        val uiState: StateFlow<LoginUiState> = _uiState.asStateFlow()
-    
-        fun onLoginClicked(user: String, pass: String) {
-            // Lógica de la función aquí...
-        }
-    
-        // 3. Limpieza del ViewModel al ser destruido.
-        override fun onCleared() {
-            super.onCleared()
-            _uiState.value = LoginUiState()
-        }
-    }
-```
+        ```kotlin
+            /*
+            * La clase hereda de `ViewModel`.
+            * El nombre de la clase sigue el patrón "{NombrePantalla}ViewModel".
+            * Los casos de uso se inyectan en el constructor (ej: con Hilt).
+            * Expone el estado de la UI siguiendo el patrón `_uiState` / `uiState`.
+            * Limpia el estado en `onCleared`.
+            */
+            @HiltViewModel
+            class LoginViewModel @Inject constructor(
+                private val loginUserUseCase: LoginUserUseCase,
+                private val getSavedUserUseCase: GetSavedUserUseCase
+            ) : ViewModel() {
+                // 1. Estado privado y mutable. El nombre del UiState es específico de la pantalla.
+                private val _uiState = MutableStateFlow(LoginUiState())
+            
+                // 2. Estado público e inmutable.
+                val uiState: StateFlow<LoginUiState> = _uiState.asStateFlow()
+            
+                fun onLoginClicked(user: String, pass: String) {
+                    // Lógica de la función aquí...
+                }
+            
+                // 3. Limpieza del ViewModel al ser destruido.
+                override fun onCleared() {
+                    super.onCleared()
+                    _uiState.value = LoginUiState()
+                }
+            }
+        ```
 
 ## A.3 Estilo de Código
 - **Requisito:** Todas las funciones públicas deben seguir una nomenclatura y documentación estandarizada.
@@ -153,26 +195,26 @@
     - Los nombres de las constantes deben seguir el estilo **UPPER_SNAKE_CASE**.
     - Cada función debe tener un comentario KDoc en la parte superior que describa su propósito.
     - **Ejemplo de código:**
-```kotlin
-   /* Clase ejemplo de Login */
-   class Login() {
-       // El nombre de la constante sigue el estilo UPPER_SNAKE_CASE
-       const val MAX_LOGIN_ATTEMPTS = 5
-       /**
-        * Valida las credenciales del usuario y actualiza su estado.
-        * @param userEmail El email proporcionado por el usuario.
-        * @param userPassword La contraseña proporcionada.
-        * @return `true` si la autenticación es exitosa, `false` en caso contrario.
-        */
-       // El nombre de la función y sus parámetros siguen el estilo camelCase
-       fun validateUserCredentials(userEmail: String, userPassword: String): Boolean {
-           // El nombre de la variable sigue el estilo camelCase
-           val isValid = userEmail.isNotEmpty() && userPassword.length > 8
-           // Lógica de la función aquí...
-           return isValid
-       }
-   }
-```
+        ```kotlin
+        /* Clase ejemplo de Login */
+        class Login() {
+            // El nombre de la constante sigue el estilo UPPER_SNAKE_CASE
+            const val MAX_LOGIN_ATTEMPTS = 5
+            /**
+                * Valida las credenciales del usuario y actualiza su estado.
+                * @param userEmail El email proporcionado por el usuario.
+                * @param userPassword La contraseña proporcionada.
+                * @return `true` si la autenticación es exitosa, `false` en caso contrario.
+                */
+            // El nombre de la función y sus parámetros siguen el estilo camelCase
+            fun validateUserCredentials(userEmail: String, userPassword: String): Boolean {
+                // El nombre de la variable sigue el estilo camelCase
+                val isValid = userEmail.isNotEmpty() && userPassword.length > 8
+                // Lógica de la función aquí...
+                return isValid
+            }
+        }
+        ```
 
 # SECCIÓN B: REGLAS DE TAREAS COMPLEJAS
 ## B.1 Tarea: Mantenimiento y Actualización del Proyecto
@@ -191,7 +233,7 @@
 
     3. **Alinear la Versión de JVM de Kotlin:**
         - En el archivo `build.gradle.kts` a nivel de módulo (`app`), dentro del bloque `android { ... }`, localiza o añade el bloque `kotlinOptions`.
-        - Asegúrate de que el valor de `jvmTarget` sea coherente con la `sourceCompatibility` y `targetCompatibility` definidas en `compileOptions` (usualmente "11", "17" o "21").
+        - Asegúrate de que el valor de `jvmTarget` sea coherente con la `sourceCompatibility` y `targetCompatibility` definidas en `compileOptions`.
 
     4. **Actualizar Dependencias:**
         - Revisa todas las dependencias declaradas en `libs.versions.toml`.
@@ -231,9 +273,21 @@
         - En `android { ... }`, localiza o crea el bloque `buildFeatures`.
         - Asegúrate de que contenga `compose = true` y `buildConfig = true`.
 
-    13. **Habilitar el Cache de Configuración de Gradle:**
-        - En el archivo `gradle.properties` a nivel de proyecto, añade la siguiente línea si no existe:
-          `org.gradle.configuration-cache=true`
+    13. **Configuración de Gradle local:**
+        - En el archivo `gradle.properties` a nivel de proyecto, remplaza el contenido existente por el siguiente:
+            ```properties
+            # Obliga al proyecto a usar librerias AndroidX en lugar de Support Libraries
+            android.useAndroidX=true
+
+            # Define el estilo oficial de Kotlin (convenciones de codigo)
+            kotlin.code.style=official
+
+            # Hace que las clases R no sean transitivas, mejora tiempos de compilacion en proyectos grandes
+            android.nonTransitiveRClass=true
+
+            # Activa el cache de configuracion de Gradle para acelerar builds repetidos
+            org.gradle.configuration-cache=true
+            ```
 
 ## B.2 Tarea: Configurar Firma de la Aplicación para Release
 - **Objetivo:** Configurar de manera segura la firma para la variante de compilación `release`, utilizando un archivo `custom.properties` centralizado para no exponer información sensible en el control de versiones.

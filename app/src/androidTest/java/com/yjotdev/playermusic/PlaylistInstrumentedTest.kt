@@ -23,13 +23,13 @@ import org.junit.Before
 import org.junit.After
 import javax.inject.Inject
 import dagger.hilt.android.testing.HiltAndroidTest
-import com.yjotdev.playermusic.application.navigation.PermissionView
-import com.yjotdev.playermusic.application.navigation.ViewRoutes
-import com.yjotdev.playermusic.application.theme.PlayerMusicTheme
-import com.yjotdev.playermusic.domain.entity.MusicEntity
-import com.yjotdev.playermusic.domain.entity.MusicListEntity
-import com.yjotdev.playermusic.domain.port.ArtistListPort
-import com.yjotdev.playermusic.utils.repositories.FakeArtistListRepository
+import com.yjotdev.playermusic.presentation.navigation.PermissionView
+import com.yjotdev.playermusic.presentation.navigation.ViewRoutes
+import com.yjotdev.playermusic.presentation.theme.PlayerMusicTheme
+import com.yjotdev.playermusic.domain.model.MusicModel
+import com.yjotdev.playermusic.domain.model.MusicListModel
+import com.yjotdev.playermusic.domain.repository.ArtistListRepository
+import com.yjotdev.playermusic.utils.repositories.FakeArtistListRepositoryImpl
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -48,7 +48,7 @@ class PlaylistInstrumentedTest {
     val composeTestRule = createAndroidComposeRule<HiltTestActivity>()
 
     @Inject
-    lateinit var fakeArtistListRepository: ArtistListPort // Inyectamos la interface del repositorio
+    lateinit var fakeArtistListRepository: ArtistListRepository // Inyectamos la interface del repositorio
 
     private lateinit var navController: TestNavHostController // NavController del Test
     private val context: Context = ApplicationProvider.getApplicationContext() // Contexto del test de la app
@@ -57,14 +57,14 @@ class PlaylistInstrumentedTest {
     fun init() {
         hiltRule.inject() // Inicializa Hilt
         // Obtenemos los datos antes de iniciar los test
-        val fakeData = fakeArtistListRepository as FakeArtistListRepository
+        val fakeData = fakeArtistListRepository as FakeArtistListRepositoryImpl
         fakeData.setArtistList(generateMockData())
     }
 
     @After
     fun tearDown(){
         // Limpiamos los datos despues de finalizar los test
-        val fakeData = fakeArtistListRepository as FakeArtistListRepository
+        val fakeData = fakeArtistListRepository as FakeArtistListRepositoryImpl
         fakeData.clearArtistList()
     }
 
@@ -258,46 +258,46 @@ class PlaylistInstrumentedTest {
         composeTestRule.onNodeWithTag("selectSongCheckbox:Song 2").assertDoesNotExist()
     }
 
-    private fun generateMockData(): List<MusicListEntity>{
-        val song1 = MusicEntity(
+    private fun generateMockData(): List<MusicListModel>{
+        val song1 = MusicModel(
             musicPath = "path/to/song1A",
             musicDuration = 200,
             musicName = "Song 1",
             artistName = "Artist A"
         )
-        val song2 = MusicEntity(
+        val song2 = MusicModel(
             musicPath = "path/to/song2A",
             musicDuration = 180,
             musicName = "Song 2",
             artistName = "Artist A"
         )
-        val song3 = MusicEntity(
+        val song3 = MusicModel(
             musicPath = "path/to/song3A",
             musicDuration = 150,
             musicName = "Song 3",
             artistName = "Artist A"
         )
-        val song4 = MusicEntity(
+        val song4 = MusicModel(
             musicPath = "path/to/song1B",
             musicDuration = 210,
             musicName = "Song 1",
             artistName = "Artist B"
         )
-        val song5 = MusicEntity(
+        val song5 = MusicModel(
             musicPath = "path/to/song2B",
             musicDuration = 190,
             musicName = "Song 2",
             artistName = "Artist B"
         )
         return listOf(
-            MusicListEntity(
+            MusicListModel(
                 id = 0,
                 name = "Artist A",
                 musicList = listOf(song1, song2, song3),
                 totalArtistAlbum = "2 albunes",
                 totalArtistMusic = "3 canciones"
             ),
-            MusicListEntity(
+            MusicListModel(
                 id = 1,
                 name = "Artist B",
                 musicList = listOf(song4, song5),

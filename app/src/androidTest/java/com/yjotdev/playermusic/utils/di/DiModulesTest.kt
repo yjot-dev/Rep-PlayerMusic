@@ -9,19 +9,19 @@ import dagger.Binds
 import dagger.Provides
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Singleton
-import com.yjotdev.playermusic.domain.port.ArtistListPort
-import com.yjotdev.playermusic.domain.port.ConfigPort
-import com.yjotdev.playermusic.domain.port.MediaPlayerPort
-import com.yjotdev.playermusic.domain.port.PlaylistPort
-import com.yjotdev.playermusic.domain.port.PlayerStatePort
-import com.yjotdev.playermusic.infrastructure.datasource.dao.PlaylistDao
-import com.yjotdev.playermusic.infrastructure.datasource.database.PlaylistDatabase
-import com.yjotdev.playermusic.infrastructure.di.DiModules
-import com.yjotdev.playermusic.utils.repositories.FakeArtistListRepository
-import com.yjotdev.playermusic.utils.repositories.FakeConfigRepository
-import com.yjotdev.playermusic.utils.repositories.FakeMediaPlayerRepository
-import com.yjotdev.playermusic.utils.repositories.FakePlaylistRepository
-import com.yjotdev.playermusic.utils.repositories.FakePlayerStateRepository
+import com.yjotdev.playermusic.domain.repository.ArtistListRepository
+import com.yjotdev.playermusic.domain.repository.ConfigRepository
+import com.yjotdev.playermusic.domain.repository.MediaPlayerRepository
+import com.yjotdev.playermusic.domain.repository.PlaylistRepository
+import com.yjotdev.playermusic.domain.repository.PlayerStateRepository
+import com.yjotdev.playermusic.data.local.dao.PlaylistDao
+import com.yjotdev.playermusic.data.local.database.PlaylistDatabase
+import com.yjotdev.playermusic.data.di.DiModules
+import com.yjotdev.playermusic.utils.repositories.FakeArtistListRepositoryImpl
+import com.yjotdev.playermusic.utils.repositories.FakeConfigRepositoryImpl
+import com.yjotdev.playermusic.utils.repositories.FakeMediaPlayerRepositoryImpl
+import com.yjotdev.playermusic.utils.repositories.FakePlaylistRepositoryImpl
+import com.yjotdev.playermusic.utils.repositories.FakePlayerStateRepositoryImpl
 
 @Module
 @TestInstallIn(
@@ -33,32 +33,32 @@ abstract class DiModulesTest {
     @Binds
     @Singleton
     abstract fun bindFakePlayListRepository(
-        impl: FakePlaylistRepository
-    ): PlaylistPort
+        impl: FakePlaylistRepositoryImpl
+    ): PlaylistRepository
 
     @Binds
     @Singleton
     abstract fun bindFakeArtistListRepository(
-        impl: FakeArtistListRepository
-    ): ArtistListPort
+        impl: FakeArtistListRepositoryImpl
+    ): ArtistListRepository
 
     @Binds
     @Singleton
     abstract fun bindFakeConfigRepository(
-        impl: FakeConfigRepository
-    ): ConfigPort
+        impl: FakeConfigRepositoryImpl
+    ): ConfigRepository
 
     @Binds
     @Singleton
     abstract fun bindFakeMediaPlayerRepository(
-        impl: FakeMediaPlayerRepository
-    ): MediaPlayerPort
+        impl: FakeMediaPlayerRepositoryImpl
+    ): MediaPlayerRepository
 
     @Binds
     @Singleton
     abstract fun bindFakePlayerStateRepository(
-        impl: FakePlayerStateRepository
-    ): PlayerStatePort
+        impl: FakePlayerStateRepositoryImpl
+    ): PlayerStateRepository
 
     companion object {
         @Provides

@@ -21,11 +21,11 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
-import com.yjotdev.playermusic.application.mvvm.viewModel.PlayerMusicViewModel
-import com.yjotdev.playermusic.domain.entity.MusicEntity
-import com.yjotdev.playermusic.domain.entity.MusicListEntity
-import com.yjotdev.playermusic.domain.entity.PlayerEntity
-import com.yjotdev.playermusic.domain.entity.RepeatOptions
+import com.yjotdev.playermusic.presentation.mvvm.viewModel.UiViewModel
+import com.yjotdev.playermusic.domain.model.MusicModel
+import com.yjotdev.playermusic.domain.model.MusicListModel
+import com.yjotdev.playermusic.domain.model.PlayerModel
+import com.yjotdev.playermusic.domain.utils.RepeatOptions
 import com.yjotdev.playermusic.domain.usecase.artist_list.GetArtistListUseCase
 import com.yjotdev.playermusic.domain.usecase.config.ConfigUseCase
 import com.yjotdev.playermusic.domain.usecase.media_player.GetPlayerStateUseCase
@@ -59,7 +59,7 @@ class ViewModelTest {
     private val getPlayerStateUseCase: GetPlayerStateUseCase = mockk()
 
     // ViewModel bajo prueba
-    private lateinit var viewModel: PlayerMusicViewModel
+    private lateinit var viewModel: UiViewModel
 
     // Configuración de Corrutinas
     private val testDispatcher = StandardTestDispatcher()
@@ -71,12 +71,12 @@ class ViewModelTest {
         // Configuración por defecto de los mocks que se llaman en el init{} del ViewModel
         coEvery { getArtistListUseCase() } returns emptyList()
         every { getPlayListUseCase() } returns flowOf(emptyList())
-        every { getPlayerStateUseCase() } returns MutableStateFlow(PlayerEntity())
+        every { getPlayerStateUseCase() } returns MutableStateFlow(PlayerModel())
 
         // Mock del ConfigUseCase (getConfig se llama en init)
         every { configUseCase.invoke() } returns mutableMapOf("repeat" to 0, "isPlayList" to false)
 
-        viewModel = PlayerMusicViewModel(
+        viewModel = UiViewModel(
             insertPlayListUseCase,
             updatePlayListUseCase,
             deletePlayListUseCase,
@@ -101,20 +101,17 @@ class ViewModelTest {
     @Test
     fun loadArtistListUpdatesStateOnInit() = runTest {
         // Given
-        val mockArtists = listOf(MusicListEntity(name = "Artist 1", musicList = emptyList()))
+        val mockArtists = listOf(MusicListModel(name = "Artist 1", musicList = emptyList()))
         coEvery { getArtistListUseCase() } returns mockArtists
 
-        // Re-instanciamos el VM para disparar el init con el nuevo mock
-        viewModel = PlayerMusicViewModel(
-            insertPlayListUseCase, updatePlayListUseCase, deletePlayListUseCase,
-            getPlayListUseCase, getArtistListUseCase, configUseCase,
-            playTrackUseCase, pauseTrackUseCase, resumeTrackUseCase, nextTrackUseCase,
-            previousTrackUseCase, seekToUseCase, getPlayerStateUseCase
-        )
+        // When: Llamamos explícitamente a loadArtistList()
+        viewModel.loadArtistList()
 
-        // When & Then
+        // Avanzar el scheduler para que se ejecuten las corrutinas pendientes
+        advanceUntilIdle()
+
+        // Then
         viewModel.uiState.test {
-            // El primer item puede ser el valor inicial vacío
             awaitItem()
             // Esperamos que se actualice con la lista de artistas
             val state = awaitItem()
@@ -145,7 +142,7 @@ class ViewModelTest {
 
     @Test
     fun toggleSongSelectionAddsAndRemovesSongs() = runTest {
-        val song = MusicEntity(musicPath = "Path 1", musicName = "Song 1", artistName = "Artist A")
+        val song = MusicModel(musicPath = "Path 1", musicName = "Song 1", artistName = "Artist A")
 
         // Usamos turbine para observar las emisiones del estado
         viewModel.uiState.test {
@@ -177,7 +174,7 @@ class ViewModelTest {
             awaitItem()
 
             // Given
-            val song = MusicEntity(musicPath = "Path 1", musicName = "Song 1", artistName = "Artist A")
+            val song = MusicModel(musicPath = "Path 1", musicName = "Song 1", artistName = "Artist A")
 
             // Acción: Seleccionar canción
             viewModel.toggleSongSelection(song)
@@ -212,13 +209,13 @@ class ViewModelTest {
     @Test
     fun addMusicsToPlaylistUpdatesExistingPlaylist() = runTest {
         // Configuración PREVIA (Mocks y Re-instanciación)
-        val existingPlaylist = MusicListEntity(name = "My Playlist", musicList = emptyList())
+        val existingPlaylist = MusicListModel(name = "My Playlist", musicList = emptyList())
 
         // Mockeamos el flow para que devuelva la playlist existente
         every { getPlayListUseCase() } returns flowOf(listOf(existingPlaylist))
 
         // Re-instanciamos el VM AHORA para que tome el nuevo mock
-        viewModel = PlayerMusicViewModel(
+        viewModel = UiViewModel(
             insertPlayListUseCase, updatePlayListUseCase, deletePlayListUseCase,
             getPlayListUseCase, getArtistListUseCase, configUseCase,
             playTrackUseCase, pauseTrackUseCase, resumeTrackUseCase, nextTrackUseCase,
@@ -234,7 +231,7 @@ class ViewModelTest {
             val stateWithPlaylist = awaitItem()
             assertTrue(stateWithPlaylist.playList.isNotEmpty())
 
-            val song = MusicEntity(musicPath = "Path 2", musicName = "Song 2", artistName = "Artist B")
+            val song = MusicModel(musicPath = "Path 2", musicName = "Song 2", artistName = "Artist B")
 
             // Acción: Seleccionar canción
             viewModel.toggleSongSelection(song)
@@ -267,9 +264,9 @@ class ViewModelTest {
     @Test
     fun removeMusicsFromPlaylistUpdatesUseCase() = runTest {
         // Given
-        val songToRemove = MusicEntity(musicPath = "Path 1", musicName = "Song 1", artistName = "Artist A")
-        val songToKeep = MusicEntity(musicPath = "Path 2", musicName = "Song 2", artistName = "Artist B")
-        val playlist = MusicListEntity(
+        val songToRemove = MusicModel(musicPath = "Path 1", musicName = "Song 1", artistName = "Artist A")
+        val songToKeep = MusicModel(musicPath = "Path 2", musicName = "Song 2", artistName = "Artist B")
+        val playlist = MusicListModel(
             name = "Test List",
             musicList = listOf(songToRemove, songToKeep)
         )
@@ -310,8 +307,8 @@ class ViewModelTest {
     @Test
     fun onPlayTrackCallsUseCaseWithCorrectList() = runTest {
         // Given
-        val song = MusicEntity(musicPath = "Path 1", musicName = "Song 1", artistName = "Artist A")
-        val artistList = MusicListEntity(name = "Artist", musicList = listOf(song))
+        val song = MusicModel(musicPath = "Path 1", musicName = "Song 1", artistName = "Artist A")
+        val artistList = MusicListModel(name = "Artist", musicList = listOf(song))
 
         viewModel.setIsPlayList(false) // Modo Artista
         viewModel.setArtistListSelected(artistList)

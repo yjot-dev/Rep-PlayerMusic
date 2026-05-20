@@ -12,20 +12,20 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.ViewModelProvider
 import dagger.hilt.android.AndroidEntryPoint
-import com.yjotdev.playermusic.application.navigation.PermissionView
-import com.yjotdev.playermusic.application.theme.PlayerMusicTheme
-import com.yjotdev.playermusic.application.mvvm.viewModel.PlayerMusicViewModel
+import com.yjotdev.playermusic.presentation.navigation.PermissionView
+import com.yjotdev.playermusic.presentation.theme.PlayerMusicTheme
+import com.yjotdev.playermusic.presentation.mvvm.viewModel.UiViewModel
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private lateinit var vmPlayerMusic: PlayerMusicViewModel
+    private lateinit var vmPlayerMusic: UiViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Ajusta la vista a toda la pantalla
         viewEdgeToEdge()
         //Inicializo el ViewModel
-        vmPlayerMusic = ViewModelProvider(this)[PlayerMusicViewModel::class.java]
+        vmPlayerMusic = ViewModelProvider(this)[UiViewModel::class.java]
         //Verifico si se reinició la app
         val isRestartApp = intent.getBooleanExtra("IS_RESTART_APP", false)
         setContent {
