@@ -17,6 +17,7 @@ import com.yjotdev.playermusic.domain.model.MusicModel
 import com.yjotdev.playermusic.R
 import com.yjotdev.playermusic.presentation.theme.PlayerMusicTheme
 import com.yjotdev.playermusic.presentation.utils.ComponentPreview
+import com.yjotdev.playermusic.presentation.utils.TestTags
 
 @Composable
 fun CurrentPlayListView(
@@ -28,6 +29,7 @@ fun CurrentPlayListView(
     itemClicked: (MusicModel)-> Unit,
     navigateUp: () -> Unit
 ){
+    val tag = TestTags.MUSIC_ITEM.substring(0, 6)
     BackHandler { navigateUp() }
     LazyColumn(
         modifier = modifier,
@@ -42,7 +44,7 @@ fun CurrentPlayListView(
                     .padding(dimensionResource(id = R.dimen.short_dp_1))
                     .fillMaxWidth()
                     .clickable { itemClicked(item) }
-                    .testTag("music:$indexPlayListMusic"),
+                    .testTag("$tag$indexPlayListMusic"),
                 title = item.musicName,
                 artist = item.artistName,
                 duration = durationFormat(item.musicDuration),

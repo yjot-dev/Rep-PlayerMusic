@@ -15,6 +15,7 @@ import com.yjotdev.playermusic.presentation.theme.PlayerMusicTheme
 import com.yjotdev.playermusic.domain.model.MusicListModel
 import com.yjotdev.playermusic.R
 import com.yjotdev.playermusic.presentation.utils.ComponentPreview
+import com.yjotdev.playermusic.presentation.utils.TestTags
 
 @Composable
 fun ArtistListView(
@@ -22,6 +23,7 @@ fun ArtistListView(
     artistList: List<MusicListModel> = listOf(),
     itemClicked: (MusicListModel)-> Unit
 ){
+    val tag = TestTags.ARTIST_ITEM.substring(0, 7)
     LazyColumn(
         modifier = modifier,
         verticalArrangement = Arrangement.Top,
@@ -34,7 +36,7 @@ fun ArtistListView(
                     .padding(dimensionResource(id = R.dimen.short_dp_1))
                     .fillMaxWidth()
                     .clickable { itemClicked(item) }
-                    .testTag("artist:$indexArtist"),
+                    .testTag("$tag$indexArtist"),
                 artistName = item.name,
                 totalArtistMusic = item.totalArtistMusic,
                 totalArtistAlbum = item.totalArtistAlbum

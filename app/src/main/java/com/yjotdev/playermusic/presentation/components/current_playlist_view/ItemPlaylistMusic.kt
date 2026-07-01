@@ -25,6 +25,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import com.yjotdev.playermusic.R
 import com.yjotdev.playermusic.presentation.theme.PlayerMusicTheme
 import com.yjotdev.playermusic.presentation.utils.ComponentPreview
+import com.yjotdev.playermusic.presentation.utils.TestTags
 
 @Composable
 fun ItemPlayListMusic(
@@ -36,6 +37,7 @@ fun ItemPlayListMusic(
     isSelected: Boolean,
     onSelectionChanged: (Boolean) -> Unit
 ){
+    val tag = TestTags.SELECT_SONG_CHECKBOX.substring(0, 19)
     Card(
         modifier = modifier,
         shape = MaterialTheme.shapes.large,
@@ -76,7 +78,7 @@ fun ItemPlayListMusic(
                     onCheckedChange = onSelectionChanged,
                     modifier = Modifier
                         .weight(0.1f)
-                        .testTag("selectSongCheckbox:$title")
+                        .testTag("$tag$title")
                 )
             }
             Row(

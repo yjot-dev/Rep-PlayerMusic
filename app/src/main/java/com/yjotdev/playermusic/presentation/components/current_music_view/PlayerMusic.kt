@@ -23,6 +23,7 @@ import com.yjotdev.playermusic.R
 import com.yjotdev.playermusic.presentation.theme.PlayerMusicTheme
 import com.yjotdev.playermusic.presentation.utils.ComponentPreview
 import com.yjotdev.playermusic.presentation.utils.Helper.durationFormat
+import com.yjotdev.playermusic.presentation.utils.TestTags
 
 @Composable
 fun PlayerMusic(
@@ -97,7 +98,7 @@ fun PlayerMusic(
             )
         }
         Slider(
-            modifier = Modifier.testTag("slider"),
+            modifier = Modifier.testTag(TestTags.SLIDER),
             value = value,
             onValueChange = { onValue(it) },
             valueRange = valueRange,

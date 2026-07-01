@@ -23,6 +23,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import com.yjotdev.playermusic.R
 import com.yjotdev.playermusic.presentation.theme.PlayerMusicTheme
 import com.yjotdev.playermusic.presentation.utils.ComponentPreview
+import com.yjotdev.playermusic.presentation.utils.TestTags
 
 @Composable
 fun HeaderAddPlaylist(
@@ -38,7 +39,7 @@ fun HeaderAddPlaylist(
         verticalAlignment = Alignment.CenterVertically
     ){
         TextField(
-            modifier = Modifier.weight(1f).testTag("searchPlayList"),
+            modifier = Modifier.weight(1f).testTag(TestTags.SEARCH_PLAYLIST),
             label = {
                 Text(
                     text = stringResource(id = R.string.app_search),
@@ -58,7 +59,7 @@ fun HeaderAddPlaylist(
         IconButton(
             onClick = { addPlayListClicked(playListName) },
             modifier = Modifier.size(dimensionResource(id = R.dimen.short_dp_5))
-                .testTag("addPlayList")
+                .testTag(TestTags.ADD_PLAYLIST)
         ) {
             Icon(
                 imageVector = ImageVector.vectorResource(R.drawable.playlist_add_48),

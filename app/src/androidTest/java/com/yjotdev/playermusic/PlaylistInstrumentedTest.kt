@@ -15,6 +15,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.Rule
+import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
@@ -30,6 +31,7 @@ import com.yjotdev.playermusic.domain.model.MusicModel
 import com.yjotdev.playermusic.domain.model.MusicListModel
 import com.yjotdev.playermusic.domain.repository.ArtistListRepository
 import com.yjotdev.playermusic.utils.repositories.FakeArtistListRepositoryImpl
+import com.yjotdev.playermusic.presentation.utils.TestTags
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -63,7 +65,7 @@ class PlaylistInstrumentedTest {
 
     @After
     fun tearDown(){
-        // Limpiamos los datos despues de finalizar los test
+        // Limpiamos los datos después de finalizar los test
         val fakeData = fakeArtistListRepository as FakeArtistListRepositoryImpl
         fakeData.clearArtistList()
     }
@@ -71,28 +73,28 @@ class PlaylistInstrumentedTest {
     @Test
     fun navigationToPlaylist_PlaylistView() {
         navigationToPlaylist()
-        //Click para cambiar nombre de la playlist
-        composeTestRule.onNodeWithTag("editNamePlaylist:0").performClick()
+        //Clic para cambiar nombre de la playlist
+        composeTestRule.onNodeWithTag(TestTags.EDIT_NAME_PLAYLIST).performClick()
         //Ingresa el nuevo nombre de la playlist
-        composeTestRule.onNodeWithTag("ChangeNameFromPlaylist")
+        composeTestRule.onNodeWithTag(TestTags.CHANGE_NAME_FROM_PLAYLIST)
             .performTextInput("Playlist A")
-        //Confirma la accion de cambiar el nombre de la playlist
-        composeTestRule.onNodeWithTag("Confirm").performClick()
+        //Confirma la acción de cambiar el nombre de la playlist
+        composeTestRule.onNodeWithTag(TestTags.CONFIRM).performClick()
         //Espera 5 segundos para continuar con otro proceso
-        runBlocking { delay(5000) }
+        runBlocking { delay(5000.milliseconds) }
         //Click para quitar playlist completa
-        composeTestRule.onNodeWithTag("removePlaylist:0").performClick()
-        //Confirma la accion de quitar la playlist
-        composeTestRule.onNodeWithTag("Confirm").performClick()
+        composeTestRule.onNodeWithTag(TestTags.REMOVE_PLAYLIST).performClick()
+        //Confirma la acción de quitar la playlist
+        composeTestRule.onNodeWithTag(TestTags.CONFIRM).performClick()
         //Verifica que no existe el nodo quitado
-        composeTestRule.onNodeWithTag("removePlaylist:0").assertDoesNotExist()
+        composeTestRule.onNodeWithTag(TestTags.REMOVE_PLAYLIST).assertDoesNotExist()
     }
 
     @Test
     fun navigationToCurrentPlaylist_PlaylistView() {
         navigationToPlaylist()
         //Click en la 1ra playlist de la lista de playlist
-        composeTestRule.onNodeWithTag("playList:0").performClick()
+        composeTestRule.onNodeWithTag(TestTags.PLAYLIST_ITEM).performClick()
         //Navega a la lista de canciones de la playlist seleccionada
         assertEquals(ViewRoutes.CurrentPlayList.name, navController.currentDestination?.route)
         removeMusicFromPlaylist()
@@ -102,11 +104,11 @@ class PlaylistInstrumentedTest {
     fun navigationToCurrentMusic_PlaylistView() {
         navigationToPlaylist()
         //Click en la 1ra playlist de la lista de playlist
-        composeTestRule.onNodeWithTag("playList:0").performClick()
+        composeTestRule.onNodeWithTag(TestTags.PLAYLIST_ITEM).performClick()
         //Navega a la lista de canciones de la playlist seleccionada
         assertEquals(ViewRoutes.CurrentPlayList.name, navController.currentDestination?.route)
-        //Click en la 1ra cancion de la lista de musica
-        composeTestRule.onNodeWithTag("music:0").performClick()
+        //Click en la 1ra canción de la lista de musica
+        composeTestRule.onNodeWithTag(TestTags.MUSIC_ITEM).performClick()
         //Navega a la vista de la cancion seleccionada
         assertEquals(ViewRoutes.CurrentMusic2.name, navController.currentDestination?.route)
     }
@@ -114,12 +116,12 @@ class PlaylistInstrumentedTest {
     @Test
     fun playMusic_PlaylistView() {
         navigationToCurrentMusic_PlaylistView()
-        //Click en el boton de reproducir la cancion
+        //Clic en el botón de reproducir la canción
         composeTestRule.onNodeWithContentDescription(
             context.getString(R.string.cd_play)
         ).performClick()
-        //Espera 5 segundos para pausar la cancion
-        runBlocking { delay(5000) }
+        //Espera 5 segundos para pausar la canción
+        runBlocking { delay(5000.milliseconds) }
         composeTestRule.onNodeWithContentDescription(
             context.getString(R.string.cd_play)
         ).performClick()
@@ -128,16 +130,16 @@ class PlaylistInstrumentedTest {
     @Test
     fun nextMusic_PlaylistView() {
         navigationToCurrentMusic_PlaylistView()
-        //Click en el boton siguiente cancion
+        //Clic en el botón siguiente canción
         composeTestRule.onNodeWithContentDescription(
             context.getString(R.string.cd_next)
         ).performClick()
-        //Click en el boton de reproducir la cancion
+        //Clic en el botón de reproducir la canción
         composeTestRule.onNodeWithContentDescription(
             context.getString(R.string.cd_play)
         ).performClick()
-        //Espera 5 segundos para pausar la cancion
-        runBlocking { delay(5000) }
+        //Espera 5 segundos para pausar la canción
+        runBlocking { delay(5000.milliseconds) }
         composeTestRule.onNodeWithContentDescription(
             context.getString(R.string.cd_play)
         ).performClick()
@@ -146,16 +148,16 @@ class PlaylistInstrumentedTest {
     @Test
     fun previousMusic_PlaylistView() {
         navigationToCurrentMusic_PlaylistView()
-        //Click en el boton anterior cancion
+        //Click en el botón anterior canción
         composeTestRule.onNodeWithContentDescription(
             context.getString(R.string.cd_previous)
         ).performClick()
-        //Click en el boton de reproducir la cancion
+        //Clic en el botón de reproducir la canción
         composeTestRule.onNodeWithContentDescription(
             context.getString(R.string.cd_play)
         ).performClick()
-        //Espera 5 segundos para pausar la cancion
-        runBlocking { delay(5000) }
+        //Espera 5 segundos para pausar la canción
+        runBlocking { delay(5000.milliseconds) }
         composeTestRule.onNodeWithContentDescription(
             context.getString(R.string.cd_play)
         ).performClick()
@@ -164,13 +166,13 @@ class PlaylistInstrumentedTest {
     @Test
     fun repeatMusic_PlaylistView() {
         navigationToCurrentMusic_PlaylistView()
-        //Repetir secuencialmente es la opcion por defecto
-        //Click en el boton de reproducir la cancion
+        //Repetir secuencialmente es la opción por defecto
+        //Clic en el botón de reproducir la canción
         composeTestRule.onNodeWithContentDescription(
             context.getString(R.string.cd_play)
         ).performClick()
-        //Espera 5 segundos para pausar la cancion
-        runBlocking { delay(5000) }
+        //Espera 5 segundos para pausar la canción
+        runBlocking { delay(5000.milliseconds) }
         composeTestRule.onNodeWithContentDescription(
             context.getString(R.string.cd_play)
         ).performClick()
@@ -179,17 +181,17 @@ class PlaylistInstrumentedTest {
     @Test
     fun shuffleMusic_PlaylistView() {
         navigationToCurrentMusic_PlaylistView()
-        //Repetir secuencialmente es la opcion por defecto
-        //Click en el boton para repetir aleatoriamente todas las musicas
+        //Repetir secuencialmente es la opción por defecto
+        //Clic en el botón para repetir aleatoriamente todas las musicas
         composeTestRule.onNodeWithContentDescription(
             context.getString(R.string.cd_repeat)
         ).performClick()
-        //Click en el boton de reproducir la cancion
+        //Clic en el botón de reproducir la canción
         composeTestRule.onNodeWithContentDescription(
             context.getString(R.string.cd_play)
         ).performClick()
-        //Espera 5 segundos para pausar la cancion
-        runBlocking { delay(5000) }
+        //Espera 5 segundos para pausar la canción
+        runBlocking { delay(5000.milliseconds) }
         composeTestRule.onNodeWithContentDescription(
             context.getString(R.string.cd_play)
         ).performClick()
@@ -204,16 +206,16 @@ class PlaylistInstrumentedTest {
                 PermissionView(navController = navController)
             }
         }
-        //Espera a que cargen los datos
+        //Espera a que careen los datos
         composeTestRule.waitUntil(5000) {
             // Buscamos un nodo que solo existe cuando hay datos
             runCatching {
-                composeTestRule.onNodeWithTag("artist:0").assertIsDisplayed()
+                composeTestRule.onNodeWithTag(TestTags.ARTIST_ITEM).assertIsDisplayed()
                 true
             }.getOrDefault(false)
         }
         addPlaylist()
-        //Click en el boton de playList
+        //Clic en el botón de playList
         composeTestRule.onNodeWithTag(
             context.getString(R.string.cd_navigation_playlist)
         ).performClick()
@@ -222,22 +224,22 @@ class PlaylistInstrumentedTest {
     }
 
     private fun addPlaylist() {
-        //Click en el 1er artista de la lista de artistas
-        composeTestRule.onNodeWithTag("artist:0").performClick()
+        //Clic en el primer artista de la lista de artistas
+        composeTestRule.onNodeWithTag(TestTags.ARTIST_ITEM).performClick()
         //Navega a la lista de canciones del artista seleccionado
         assertEquals(ViewRoutes.MusicList.name, navController.currentDestination?.route)
-        //Seleccionamos dos musicas de la lista
-        composeTestRule.onNodeWithTag("selectSongCheckbox:Song 1").performClick()
-        composeTestRule.onNodeWithTag("selectSongCheckbox:Song 2").performClick()
-        //Click en el boton flotante para agregar musica
+        //seleccionamos dos musicas de la lista
+        composeTestRule.onNodeWithTag(TestTags.SELECT_SONG_CHECKBOX+" 1").performClick()
+        composeTestRule.onNodeWithTag(TestTags.SELECT_SONG_CHECKBOX+" 2").performClick()
+        //Clic en el botón flotante para agregar música
         composeTestRule.onNodeWithContentDescription("AddToPlaylist").performClick()
         //Navega a la vista de ingreso de listas de reproduccion
         assertEquals(ViewRoutes.AddPlayList.name, navController.currentDestination?.route)
         //Escribe el nombre de la nueva playlist
-        composeTestRule.onNodeWithTag("searchPlayList")
+        composeTestRule.onNodeWithTag(TestTags.SEARCH_PLAYLIST)
             .performTextInput("PlayList 1")
-        //Click en el boton de agregar playlist
-        composeTestRule.onNodeWithTag("addPlayList").performClick()
+        //Clic en el botón de agregar playlist
+        composeTestRule.onNodeWithTag(TestTags.ADD_PLAYLIST).performClick()
         //Verifica que regrese a la lista de canciones del artista seleccionado
         assertEquals(ViewRoutes.MusicList.name, navController.currentDestination?.route)
         //Navega a la lista de artistas
@@ -248,14 +250,14 @@ class PlaylistInstrumentedTest {
     }
 
     private fun removeMusicFromPlaylist() {
-        //Seleccionamos una musica de la lista
-        composeTestRule.onNodeWithTag("selectSongCheckbox:Song 2").performClick()
-        //Click en el boton flotante para quitar musica
+        //seleccionamos una música de la lista
+        composeTestRule.onNodeWithTag(TestTags.SELECT_SONG_CHECKBOX+" 2").performClick()
+        //Clic en el botón flotante para quitar música
         composeTestRule.onNodeWithContentDescription("RemoveFromPlaylist").performClick()
-        //Confirma la accion de quitar musica
-        composeTestRule.onNodeWithTag("Confirm").performClick()
+        //Confirma la acción de quitar música
+        composeTestRule.onNodeWithTag(TestTags.CONFIRM).performClick()
         //Verifica que no existe el nodo quitado
-        composeTestRule.onNodeWithTag("selectSongCheckbox:Song 2").assertDoesNotExist()
+        composeTestRule.onNodeWithTag(TestTags.SELECT_SONG_CHECKBOX+" 2").assertDoesNotExist()
     }
 
     private fun generateMockData(): List<MusicListModel>{
@@ -294,14 +296,14 @@ class PlaylistInstrumentedTest {
                 id = 0,
                 name = "Artist A",
                 musicList = listOf(song1, song2, song3),
-                totalArtistAlbum = "2 albunes",
+                totalArtistAlbum = "2 albumen",
                 totalArtistMusic = "3 canciones"
             ),
             MusicListModel(
                 id = 1,
                 name = "Artist B",
                 musicList = listOf(song4, song5),
-                totalArtistAlbum = "1 albun",
+                totalArtistAlbum = "1 album",
                 totalArtistMusic = "2 canciones"
             )
         )

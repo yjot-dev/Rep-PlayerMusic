@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.sp
 import com.yjotdev.playermusic.R
 import com.yjotdev.playermusic.presentation.theme.PlayerMusicTheme
 import com.yjotdev.playermusic.presentation.utils.ComponentPreview
+import com.yjotdev.playermusic.presentation.utils.TestTags
 
 @Composable
 fun ItemPlayList(
@@ -39,6 +40,8 @@ fun ItemPlayList(
     editNamePlayListClicked: ()-> Unit,
     removePlayListClicked: ()-> Unit
 ){
+    val tag1 = TestTags.EDIT_NAME_PLAYLIST.substring(0, 17)
+    val tag2 = TestTags.REMOVE_PLAYLIST.substring(0, 15)
     Card(
         modifier = modifier,
         shape = MaterialTheme.shapes.large,
@@ -69,7 +72,7 @@ fun ItemPlayList(
                 IconButton(
                     onClick = editNamePlayListClicked,
                     modifier = Modifier.size(dimensionResource(id = R.dimen.short_dp_4))
-                        .testTag("editNamePlaylist:$index")
+                        .testTag("$tag1$index")
                 ) {
                     Icon(
                         imageVector = ImageVector.vectorResource(id = R.drawable.playlist_edit_48),
@@ -81,7 +84,7 @@ fun ItemPlayList(
                 IconButton(
                     onClick = removePlayListClicked,
                     modifier = Modifier.size(dimensionResource(id = R.dimen.short_dp_4))
-                        .testTag("removePlaylist:$index")
+                        .testTag("$tag2$index")
                 ) {
                     Icon(
                         imageVector = ImageVector.vectorResource(id = R.drawable.playlist_remove_48),

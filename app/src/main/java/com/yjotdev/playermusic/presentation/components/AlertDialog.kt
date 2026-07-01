@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import com.yjotdev.playermusic.presentation.theme.PlayerMusicTheme
 import com.yjotdev.playermusic.presentation.utils.ComponentPreview
+import com.yjotdev.playermusic.presentation.utils.TestTags
 
 @Composable
 fun MyAlertDialog(
@@ -28,7 +29,7 @@ fun MyAlertDialog(
         onDismissRequest = dismissClicked,
         confirmButton = { Button(
                                 onClick = confirmClicked,
-                                modifier = Modifier.testTag("Confirm")
+                                modifier = Modifier.testTag(TestTags.CONFIRM )
                             ){ Text(confirm) }
                         },
         dismissButton = { Button(onClick = dismissClicked){ Text(dismiss) }},
@@ -43,7 +44,7 @@ fun MyAlertDialog(
                             value = value,
                             label = { Text(label) },
                             onValueChange = { onValue(it) },
-                            modifier = Modifier.testTag("ChangeNameFromPlaylist")
+                            modifier = Modifier.testTag(TestTags.CHANGE_NAME_FROM_PLAYLIST)
                         )
                     }
                 }
